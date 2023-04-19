@@ -3,5 +3,6 @@
 .dart_tool/
 
 .iml
+.idea/
 
 ./pubspec.lock
