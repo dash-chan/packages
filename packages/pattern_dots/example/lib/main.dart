@@ -40,35 +40,6 @@ class _HomePageState extends State<HomePage> {
           data: PatternStyleData(
             width: 4,
             tapRange: 24,
-            cellBuilder: (canvas, rect, isError, isSelect) {
-              late Paint paint;
-              late Paint insidePaint;
-
-              if (!isError) {
-                paint = Paint()
-                  ..style = PaintingStyle.stroke
-                  ..color = Colors.grey;
-                insidePaint = Paint()..color = Colors.grey;
-              } else {
-                paint = Paint()
-                  ..style = PaintingStyle.stroke
-                  ..strokeWidth = 1.2
-                  ..color = Colors.red;
-                insidePaint = Paint()..color = Colors.red;
-              }
-              if (isSelect) {
-                canvas.drawCircle(
-                  rect.center,
-                  4,
-                  insidePaint,
-                );
-              }
-              canvas.drawCircle(
-                rect.center,
-                24,
-                paint,
-              );
-            },
           ),
           child: PatternView(
             isError: isError,
