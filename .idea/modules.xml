@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/packages/android_build/melos_android_build.iml" filepath="$PROJECT_DIR$/packages/android_build/melos_android_build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/android_build/example/melos_android_builds_example.iml" filepath="$PROJECT_DIR$/packages/android_build/example/melos_android_builds_example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/pattern_dots/example/melos_example.iml" filepath="$PROJECT_DIR$/packages/pattern_dots/example/melos_example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/packages/pattern_dots/melos_pattern_dots.iml" filepath="$PROJECT_DIR$/packages/pattern_dots/melos_pattern_dots.iml" />
+      <module fileurl="file://$PROJECT_DIR$/melos_dash_chan_packages_workspace.iml" filepath="$PROJECT_DIR$/melos_dash_chan_packages_workspace.iml" />
+    </modules>
+  </component>
+</project>

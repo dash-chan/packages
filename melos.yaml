@@ -1,0 +1,5 @@
+name: dash_chan_packages_workspace
+
+packages:
+  - packages/**
+  
