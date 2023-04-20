@@ -1,101 +1,99 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pattern_dots/src/configurations.dart';
 
-typedef CellBuilder = void Function(
-  Canvas canvas,
-  Rect rect,
-  bool isError,
-  bool isSelect,
-);
-typedef LineBuilder = void Function(
-  Canvas canvas,
-  Offset start,
-  Offset end,
-  bool isOnPainting,
-  bool isError,
-);
-typedef CurrentFingerBuilder = void Function(Canvas canvas, Offset offset);
+import 'painter/styles.dart';
 
+/// Builder for Cell
+typedef CellBuilder = void Function(CellConfiguration config);
+
+/// Builder for Line
+typedef LineBuilder = void Function(LineConfiguration config);
+typedef CurrentFingerBuilder = void Function(FingerConfiguration config);
+
+/// {@template PatternStyle}
+/// PatternStyle
+///
+/// ```dart
+/// PatternStyle(
+///   data: PatternStyleData(),
+///   child: PatternView(),
+/// )
+/// ```
+/// {@endtemplate}
 class PatternStyle extends InheritedWidget {
+  /// {@macro PatternStyle}
   const PatternStyle({
     super.key,
     required super.child,
     required this.data,
   });
 
+  /// the patternStyle configuration
   final PatternStyleData data;
 
   @override
   bool updateShouldNotify(PatternStyle oldWidget) => oldWidget.data != data;
 
+  /// get PatternStyle configuration from [context]
   static PatternStyleData of(BuildContext context) {
     final style = context.dependOnInheritedWidgetOfExactType<PatternStyle>();
     return style?.data ?? PatternStyleData();
   }
 }
 
-void defaultCellBuilder(Canvas canvas, Rect rect, bool isError, bool isSelect) {
-  late Paint paint;
-  if (isError) {
-    paint = Paint()..color = const Color(0xFFF44336);
-  } else {
-    paint = Paint()..color = const Color(0xFF9E9E9E);
-  }
-  canvas.drawCircle(rect.center, 2, paint);
-}
-
-void defaultLineBuilder(
-    Canvas canvas, Offset start, Offset end, bool isOnPainting, bool isError) {
-  late Paint paint;
-
-  if (isError) {
-    paint = Paint()
-      ..strokeWidth = 4
-      ..color = const Color(0xFFF44336).withOpacity(0.3);
-  } else {
-    paint = Paint()
-      ..strokeWidth = 4
-      ..color = const Color(0xFF9E9E9E).withOpacity(0.3);
-  }
-  canvas.drawLine(start, end, paint);
-}
-
+/// {@template PatternStyleData}
+/// PatternStyle Configuration
+///
+/// ```dart
+/// PatternStyleData()
+/// ```
+/// {@endtemplate}
 class PatternStyleData with Diagnosticable {
+  /// original usage of [PatternStyleData]
   PatternStyleData.raw({
-    required this.width,
     required this.tapRange,
     this.cellBuilder = defaultCellBuilder,
     this.lineBuilder = defaultLineBuilder,
     required this.fingerBuilder,
     required this.isError,
     required this.debugshowTapRange,
+    required this.brightness,
   });
+
+  /// {@macro PatternStyleData}
   factory PatternStyleData({
-    double? width,
     double? tapRange,
     CellBuilder? cellBuilder,
     LineBuilder? lineBuilder,
     CurrentFingerBuilder? fingerBuilder,
     bool? isError,
     bool debugshowTapRange = false,
+    Brightness? brightness,
   }) {
     cellBuilder ??= defaultCellBuilder;
     lineBuilder ??= defaultLineBuilder;
 
     return PatternStyleData.raw(
-      width: width ?? 1,
       tapRange: tapRange ?? 16,
       cellBuilder: cellBuilder,
       lineBuilder: lineBuilder,
       fingerBuilder: fingerBuilder,
       isError: isError ?? false,
       debugshowTapRange: debugshowTapRange,
+      brightness: brightness ?? Brightness.light,
     );
   }
 
-  /// [width] of each line
-  final double width;
+  factory PatternStyleData.newAndroid() {
+    return PatternStyleData(
+      tapRange: 4,
+      cellBuilder: defaultCellBuilder,
+    );
+  }
+
+  /// tap range
   final double tapRange;
 
   /// when [cellBuilder] not null,
@@ -103,14 +101,22 @@ class PatternStyleData with Diagnosticable {
   /// [cellSize] will ignore
   final CellBuilder cellBuilder;
 
+  /// render line
   final LineBuilder lineBuilder;
 
+  /// render finger, default is [null]
   final CurrentFingerBuilder? fingerBuilder;
 
+  /// show red dots & red line by defaults
   final bool isError;
 
+  /// show debug tap range
   final bool debugshowTapRange;
 
+  /// brightness of widgets
+  final Brightness brightness;
+
+  /// copy properties
   PatternStyleData copyWith({
     double? width,
     double? tapRange,
@@ -119,15 +125,16 @@ class PatternStyleData with Diagnosticable {
     CurrentFingerBuilder? fingerBuilder,
     bool? isError,
     bool? debugshowTapRange,
+    Brightness? brightness,
   }) {
     return PatternStyleData.raw(
-      width: width ?? this.width,
       tapRange: tapRange ?? this.tapRange,
       cellBuilder: cellBuilder ?? this.cellBuilder,
       lineBuilder: lineBuilder ?? this.lineBuilder,
       fingerBuilder: fingerBuilder ?? this.fingerBuilder,
       isError: isError ?? this.isError,
       debugshowTapRange: debugshowTapRange ?? this.debugshowTapRange,
+      brightness: brightness ?? this.brightness,
     );
   }
 
@@ -135,22 +142,23 @@ class PatternStyleData with Diagnosticable {
   bool operator ==(covariant PatternStyleData other) {
     if (identical(this, other)) return true;
 
-    return other.width == width &&
-        other.tapRange == tapRange &&
+    return other.tapRange == tapRange &&
         other.cellBuilder == cellBuilder &&
         other.lineBuilder == lineBuilder &&
         other.fingerBuilder == fingerBuilder &&
         other.isError == isError &&
-        other.debugshowTapRange == debugshowTapRange;
+        other.debugshowTapRange == debugshowTapRange &&
+        other.brightness == brightness;
   }
 
   @override
   int get hashCode => Object.hashAll([
-        width,
         tapRange,
         cellBuilder,
         lineBuilder,
         fingerBuilder,
+        isError,
         debugshowTapRange,
+        brightness,
       ]);
 }

@@ -3,7 +3,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
-import 'package:pattern_dots/src/pattern_painter.dart';
+import 'package:pattern_dots/src/painter/pattern_painter.dart';
 import 'package:pattern_dots/src/pattern_style.dart';
 import 'package:pattern_dots/src/utils/math_helper.dart';
 
@@ -16,7 +16,6 @@ class PatternView extends StatefulWidget {
     this.matrixX = 3,
     this.matrixY = 3,
     this.tapRange,
-    this.lineWidth,
     this.isError = false,
     this.debugshowTapRange,
     this.onTapDown,
@@ -24,10 +23,16 @@ class PatternView extends StatefulWidget {
     this.onComplete,
   });
 
+  /// pattern lock matrix X
   final int matrixX;
+
+  /// pattern lock matrix Y
   final int matrixY;
+
+  /// the tap range of each dots
   final double? tapRange;
-  final double? lineWidth;
+
+  ///
   final bool isError;
   final bool? debugshowTapRange;
   final VoidCallback? onTapDown;
@@ -87,7 +92,6 @@ class _PatternViewState extends State<PatternView> {
   @override
   Widget build(BuildContext context) {
     final styleData = PatternStyle.of(context).copyWith(
-      width: widget.lineWidth,
       tapRange: widget.tapRange,
       isError: widget.isError,
       debugshowTapRange: widget.debugshowTapRange,

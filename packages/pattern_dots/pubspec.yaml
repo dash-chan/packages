@@ -1,6 +1,6 @@
 name: pattern_dots
 description: A pattern lock UI using flutter.
-version: 0.0.1-alpha
+version: 0.0.1-alpha.2
 repository: https://github.com/dash-chan/packages/tree/main/packages/pattern_dots
 issue_tracker: https://github.com/dash-chan/packages/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3A+pattern_dots%22
 

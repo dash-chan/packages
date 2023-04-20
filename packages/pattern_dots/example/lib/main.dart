@@ -38,7 +38,6 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: PatternStyle(
           data: PatternStyleData(
-            width: 4,
             tapRange: 24,
           ),
           child: PatternView(
