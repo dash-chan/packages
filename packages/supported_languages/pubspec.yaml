@@ -1,7 +1,8 @@
 name: supported_languages
-description: A new Flutter package project.
+description: Provider a package that Flutter supported language
 version: 0.0.1
-homepage:
+repository: https://github.com/dash-chan/packages/tree/main/packages/supported_languages
+issue_tracker: https://github.com/dash-chan/packages/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3A+supported_languages%22
 
 environment:
   sdk: '>=2.19.6 <3.0.0'
