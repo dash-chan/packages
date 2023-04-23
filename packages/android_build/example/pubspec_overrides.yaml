@@ -1,3 +1,0 @@
-# melos_managed_dependency_overrides: android_build
-dependency_overrides:
-  {android_build: {path: ..}}
