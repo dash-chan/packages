@@ -77,7 +77,6 @@ class _PatternViewState extends State<PatternView> {
   /// its a x*y matrix
   initCells() {
     cells = Cell.cells(widget.matrixX, widget.matrixY);
-    print(cells);
   }
 
   clearHistory() {
