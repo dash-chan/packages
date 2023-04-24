@@ -5,7 +5,7 @@ A pattern lock UI using flutter.
 ## USAGE
 
 ```dart
-bool isError = false;
+PatternLockStyle _lockStyle = PatternLockStyle.normal;
 ...
 PatternStyle(
   data: PatternStyleData(
@@ -13,13 +13,14 @@ PatternStyle(
     tapRange: 24,
   ),
   child: PatternView(
-    isError: isError,
+    lockStyle: _lockStyle,
     onTapDown: () {
-      isError = false;
+      _lockStyle = PatternLockStyle.normal;
       setState(() {});
     },
     onComplete: (cells) {
-      isError = !listEquals(cells, [0, 4, 5, 8]);
+      bool same = listEquals(cells, [0, 4, 5, 8]);
+      _lockStyle = same ? PatternLockStyle.success : PatternLockStyle.failed;
       setState(() {});
     },
   ),
