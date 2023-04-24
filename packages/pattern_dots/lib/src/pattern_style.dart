@@ -12,6 +12,12 @@ typedef CellBuilder = void Function(CellConfiguration config);
 typedef LineBuilder = void Function(LineConfiguration config);
 typedef CurrentFingerBuilder = void Function(FingerConfiguration config);
 
+enum PatternLockStyle {
+  failed,
+  normal,
+  success;
+}
+
 /// {@template PatternStyle}
 /// PatternStyle
 ///
@@ -57,7 +63,7 @@ class PatternStyleData with Diagnosticable {
     this.cellBuilder = defaultCellBuilder,
     this.lineBuilder = defaultLineBuilder,
     required this.fingerBuilder,
-    required this.isError,
+    required this.lockStyle,
     required this.debugshowTapRange,
     required this.brightness,
   });
@@ -68,7 +74,7 @@ class PatternStyleData with Diagnosticable {
     CellBuilder? cellBuilder,
     LineBuilder? lineBuilder,
     CurrentFingerBuilder? fingerBuilder,
-    bool? isError,
+    PatternLockStyle? lockStyle,
     bool debugshowTapRange = false,
     Brightness? brightness,
   }) {
@@ -80,7 +86,7 @@ class PatternStyleData with Diagnosticable {
       cellBuilder: cellBuilder,
       lineBuilder: lineBuilder,
       fingerBuilder: fingerBuilder,
-      isError: isError ?? false,
+      lockStyle: lockStyle ?? PatternLockStyle.normal,
       debugshowTapRange: debugshowTapRange,
       brightness: brightness ?? Brightness.light,
     );
@@ -108,7 +114,7 @@ class PatternStyleData with Diagnosticable {
   final CurrentFingerBuilder? fingerBuilder;
 
   /// show red dots & red line by defaults
-  final bool isError;
+  final PatternLockStyle lockStyle;
 
   /// show debug tap range
   final bool debugshowTapRange;
@@ -123,7 +129,7 @@ class PatternStyleData with Diagnosticable {
     CellBuilder? cellBuilder,
     LineBuilder? lineBuilder,
     CurrentFingerBuilder? fingerBuilder,
-    bool? isError,
+    PatternLockStyle? lockStyle,
     bool? debugshowTapRange,
     Brightness? brightness,
   }) {
@@ -132,7 +138,7 @@ class PatternStyleData with Diagnosticable {
       cellBuilder: cellBuilder ?? this.cellBuilder,
       lineBuilder: lineBuilder ?? this.lineBuilder,
       fingerBuilder: fingerBuilder ?? this.fingerBuilder,
-      isError: isError ?? this.isError,
+      lockStyle: lockStyle ?? this.lockStyle,
       debugshowTapRange: debugshowTapRange ?? this.debugshowTapRange,
       brightness: brightness ?? this.brightness,
     );
@@ -146,7 +152,7 @@ class PatternStyleData with Diagnosticable {
         other.cellBuilder == cellBuilder &&
         other.lineBuilder == lineBuilder &&
         other.fingerBuilder == fingerBuilder &&
-        other.isError == isError &&
+        other.lockStyle == lockStyle &&
         other.debugshowTapRange == debugshowTapRange &&
         other.brightness == brightness;
   }
@@ -157,7 +163,7 @@ class PatternStyleData with Diagnosticable {
         cellBuilder,
         lineBuilder,
         fingerBuilder,
-        isError,
+        lockStyle,
         debugshowTapRange,
         brightness,
       ]);

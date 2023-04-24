@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.0.2-appha
+
+* add lock style prop.
+
 ## 0.0.1-alpha.2+1
 
 * update license

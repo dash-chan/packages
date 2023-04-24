@@ -30,7 +30,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isError = false;
+  PatternLockStyle _lockStyle = PatternLockStyle.normal;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,13 +41,15 @@ class _HomePageState extends State<HomePage> {
             tapRange: 24,
           ),
           child: PatternView(
-            isError: isError,
+            lockStyle: _lockStyle,
             onTapDown: () {
-              isError = false;
+              _lockStyle = PatternLockStyle.normal;
               setState(() {});
             },
             onComplete: (cells) {
-              isError = !listEquals(cells, [0, 4, 5, 8]);
+              bool same = !listEquals(cells, [0, 4, 5, 8]);
+              _lockStyle =
+                  same ? PatternLockStyle.success : PatternLockStyle.failed;
               setState(() {});
             },
           ),

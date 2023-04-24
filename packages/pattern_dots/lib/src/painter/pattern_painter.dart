@@ -55,7 +55,7 @@ class PatternPainter extends CustomPainter {
           style.cellBuilder(
             CellConfiguration(
               canvas: canvas,
-              isError: style.isError,
+              lockStyle: style.lockStyle,
               isSelect: true,
               rect: rect,
               brightness: style.brightness,
@@ -65,7 +65,7 @@ class PatternPainter extends CustomPainter {
           style.cellBuilder(
             CellConfiguration(
               canvas: canvas,
-              isError: false,
+              lockStyle: style.lockStyle,
               isSelect: false,
               rect: rect,
               brightness: style.brightness,
@@ -90,7 +90,7 @@ class PatternPainter extends CustomPainter {
 
       style.lineBuilder(LineConfiguration(
         canvas: canvas,
-        isError: style.isError,
+        lockStyle: style.lockStyle,
         start: _boxRect(current.x, current.y, boxSize).center,
         end: _boxRect(last.x, last.y, boxSize).center,
         isOnPainting: false,
@@ -104,7 +104,7 @@ class PatternPainter extends CustomPainter {
     if (currentPoint == null) return;
     style.lineBuilder(LineConfiguration(
       canvas: canvas,
-      isError: style.isError,
+      lockStyle: style.lockStyle,
       start: _boxRect(queue.last.x, queue.last.y, boxSize).center,
       end: currentPoint!,
       isOnPainting: true,
@@ -116,7 +116,7 @@ class PatternPainter extends CustomPainter {
     if (currentPoint != null) {
       style.fingerBuilder?.call(FingerConfiguration(
         canvas: canvas,
-        isError: false,
+        lockStyle: style.lockStyle,
         offset: currentPoint!,
       ));
     }

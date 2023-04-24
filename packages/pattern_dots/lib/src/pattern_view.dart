@@ -16,7 +16,7 @@ class PatternView extends StatefulWidget {
     this.matrixX = 3,
     this.matrixY = 3,
     this.tapRange,
-    this.isError = false,
+    this.lockStyle = PatternLockStyle.normal,
     this.debugshowTapRange,
     this.onTapDown,
     this.onCell,
@@ -33,7 +33,7 @@ class PatternView extends StatefulWidget {
   final double? tapRange;
 
   ///
-  final bool isError;
+  final PatternLockStyle lockStyle;
   final bool? debugshowTapRange;
   final VoidCallback? onTapDown;
   final NativeCellCallback? onCell;
@@ -93,7 +93,7 @@ class _PatternViewState extends State<PatternView> {
   Widget build(BuildContext context) {
     final styleData = PatternStyle.of(context).copyWith(
       tapRange: widget.tapRange,
-      isError: widget.isError,
+      lockStyle: widget.lockStyle,
       debugshowTapRange: widget.debugshowTapRange,
     );
     return GestureDetector(
