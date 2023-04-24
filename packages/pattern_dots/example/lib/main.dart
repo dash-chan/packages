@@ -42,12 +42,13 @@ class _HomePageState extends State<HomePage> {
           ),
           child: PatternView(
             lockStyle: _lockStyle,
+            matrixY: 4,
             onTapDown: () {
               _lockStyle = PatternLockStyle.normal;
               setState(() {});
             },
             onComplete: (cells) {
-              bool same = !listEquals(cells, [0, 4, 5, 8]);
+              bool same = listEquals(cells, [0, 4, 5, 8]);
               _lockStyle =
                   same ? PatternLockStyle.success : PatternLockStyle.failed;
               setState(() {});

@@ -77,6 +77,7 @@ class _PatternViewState extends State<PatternView> {
   /// its a x*y matrix
   initCells() {
     cells = Cell.cells(widget.matrixX, widget.matrixY);
+    print(cells);
   }
 
   clearHistory() {
@@ -142,7 +143,7 @@ class Cell {
   static List<List<Cell>> cells(int matrixX, int matrixY) {
     return List.generate(
       matrixY,
-      (i) => List.generate(matrixX, (j) => Cell(i, j)),
+      (j) => List.generate(matrixX, (i) => Cell(i, j)),
     );
   }
 
@@ -175,6 +176,6 @@ class Cell {
 
 extension CellMatrixExt on List<List<Cell>> {
   Cell of(int x, int y) {
-    return this[x][y];
+    return this[y][x];
   }
 }
