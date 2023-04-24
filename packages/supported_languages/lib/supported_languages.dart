@@ -235,14 +235,18 @@ enum SupportedLanguages {
 
   /// `zh` - Chinese (plus 2 country variations and 2 scripts)
   zh('zh'),
+  zhHans('zh', 'Hans'),
+  zhHK('zh', 'HK'),
+  zhTW('zh', 'TW'),
 
   /// `zu` - Zulu
   zu('zu'),
   ;
 
-  const SupportedLanguages(this.code);
+  const SupportedLanguages(this.languageCode, [this.countryCode]);
 
-  final String code;
+  final String languageCode;
+  final String? countryCode;
 
-  Locale get locale => Locale(code);
+  Locale get locale => Locale(languageCode, countryCode);
 }
