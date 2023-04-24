@@ -1,17 +1,3 @@
-# CHANGELOG
-
-## 0.0.2-appha
-
-* add lock style prop.
-
-## 0.0.1-alpha.2+1
-
-* update license
-
-## 0.0.1-alpha.2
-
-* change API usage.
-
-## 0.0.1-alpha
-
-* init package.
+## 0.0.3 - 2023-04-24
+### Fixed
+- lock display error

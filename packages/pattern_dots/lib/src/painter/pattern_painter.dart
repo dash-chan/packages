@@ -65,7 +65,7 @@ class PatternPainter extends CustomPainter {
           style.cellBuilder(
             CellConfiguration(
               canvas: canvas,
-              lockStyle: style.lockStyle,
+              lockStyle: PatternLockStyle.normal,
               isSelect: false,
               rect: rect,
               brightness: style.brightness,
@@ -116,7 +116,7 @@ class PatternPainter extends CustomPainter {
     if (currentPoint != null) {
       style.fingerBuilder?.call(FingerConfiguration(
         canvas: canvas,
-        lockStyle: style.lockStyle,
+        lockStyle: PatternLockStyle.normal,
         offset: currentPoint!,
       ));
     }
