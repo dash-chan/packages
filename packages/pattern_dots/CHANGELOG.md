@@ -1,4 +1,4 @@
-## Unreleased
+## 0.0.5 - 2023-04-25
 ### Changed
 - update README.md
 
