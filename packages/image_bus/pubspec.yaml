@@ -1,7 +1,8 @@
 name: image_bus
-description: A new Flutter package project.
+description: some convenience functions for manipulate image with a not bad performance.
 version: 0.0.2
-homepage:
+homepage: https://github.com/dash-chan/packages
+repository: https://github.com/dash-chan/packages/tree/main/packages/image_bus
 
 environment:
   sdk: '>=3.0.2 <4.0.0'
