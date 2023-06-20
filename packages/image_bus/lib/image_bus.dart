@@ -33,24 +33,61 @@ class ImageBus {
     }
   }
 
-  /// resize image
-  Future<Uint8List?> resize(int? maxWidth, int? maxHeight) =>
-      _resize(data: data, maxWidth: maxWidth, maxHeight: maxHeight);
+  /// resize image to [ui.Image]
+  Future<UIImage> resizeImage({int? maxWidth, int? maxHeight}) async {
+    return UIImage(
+      await _resize(
+        data: data,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+      ),
+    );
+  }
 
-  /// crop image
-  Future<Uint8List?> crop(int x, int y, int width, int height,
+  /// resize image to bytes
+  Future<Uint8List?> resize({int? maxWidth, int? maxHeight}) async {
+    return (await resizeImage(maxWidth: maxWidth, maxHeight: maxHeight))
+        .bytes();
+  }
+
+  /// crop image to [ui.Image]
+  Future<UIImage> cropImage(int x, int y, int width, int height,
       {Radius? radius}) async {
-    final image = await _crop(
+    return UIImage(await _crop(
       image: await decodeImageFromList(data),
       x: x,
       y: y,
       width: width,
       height: height,
       radius: radius,
-    );
+    ));
+  }
 
-    final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-    if (byteData == null) return null;
-    return byteData.buffer.asUint8List();
+  /// crop image to bytes [Uint8List]
+  Future<Uint8List?> crop(int x, int y, int width, int height,
+      {Radius? radius}) async {
+    return (await cropImage(x, y, width, height, radius: radius)).bytes();
+  }
+}
+
+/// a wrapper of dart:ui [ui.Image]
+class UIImage {
+  UIImage(this.img);
+
+  /// image data
+  final ui.Image img;
+
+  /// convert a img to bytes with [format]
+  ///
+  /// default convert to a png image
+  Future<Uint8List?> bytes(
+      [ui.ImageByteFormat format = ui.ImageByteFormat.png]) async {
+    try {
+      final byteData = await img.toByteData(format: format);
+      if (byteData == null) return null;
+      return byteData.buffer.asUint8List();
+    } catch (e) {
+      return null;
+    }
   }
 }

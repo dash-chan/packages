@@ -1,6 +1,6 @@
 part of '../image_bus.dart';
 
-Future<Uint8List?> _resize(
+Future<ui.Image> _resize(
     {required Uint8List data, int? maxWidth, int? maxHeight}) async {
   final codec = await ui.instantiateImageCodecWithSize(
     await ImmutableBuffer.fromUint8List(data),
@@ -28,7 +28,5 @@ Future<Uint8List?> _resize(
     },
   );
   final frame = await codec.getNextFrame();
-  final byteData = await frame.image.toByteData(format: ui.ImageByteFormat.png);
-  if (byteData == null) return null;
-  return byteData.buffer.asUint8List();
+  return frame.image;
 }

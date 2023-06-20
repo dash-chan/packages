@@ -55,7 +55,8 @@ class _HomePageState extends State<HomePage> {
         onPressed: () async {
           final bytes = await PlatformAssetBundle().load('assets/1.jpg');
           final data = bytes.buffer.asUint8List();
-          final result = await ImageBus(data).resize(1920, 1920);
+          final result =
+              await ImageBus(data).resize(maxWidth: 1920, maxHeight: 1920);
           setState(() {
             crop = result;
           });
