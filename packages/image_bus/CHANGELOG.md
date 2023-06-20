@@ -1,3 +1,7 @@
+## 0.1.0 - 2023-06-20
+### Changed
+- API changed
+
 ## 0.0.3 - 2023-06-13
 ### Changed
 - update README
