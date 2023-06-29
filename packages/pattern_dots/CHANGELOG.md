@@ -1,3 +1,8 @@
+## 0.0.6 - 2023-06-29
+### Added
+- update docs
+- add onEnter api
+
 ## 0.0.5 - 2023-04-25
 ### Changed
 - update README.md

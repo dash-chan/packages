@@ -12,9 +12,15 @@ typedef CellBuilder = void Function(CellConfiguration config);
 typedef LineBuilder = void Function(LineConfiguration config);
 typedef CurrentFingerBuilder = void Function(FingerConfiguration config);
 
+/// State of pattern lock
 enum PatternLockStyle {
+  /// failed state show the red dots
   failed,
+
+  /// normal state.
   normal,
+
+  /// success state.normally use grren dots
   success;
 }
 

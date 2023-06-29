@@ -1,8 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-
 import 'package:pattern_dots/src/painter/pattern_painter.dart';
 import 'package:pattern_dots/src/pattern_style.dart';
 import 'package:pattern_dots/src/utils/math_helper.dart';
@@ -10,7 +8,9 @@ import 'package:pattern_dots/src/utils/math_helper.dart';
 typedef NativeCellCallback = Function(Queue<Cell> cells);
 typedef CellCallback = Function(List<int> cells);
 
+/// Pattern Lock Widget
 class PatternView extends StatefulWidget {
+  /// Pattern Lock Widget
   const PatternView({
     super.key,
     this.matrixX = 3,
@@ -21,6 +21,7 @@ class PatternView extends StatefulWidget {
     this.onTapDown,
     this.onCell,
     this.onComplete,
+    this.onUpdate,
   });
 
   /// pattern lock matrix X
@@ -32,12 +33,26 @@ class PatternView extends StatefulWidget {
   /// the tap range of each dots
   final double? tapRange;
 
-  ///
+  /// state of pattern lock
+  /// * failed
+  /// * normal
+  /// * success
   final PatternLockStyle lockStyle;
+
+  /// show debug range of tap
   final bool? debugshowTapRange;
+
+  /// when tap down
   final VoidCallback? onTapDown;
+
+  /// [onCell] will emit every gesture move
   final NativeCellCallback? onCell;
+
+  /// when complete
   final CellCallback? onComplete;
+
+  /// when move to a new dot
+  final ValueChanged<Cell>? onUpdate;
 
   @override
   State<PatternView> createState() => _PatternViewState();
@@ -126,6 +141,9 @@ class _PatternViewState extends State<PatternView> {
             matrixX: widget.matrixX,
             matrixY: widget.matrixY,
             style: styleData,
+            onEnter: (cell) {
+              widget.onUpdate?.call(cell);
+            },
           ),
         ),
       ),

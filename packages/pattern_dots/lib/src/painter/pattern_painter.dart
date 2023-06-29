@@ -15,6 +15,7 @@ class PatternPainter extends CustomPainter {
     required this.queue,
     required this.cells,
     required this.style,
+    required this.onEnter,
   });
 
   /// matrix X
@@ -35,6 +36,9 @@ class PatternPainter extends CustomPainter {
   /// patternStyle configuration
   final PatternStyleData style;
 
+  /// when move into a new dot
+  final ValueChanged<Cell> onEnter;
+
   Size _boxSize(Size size) => Size(size.width / matrixX, size.height / matrixY);
 
   @override
@@ -48,6 +52,7 @@ class PatternPainter extends CustomPainter {
           bool tapped = currentCell.mesure(rect, currentPoint!, style.tapRange);
           if (tapped && !queue.contains(currentCell)) {
             queue.add(currentCell);
+            onEnter(currentCell);
           }
         }
 
