@@ -52,7 +52,9 @@ class PatternPainter extends CustomPainter {
           bool tapped = currentCell.mesure(rect, currentPoint!, style.tapRange);
           if (tapped && !queue.contains(currentCell)) {
             queue.add(currentCell);
-            onEnter(currentCell);
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              onEnter(currentCell);
+            });
           }
         }
 

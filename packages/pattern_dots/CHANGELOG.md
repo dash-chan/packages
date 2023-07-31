@@ -1,3 +1,10 @@
+## 0.2.0 - 2023-07-31
+### Changed
+- \[BREAKCHANGE\] onUpdate api add selected property
+
+### Fixed
+- fix onUpdate callback when render
+
 ## 0.1.0 - 2023-07-31
 ### Added
 - add PatternStyleData.compose function

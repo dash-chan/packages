@@ -52,7 +52,7 @@ class PatternView extends StatefulWidget {
   final CellCallback? onComplete;
 
   /// when move to a new dot
-  final ValueChanged<Cell>? onUpdate;
+  final Function(Cell current, List<int> selected)? onUpdate;
 
   @override
   State<PatternView> createState() => _PatternViewState();
@@ -104,6 +104,9 @@ class _PatternViewState extends State<PatternView> {
     });
   }
 
+  List<int> get _result =>
+      _queque.map((e) => e.indexOf(widget.matrixX)).toList();
+
   @override
   Widget build(BuildContext context) {
     final styleData = PatternStyle.of(context).copyWith(
@@ -128,8 +131,7 @@ class _PatternViewState extends State<PatternView> {
         _currentHand = null;
         _update();
         widget.onCell?.call(_queque);
-        widget.onComplete
-            ?.call(_queque.map((e) => e.indexOf(widget.matrixX)).toList());
+        widget.onComplete?.call(_result);
       },
       child: AspectRatio(
         aspectRatio: aspectRatio,
@@ -142,7 +144,7 @@ class _PatternViewState extends State<PatternView> {
             matrixY: widget.matrixY,
             style: styleData,
             onEnter: (cell) {
-              widget.onUpdate?.call(cell);
+              widget.onUpdate?.call(cell, _result);
             },
           ),
         ),

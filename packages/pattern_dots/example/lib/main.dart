@@ -67,6 +67,9 @@ class _HomePageState extends State<HomePage> {
               _lockStyle = PatternLockStyle.normal;
               setState(() {});
             },
+            onUpdate: (current, selected) {
+              print(selected);
+            },
             onComplete: (cells) {
               bool same = listEquals(cells, [0, 4, 5, 8]);
               _lockStyle =
