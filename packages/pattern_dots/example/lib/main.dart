@@ -37,8 +37,28 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(),
       body: Center(
         child: PatternStyle(
-          data: PatternStyleData(
+          data: PatternStyleData.compose(
             tapRange: 24,
+            unselectCellStyles: [
+              CircleGen(
+                  radius: 16,
+                  color: Colors.blue[100]!,
+                  style: PaintingStyle.fill),
+            ],
+            selectCellStyles: [
+              CircleGen(
+                  radius: 16,
+                  color: Colors.blue[100]!,
+                  style: PaintingStyle.fill),
+              CircleGen(
+                  radius: 8, color: Colors.blue, style: PaintingStyle.fill),
+            ],
+            lineStyle: [
+              RangeLineStyleGen(
+                color: Colors.pink.withOpacity(0.2),
+                width: 12,
+              ),
+            ],
           ),
           child: PatternView(
             lockStyle: _lockStyle,

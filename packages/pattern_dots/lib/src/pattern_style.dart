@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pattern_dots/src/configurations.dart';
 
 import 'painter/styles.dart';
+import 'utils/style_gen.dart';
 
 /// Builder for Cell
 typedef CellBuilder = void Function(CellConfiguration config);
@@ -98,6 +99,41 @@ class PatternStyleData with Diagnosticable {
     );
   }
 
+  factory PatternStyleData.compose({
+    double tapRange = 16,
+    CurrentFingerBuilder? finger,
+    PatternLockStyle? lockStyle,
+    Brightness? brightness,
+    bool debugshowTapRange = false,
+    required List<RectStyleGen> selectCellStyles,
+    required List<RectStyleGen> unselectCellStyles,
+    required List<LineStyleGen> lineStyle,
+  }) {
+    return PatternStyleData.raw(
+      tapRange: tapRange,
+      fingerBuilder: finger,
+      lockStyle: lockStyle ?? PatternLockStyle.normal,
+      debugshowTapRange: debugshowTapRange,
+      brightness: brightness ?? Brightness.light,
+      cellBuilder: (config) {
+        if (config.isSelect) {
+          for (var style in selectCellStyles) {
+            style.paint(config.canvas, config.rect.center);
+          }
+        } else {
+          for (var style in unselectCellStyles) {
+            style.paint(config.canvas, config.rect.center);
+          }
+        }
+      },
+      lineBuilder: (config) {
+        for (var style in lineStyle) {
+          style.paint(config.canvas, config.start, config.end);
+        }
+      },
+    );
+  }
+
   factory PatternStyleData.newAndroid() {
     return PatternStyleData(
       tapRange: 4,
@@ -106,6 +142,8 @@ class PatternStyleData with Diagnosticable {
   }
 
   /// tap range
+  ///
+  /// 可点击的区域
   final double tapRange;
 
   /// when [cellBuilder] not null,

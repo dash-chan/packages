@@ -1,3 +1,7 @@
+## 0.1.0 - 2023-07-31
+### Added
+- add PatternStyleData.compose function
+
 ## 0.0.6 - 2023-06-29
 ### Added
 - update docs
