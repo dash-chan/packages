@@ -123,7 +123,7 @@ class _PatternViewState extends State<PatternView> {
       },
       onPanUpdate: (d) {
         if (_currentHand != null) {
-          _currentHand = _currentHand! + d.delta;
+          _currentHand = d.localPosition;
         }
         _update();
       },

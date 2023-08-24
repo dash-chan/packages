@@ -1,3 +1,7 @@
+## Unreleased
+### Fixed
+- fix finger position when moving
+
 ## 0.2.0 - 2023-07-31
 ### Changed
 - \[BREAKCHANGE\] onUpdate api add selected property
