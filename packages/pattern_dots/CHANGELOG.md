@@ -1,4 +1,4 @@
-## Unreleased
+## 0.2.1 - 2023-08-24
 ### Fixed
 - fix finger position when moving
 
