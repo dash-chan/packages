@@ -17,6 +17,122 @@ List<Object?> wrapResponse({Object? result, PlatformException? error, bool empty
   return <Object?>[error.code, error.message, error.details];
 }
 
+enum PlacesFilterType {
+  /// Geocoding results, as opposed to business results.
+  geocode,
+  /// Geocoding results with a precise address.
+  address,
+  /// Business results.
+  establishment,
+  /// * Results that match the following types:
+  /// * "locality",
+  /// * "sublocality"
+  /// * "postal_code",
+  /// * "country",
+  /// * "administrative_area_level_1",
+  /// * "administrative_area_level_2"
+  region,
+  /// * Results that match the following types:
+  /// * "locality",
+  /// * "administrative_area_level_3"
+  city,
+}
+
+class Prediction {
+  Prediction({
+    required this.attributed,
+    required this.placeID,
+    required this.rawTypes,
+    this.distanceMeters,
+  });
+
+  PredictionAttributed attributed;
+
+  String placeID;
+
+  List<String?> rawTypes;
+
+  double? distanceMeters;
+
+  Object encode() {
+    return <Object?>[
+      attributed.encode(),
+      placeID,
+      rawTypes,
+      distanceMeters,
+    ];
+  }
+
+  static Prediction decode(Object result) {
+    result as List<Object?>;
+    return Prediction(
+      attributed: PredictionAttributed.decode(result[0]! as List<Object?>),
+      placeID: result[1]! as String,
+      rawTypes: (result[2] as List<Object?>?)!.cast<String?>(),
+      distanceMeters: result[3] as double?,
+    );
+  }
+}
+
+class PredictionAttributed {
+  PredictionAttributed({
+    required this.fullText,
+    required this.primaryText,
+    this.secondaryText,
+  });
+
+  String fullText;
+
+  String primaryText;
+
+  String? secondaryText;
+
+  Object encode() {
+    return <Object?>[
+      fullText,
+      primaryText,
+      secondaryText,
+    ];
+  }
+
+  static PredictionAttributed decode(Object result) {
+    result as List<Object?>;
+    return PredictionAttributed(
+      fullText: result[0]! as String,
+      primaryText: result[1]! as String,
+      secondaryText: result[2] as String?,
+    );
+  }
+}
+
+class _GmsPlacesApiCodec extends StandardMessageCodec {
+  const _GmsPlacesApiCodec();
+  @override
+  void writeValue(WriteBuffer buffer, Object? value) {
+    if (value is Prediction) {
+      buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else if (value is PredictionAttributed) {
+      buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else {
+      super.writeValue(buffer, value);
+    }
+  }
+
+  @override
+  Object? readValueOfType(int type, ReadBuffer buffer) {
+    switch (type) {
+      case 128: 
+        return Prediction.decode(readValue(buffer)!);
+      case 129: 
+        return PredictionAttributed.decode(readValue(buffer)!);
+      default:
+        return super.readValueOfType(type, buffer);
+    }
+  }
+}
+
 class GmsPlacesApi {
   /// Constructor for [GmsPlacesApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
@@ -25,14 +141,36 @@ class GmsPlacesApi {
       : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec = StandardMessageCodec();
+  static const MessageCodec<Object?> codec = _GmsPlacesApiCodec();
 
-  Future<String> autocomplete(String arg_fromQuery) async {
+  Future<void> ensureInitialized() async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.gms_places_api.GmsPlacesApi.ensureInitialized', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(null) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  Future<List<Prediction?>> autocomplete(String arg_fromQuery, PlacesFilterType arg_filter) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.gms_places_api.GmsPlacesApi.autocomplete', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_fromQuery]) as List<Object?>?;
+        await channel.send(<Object?>[arg_fromQuery, arg_filter.index]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -50,7 +188,7 @@ class GmsPlacesApi {
         message: 'Host platform returned null value for non-null return value.',
       );
     } else {
-      return (replyList[0] as String?)!;
+      return (replyList[0] as List<Object?>?)!.cast<Prediction?>();
     }
   }
 }
