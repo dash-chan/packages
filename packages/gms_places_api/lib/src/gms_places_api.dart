@@ -7,7 +7,7 @@ class GmsPlaces {
   }
 
   static Future<List<Prediction>> autocomplete(String query,
-      {PlacesFilterType type = PlacesFilterType.all}) async {
+      {required PlacesFilterType type}) async {
     try {
       final items = await _api.autocomplete(query, type);
       return items.nonNulls.toList();
