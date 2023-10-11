@@ -59,6 +59,30 @@ enum PlacesFilterType: Int {
   case city = 4
 }
 
+enum PlaceFields: Int {
+  case formattedAddress = 0
+  case addressComponents = 1
+  case businessStatus = 2
+  case placeID = 3
+  case coordinate = 4
+  case name = 5
+  case photos = 6
+  case plusCode = 7
+  case types = 8
+  case viewport = 9
+}
+
+enum PlacesBusinessStatus: Int {
+  /// The business status is not known
+  case unknown = 0
+  /// The business is operational
+  case operational = 1
+  /// The business is closed temporarily
+  case closedTemporarily = 2
+  /// The business is closed permanently
+  case closedPermanently = 3
+}
+
 /// Generated class from Pigeon that represents data sent in messages.
 struct Prediction {
   var attributed: PredictionAttributed
@@ -115,12 +139,179 @@ struct PredictionAttributed {
   }
 }
 
+/// Generated class from Pigeon that represents data sent in messages.
+struct PlaceItem {
+  var formattedAddress: String? = nil
+  var rawAddressComponents: [AddressComponent?]
+  var businessStatus: PlacesBusinessStatus
+  var placeId: String? = nil
+  var coordinate: PlaceCoordinate? = nil
+  var name: String? = nil
+  var plusCode: PlacePlusCode? = nil
+  var rawTypes: [String?]? = nil
+  var viewport: PlaceViewport? = nil
+
+  static func fromList(_ list: [Any?]) -> PlaceItem? {
+    let formattedAddress: String? = nilOrValue(list[0])
+    let rawAddressComponents = list[1] as! [AddressComponent?]
+    let businessStatus = PlacesBusinessStatus(rawValue: list[2] as! Int)!
+    let placeId: String? = nilOrValue(list[3])
+    var coordinate: PlaceCoordinate? = nil
+    if let coordinateList: [Any?] = nilOrValue(list[4]) {
+      coordinate = PlaceCoordinate.fromList(coordinateList)
+    }
+    let name: String? = nilOrValue(list[5])
+    var plusCode: PlacePlusCode? = nil
+    if let plusCodeList: [Any?] = nilOrValue(list[6]) {
+      plusCode = PlacePlusCode.fromList(plusCodeList)
+    }
+    let rawTypes: [String?]? = nilOrValue(list[7])
+    var viewport: PlaceViewport? = nil
+    if let viewportList: [Any?] = nilOrValue(list[8]) {
+      viewport = PlaceViewport.fromList(viewportList)
+    }
+
+    return PlaceItem(
+      formattedAddress: formattedAddress,
+      rawAddressComponents: rawAddressComponents,
+      businessStatus: businessStatus,
+      placeId: placeId,
+      coordinate: coordinate,
+      name: name,
+      plusCode: plusCode,
+      rawTypes: rawTypes,
+      viewport: viewport
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      formattedAddress,
+      rawAddressComponents,
+      businessStatus.rawValue,
+      placeId,
+      coordinate?.toList(),
+      name,
+      plusCode?.toList(),
+      rawTypes,
+      viewport?.toList(),
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct AddressComponent {
+  var name: String
+  var shortName: String? = nil
+  var rawTypes: [String?]
+
+  static func fromList(_ list: [Any?]) -> AddressComponent? {
+    let name = list[0] as! String
+    let shortName: String? = nilOrValue(list[1])
+    let rawTypes = list[2] as! [String?]
+
+    return AddressComponent(
+      name: name,
+      shortName: shortName,
+      rawTypes: rawTypes
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      name,
+      shortName,
+      rawTypes,
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct PlaceCoordinate {
+  var latitude: Double
+  var longitude: Double
+
+  static func fromList(_ list: [Any?]) -> PlaceCoordinate? {
+    let latitude = list[0] as! Double
+    let longitude = list[1] as! Double
+
+    return PlaceCoordinate(
+      latitude: latitude,
+      longitude: longitude
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      latitude,
+      longitude,
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct PlacePlusCode {
+  var globalCode: String
+  var compoundCode: String? = nil
+
+  static func fromList(_ list: [Any?]) -> PlacePlusCode? {
+    let globalCode = list[0] as! String
+    let compoundCode: String? = nilOrValue(list[1])
+
+    return PlacePlusCode(
+      globalCode: globalCode,
+      compoundCode: compoundCode
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      globalCode,
+      compoundCode,
+    ]
+  }
+}
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct PlaceViewport {
+  var northEast: PlaceCoordinate
+  var southWest: PlaceCoordinate
+  var valid: Bool
+
+  static func fromList(_ list: [Any?]) -> PlaceViewport? {
+    let northEast = PlaceCoordinate.fromList(list[0] as! [Any?])!
+    let southWest = PlaceCoordinate.fromList(list[1] as! [Any?])!
+    let valid = list[2] as! Bool
+
+    return PlaceViewport(
+      northEast: northEast,
+      southWest: southWest,
+      valid: valid
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      northEast.toList(),
+      southWest.toList(),
+      valid,
+    ]
+  }
+}
+
 private class GmsPlacesApiCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
       case 128:
-        return Prediction.fromList(self.readValue() as! [Any?])
+        return AddressComponent.fromList(self.readValue() as! [Any?])
       case 129:
+        return PlaceCoordinate.fromList(self.readValue() as! [Any?])
+      case 130:
+        return PlaceCoordinate.fromList(self.readValue() as! [Any?])
+      case 131:
+        return PlaceItem.fromList(self.readValue() as! [Any?])
+      case 132:
+        return PlacePlusCode.fromList(self.readValue() as! [Any?])
+      case 133:
+        return PlaceViewport.fromList(self.readValue() as! [Any?])
+      case 134:
+        return Prediction.fromList(self.readValue() as! [Any?])
+      case 135:
         return PredictionAttributed.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -130,11 +321,29 @@ private class GmsPlacesApiCodecReader: FlutterStandardReader {
 
 private class GmsPlacesApiCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
-    if let value = value as? Prediction {
+    if let value = value as? AddressComponent {
       super.writeByte(128)
       super.writeValue(value.toList())
-    } else if let value = value as? PredictionAttributed {
+    } else if let value = value as? PlaceCoordinate {
       super.writeByte(129)
+      super.writeValue(value.toList())
+    } else if let value = value as? PlaceCoordinate {
+      super.writeByte(130)
+      super.writeValue(value.toList())
+    } else if let value = value as? PlaceItem {
+      super.writeByte(131)
+      super.writeValue(value.toList())
+    } else if let value = value as? PlacePlusCode {
+      super.writeByte(132)
+      super.writeValue(value.toList())
+    } else if let value = value as? PlaceViewport {
+      super.writeByte(133)
+      super.writeValue(value.toList())
+    } else if let value = value as? Prediction {
+      super.writeByte(134)
+      super.writeValue(value.toList())
+    } else if let value = value as? PredictionAttributed {
+      super.writeByte(135)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -160,6 +369,7 @@ class GmsPlacesApiCodec: FlutterStandardMessageCodec {
 protocol GmsPlacesApi {
   func ensureInitialized() throws
   func autocomplete(fromQuery: String, filter: PlacesFilterType, completion: @escaping (Result<[Prediction], Error>) -> Void)
+  func getDetailById(placeId: String, fields: [PlaceFields], completion: @escaping (Result<PlaceItem?, Error>) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -198,6 +408,24 @@ class GmsPlacesApiSetup {
       }
     } else {
       autocompleteChannel.setMessageHandler(nil)
+    }
+    let getDetailByIdChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gms_places_api.GmsPlacesApi.getDetailById", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      getDetailByIdChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let placeIdArg = args[0] as! String
+        let fieldsArg = args[1] as! [PlaceFields]
+        api.getDetailById(placeId: placeIdArg, fields: fieldsArg) { result in
+          switch result {
+            case .success(let res):
+              reply(wrapResult(res))
+            case .failure(let error):
+              reply(wrapError(error))
+          }
+        }
+      }
+    } else {
+      getDetailByIdChannel.setMessageHandler(nil)
     }
   }
 }

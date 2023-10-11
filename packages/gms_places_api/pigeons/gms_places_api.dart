@@ -16,6 +16,9 @@ abstract class GmsPlacesApi {
   void ensureInitialized();
   @async
   List<Prediction> autocomplete(String fromQuery, PlacesFilterType filter);
+
+  @async
+  PlaceItem? getDetailById(String placeId, List<PlaceFields> fields);
 }
 
 enum PlacesFilterType {
@@ -66,4 +69,87 @@ class PredictionAttributed {
   final String fullText;
   final String primaryText;
   final String? secondaryText;
+}
+
+enum PlaceFields {
+  formattedAddress,
+  addressComponents,
+  businessStatus,
+  placeID,
+  coordinate,
+  name,
+  photos,
+  plusCode,
+  types,
+  viewport,
+}
+
+class PlaceItem {
+  PlaceItem({
+    this.formattedAddress,
+    required this.rawAddressComponents,
+    required this.businessStatus,
+    this.placeId,
+    this.coordinate,
+    this.name,
+    this.plusCode,
+    required this.rawTypes,
+    this.viewport,
+  });
+
+  final String? formattedAddress;
+  final List<AddressComponent?> rawAddressComponents;
+  final PlacesBusinessStatus businessStatus;
+  final String? placeId;
+  final PlaceCoordinate? coordinate;
+  final String? name;
+  final PlacePlusCode? plusCode;
+  final List<String?>? rawTypes;
+  final PlaceViewport? viewport;
+}
+
+class AddressComponent {
+  AddressComponent(
+      {required this.name, this.shortName, required this.rawTypes});
+
+  final String name;
+  final String? shortName;
+  final List<String?> rawTypes;
+}
+
+enum PlacesBusinessStatus {
+  /// The business status is not known
+  unknown,
+
+  /// The business is operational
+  operational,
+
+  /// The business is closed temporarily
+  closedTemporarily,
+
+  /// The business is closed permanently
+  closedPermanently,
+}
+
+class PlaceCoordinate {
+  PlaceCoordinate({required this.latitude, required this.longitude});
+
+  final double latitude;
+  final double longitude;
+}
+
+class PlacePlusCode {
+  PlacePlusCode({required this.globalCode, required this.compoundCode});
+
+  final String globalCode;
+  final String? compoundCode;
+}
+
+class PlaceViewport {
+  PlaceViewport(
+      {required this.northEast, required this.southWest, required this.valid});
+
+  final PlaceCoordinate northEast;
+  final PlaceCoordinate southWest;
+  final bool valid;
 }

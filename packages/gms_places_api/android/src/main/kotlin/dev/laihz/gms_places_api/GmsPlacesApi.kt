@@ -74,6 +74,42 @@ enum class PlacesFilterType(val raw: Int) {
   }
 }
 
+enum class PlaceFields(val raw: Int) {
+  FORMATTEDADDRESS(0),
+  ADDRESSCOMPONENTS(1),
+  BUSINESSSTATUS(2),
+  PLACEID(3),
+  COORDINATE(4),
+  NAME(5),
+  PHOTOS(6),
+  PLUSCODE(7),
+  TYPES(8),
+  VIEWPORT(9);
+
+  companion object {
+    fun ofRaw(raw: Int): PlaceFields? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
+enum class PlacesBusinessStatus(val raw: Int) {
+  /** The business status is not known */
+  UNKNOWN(0),
+  /** The business is operational */
+  OPERATIONAL(1),
+  /** The business is closed temporarily */
+  CLOSEDTEMPORARILY(2),
+  /** The business is closed permanently */
+  CLOSEDPERMANENTLY(3);
+
+  companion object {
+    fun ofRaw(raw: Int): PlacesBusinessStatus? {
+      return values().firstOrNull { it.raw == raw }
+    }
+  }
+}
+
 /** Generated class from Pigeon that represents data sent in messages. */
 data class Prediction (
   val attributed: PredictionAttributed,
@@ -127,16 +163,189 @@ data class PredictionAttributed (
   }
 }
 
+/** Generated class from Pigeon that represents data sent in messages. */
+data class PlaceItem (
+  val formattedAddress: String? = null,
+  val rawAddressComponents: List<AddressComponent?>,
+  val businessStatus: PlacesBusinessStatus,
+  val placeId: String? = null,
+  val coordinate: PlaceCoordinate? = null,
+  val name: String? = null,
+  val plusCode: PlacePlusCode? = null,
+  val rawTypes: List<String?>? = null,
+  val viewport: PlaceViewport? = null
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): PlaceItem {
+      val formattedAddress = list[0] as String?
+      val rawAddressComponents = list[1] as List<AddressComponent?>
+      val businessStatus = PlacesBusinessStatus.ofRaw(list[2] as Int)!!
+      val placeId = list[3] as String?
+      val coordinate: PlaceCoordinate? = (list[4] as List<Any?>?)?.let {
+        PlaceCoordinate.fromList(it)
+      }
+      val name = list[5] as String?
+      val plusCode: PlacePlusCode? = (list[6] as List<Any?>?)?.let {
+        PlacePlusCode.fromList(it)
+      }
+      val rawTypes = list[7] as List<String?>?
+      val viewport: PlaceViewport? = (list[8] as List<Any?>?)?.let {
+        PlaceViewport.fromList(it)
+      }
+      return PlaceItem(formattedAddress, rawAddressComponents, businessStatus, placeId, coordinate, name, plusCode, rawTypes, viewport)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      formattedAddress,
+      rawAddressComponents,
+      businessStatus.raw,
+      placeId,
+      coordinate?.toList(),
+      name,
+      plusCode?.toList(),
+      rawTypes,
+      viewport?.toList(),
+    )
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class AddressComponent (
+  val name: String,
+  val shortName: String? = null,
+  val rawTypes: List<String?>
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): AddressComponent {
+      val name = list[0] as String
+      val shortName = list[1] as String?
+      val rawTypes = list[2] as List<String?>
+      return AddressComponent(name, shortName, rawTypes)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      name,
+      shortName,
+      rawTypes,
+    )
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class PlaceCoordinate (
+  val latitude: Double,
+  val longitude: Double
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): PlaceCoordinate {
+      val latitude = list[0] as Double
+      val longitude = list[1] as Double
+      return PlaceCoordinate(latitude, longitude)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      latitude,
+      longitude,
+    )
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class PlacePlusCode (
+  val globalCode: String,
+  val compoundCode: String? = null
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): PlacePlusCode {
+      val globalCode = list[0] as String
+      val compoundCode = list[1] as String?
+      return PlacePlusCode(globalCode, compoundCode)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      globalCode,
+      compoundCode,
+    )
+  }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class PlaceViewport (
+  val northEast: PlaceCoordinate,
+  val southWest: PlaceCoordinate,
+  val valid: Boolean
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): PlaceViewport {
+      val northEast = PlaceCoordinate.fromList(list[0] as List<Any?>)
+      val southWest = PlaceCoordinate.fromList(list[1] as List<Any?>)
+      val valid = list[2] as Boolean
+      return PlaceViewport(northEast, southWest, valid)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      northEast.toList(),
+      southWest.toList(),
+      valid,
+    )
+  }
+}
+
 @Suppress("UNCHECKED_CAST")
 private object GmsPlacesApiCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
       128.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
-          Prediction.fromList(it)
+          AddressComponent.fromList(it)
         }
       }
       129.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          PlaceCoordinate.fromList(it)
+        }
+      }
+      130.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          PlaceCoordinate.fromList(it)
+        }
+      }
+      131.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          PlaceItem.fromList(it)
+        }
+      }
+      132.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          PlacePlusCode.fromList(it)
+        }
+      }
+      133.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          PlaceViewport.fromList(it)
+        }
+      }
+      134.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          Prediction.fromList(it)
+        }
+      }
+      135.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
           PredictionAttributed.fromList(it)
         }
@@ -146,12 +355,36 @@ private object GmsPlacesApiCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is Prediction -> {
+      is AddressComponent -> {
         stream.write(128)
         writeValue(stream, value.toList())
       }
-      is PredictionAttributed -> {
+      is PlaceCoordinate -> {
         stream.write(129)
+        writeValue(stream, value.toList())
+      }
+      is PlaceCoordinate -> {
+        stream.write(130)
+        writeValue(stream, value.toList())
+      }
+      is PlaceItem -> {
+        stream.write(131)
+        writeValue(stream, value.toList())
+      }
+      is PlacePlusCode -> {
+        stream.write(132)
+        writeValue(stream, value.toList())
+      }
+      is PlaceViewport -> {
+        stream.write(133)
+        writeValue(stream, value.toList())
+      }
+      is Prediction -> {
+        stream.write(134)
+        writeValue(stream, value.toList())
+      }
+      is PredictionAttributed -> {
+        stream.write(135)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -163,6 +396,7 @@ private object GmsPlacesApiCodec : StandardMessageCodec() {
 interface GmsPlacesApi {
   fun ensureInitialized()
   fun autocomplete(fromQuery: String, filter: PlacesFilterType, callback: (Result<List<Prediction>>) -> Unit)
+  fun getDetailById(placeId: String, fields: List<PlaceFields>, callback: (Result<PlaceItem?>) -> Unit)
 
   companion object {
     /** The codec used by GmsPlacesApi. */
@@ -197,6 +431,27 @@ interface GmsPlacesApi {
             val fromQueryArg = args[0] as String
             val filterArg = PlacesFilterType.ofRaw(args[1] as Int)!!
             api.autocomplete(fromQueryArg, filterArg) { result: Result<List<Prediction>> ->
+              val error = result.exceptionOrNull()
+              if (error != null) {
+                reply.reply(wrapError(error))
+              } else {
+                val data = result.getOrNull()
+                reply.reply(wrapResult(data))
+              }
+            }
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gms_places_api.GmsPlacesApi.getDetailById", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val placeIdArg = args[0] as String
+            val fieldsArg = args[1] as List<PlaceFields>
+            api.getDetailById(placeIdArg, fieldsArg) { result: Result<PlaceItem?> ->
               val error = result.exceptionOrNull()
               if (error != null) {
                 reply.reply(wrapError(error))

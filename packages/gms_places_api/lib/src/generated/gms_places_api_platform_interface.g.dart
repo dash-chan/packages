@@ -38,6 +38,30 @@ enum PlacesFilterType {
   city,
 }
 
+enum PlaceFields {
+  formattedAddress,
+  addressComponents,
+  businessStatus,
+  placeID,
+  coordinate,
+  name,
+  photos,
+  plusCode,
+  types,
+  viewport,
+}
+
+enum PlacesBusinessStatus {
+  /// The business status is not known
+  unknown,
+  /// The business is operational
+  operational,
+  /// The business is closed temporarily
+  closedTemporarily,
+  /// The business is closed permanently
+  closedPermanently,
+}
+
 class Prediction {
   Prediction({
     required this.attributed,
@@ -105,15 +129,214 @@ class PredictionAttributed {
   }
 }
 
+class PlaceItem {
+  PlaceItem({
+    this.formattedAddress,
+    required this.rawAddressComponents,
+    required this.businessStatus,
+    this.placeId,
+    this.coordinate,
+    this.name,
+    this.plusCode,
+    this.rawTypes,
+    this.viewport,
+  });
+
+  String? formattedAddress;
+
+  List<AddressComponent?> rawAddressComponents;
+
+  PlacesBusinessStatus businessStatus;
+
+  String? placeId;
+
+  PlaceCoordinate? coordinate;
+
+  String? name;
+
+  PlacePlusCode? plusCode;
+
+  List<String?>? rawTypes;
+
+  PlaceViewport? viewport;
+
+  Object encode() {
+    return <Object?>[
+      formattedAddress,
+      rawAddressComponents,
+      businessStatus.index,
+      placeId,
+      coordinate?.encode(),
+      name,
+      plusCode?.encode(),
+      rawTypes,
+      viewport?.encode(),
+    ];
+  }
+
+  static PlaceItem decode(Object result) {
+    result as List<Object?>;
+    return PlaceItem(
+      formattedAddress: result[0] as String?,
+      rawAddressComponents: (result[1] as List<Object?>?)!.cast<AddressComponent?>(),
+      businessStatus: PlacesBusinessStatus.values[result[2]! as int],
+      placeId: result[3] as String?,
+      coordinate: result[4] != null
+          ? PlaceCoordinate.decode(result[4]! as List<Object?>)
+          : null,
+      name: result[5] as String?,
+      plusCode: result[6] != null
+          ? PlacePlusCode.decode(result[6]! as List<Object?>)
+          : null,
+      rawTypes: (result[7] as List<Object?>?)?.cast<String?>(),
+      viewport: result[8] != null
+          ? PlaceViewport.decode(result[8]! as List<Object?>)
+          : null,
+    );
+  }
+}
+
+class AddressComponent {
+  AddressComponent({
+    required this.name,
+    this.shortName,
+    required this.rawTypes,
+  });
+
+  String name;
+
+  String? shortName;
+
+  List<String?> rawTypes;
+
+  Object encode() {
+    return <Object?>[
+      name,
+      shortName,
+      rawTypes,
+    ];
+  }
+
+  static AddressComponent decode(Object result) {
+    result as List<Object?>;
+    return AddressComponent(
+      name: result[0]! as String,
+      shortName: result[1] as String?,
+      rawTypes: (result[2] as List<Object?>?)!.cast<String?>(),
+    );
+  }
+}
+
+class PlaceCoordinate {
+  PlaceCoordinate({
+    required this.latitude,
+    required this.longitude,
+  });
+
+  double latitude;
+
+  double longitude;
+
+  Object encode() {
+    return <Object?>[
+      latitude,
+      longitude,
+    ];
+  }
+
+  static PlaceCoordinate decode(Object result) {
+    result as List<Object?>;
+    return PlaceCoordinate(
+      latitude: result[0]! as double,
+      longitude: result[1]! as double,
+    );
+  }
+}
+
+class PlacePlusCode {
+  PlacePlusCode({
+    required this.globalCode,
+    this.compoundCode,
+  });
+
+  String globalCode;
+
+  String? compoundCode;
+
+  Object encode() {
+    return <Object?>[
+      globalCode,
+      compoundCode,
+    ];
+  }
+
+  static PlacePlusCode decode(Object result) {
+    result as List<Object?>;
+    return PlacePlusCode(
+      globalCode: result[0]! as String,
+      compoundCode: result[1] as String?,
+    );
+  }
+}
+
+class PlaceViewport {
+  PlaceViewport({
+    required this.northEast,
+    required this.southWest,
+    required this.valid,
+  });
+
+  PlaceCoordinate northEast;
+
+  PlaceCoordinate southWest;
+
+  bool valid;
+
+  Object encode() {
+    return <Object?>[
+      northEast.encode(),
+      southWest.encode(),
+      valid,
+    ];
+  }
+
+  static PlaceViewport decode(Object result) {
+    result as List<Object?>;
+    return PlaceViewport(
+      northEast: PlaceCoordinate.decode(result[0]! as List<Object?>),
+      southWest: PlaceCoordinate.decode(result[1]! as List<Object?>),
+      valid: result[2]! as bool,
+    );
+  }
+}
+
 class _GmsPlacesApiCodec extends StandardMessageCodec {
   const _GmsPlacesApiCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is Prediction) {
+    if (value is AddressComponent) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is PredictionAttributed) {
+    } else if (value is PlaceCoordinate) {
       buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else if (value is PlaceCoordinate) {
+      buffer.putUint8(130);
+      writeValue(buffer, value.encode());
+    } else if (value is PlaceItem) {
+      buffer.putUint8(131);
+      writeValue(buffer, value.encode());
+    } else if (value is PlacePlusCode) {
+      buffer.putUint8(132);
+      writeValue(buffer, value.encode());
+    } else if (value is PlaceViewport) {
+      buffer.putUint8(133);
+      writeValue(buffer, value.encode());
+    } else if (value is Prediction) {
+      buffer.putUint8(134);
+      writeValue(buffer, value.encode());
+    } else if (value is PredictionAttributed) {
+      buffer.putUint8(135);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -124,8 +347,20 @@ class _GmsPlacesApiCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128: 
-        return Prediction.decode(readValue(buffer)!);
+        return AddressComponent.decode(readValue(buffer)!);
       case 129: 
+        return PlaceCoordinate.decode(readValue(buffer)!);
+      case 130: 
+        return PlaceCoordinate.decode(readValue(buffer)!);
+      case 131: 
+        return PlaceItem.decode(readValue(buffer)!);
+      case 132: 
+        return PlacePlusCode.decode(readValue(buffer)!);
+      case 133: 
+        return PlaceViewport.decode(readValue(buffer)!);
+      case 134: 
+        return Prediction.decode(readValue(buffer)!);
+      case 135: 
         return PredictionAttributed.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -189,6 +424,28 @@ class GmsPlacesApi {
       );
     } else {
       return (replyList[0] as List<Object?>?)!.cast<Prediction?>();
+    }
+  }
+
+  Future<PlaceItem?> getDetailById(String arg_placeId, List<PlaceFields?> arg_fields) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.gms_places_api.GmsPlacesApi.getDetailById', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_placeId, arg_fields]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return (replyList[0] as PlaceItem?);
     }
   }
 }

@@ -15,8 +15,27 @@ class GmsPlaces {
       return [];
     }
   }
+
+  static Future<PlaceItem?> getDetailById(
+      String placeId, List<PlaceFields> fields) async {
+    try {
+      return await _api.getDetailById(placeId, fields);
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 extension PredictionExt on Prediction {
+  List<String> get types => rawTypes.nonNulls.toList();
+}
+
+extension PlaceItemExt on PlaceItem {
+  List<String> get types => rawTypes?.nonNulls.toList() ?? [];
+  List<AddressComponent> get addressComponents =>
+      rawAddressComponents.nonNulls.toList();
+}
+
+extension AddressComponentExt on AddressComponent {
   List<String> get types => rawTypes.nonNulls.toList();
 }
