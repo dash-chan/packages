@@ -37,6 +37,8 @@ PatternStyle(
 * lineStyle 线条的样式
 
 ```dart
+final patternViewKey = GlobalKey<PatternViewState>();
+
 PatternStyle(
   data: PatternStyleData.compose(
     tapRange: 24,
@@ -62,10 +64,16 @@ PatternStyle(
     ],
   ),
   child: PatternView(
+    key: patternViewKey,
     lockStyle: _lockStyle,
     matrixY: 4,
     onTapDown: () {},
-    onComplete: (cells) {},
+    onComplete: (cells, clear) {
+      // clear pattern history
+      clear();
+      // or your can call
+      patternViewKey.currentState!.clearHistory();
+    },
   ),
 );
 ```

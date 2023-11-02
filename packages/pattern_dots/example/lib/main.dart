@@ -70,11 +70,12 @@ class _HomePageState extends State<HomePage> {
             onUpdate: (current, selected) {
               print(selected);
             },
-            onComplete: (cells) {
+            onComplete: (cells, clear) {
               bool same = listEquals(cells, [0, 4, 5, 8]);
               _lockStyle =
                   same ? PatternLockStyle.success : PatternLockStyle.failed;
               setState(() {});
+              clear();
             },
           ),
         ),

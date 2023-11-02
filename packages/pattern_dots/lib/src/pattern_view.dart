@@ -6,7 +6,7 @@ import 'package:pattern_dots/src/pattern_style.dart';
 import 'package:pattern_dots/src/utils/math_helper.dart';
 
 typedef NativeCellCallback = Function(Queue<Cell> cells);
-typedef CellCallback = Function(List<int> cells);
+typedef CellCallback = Function(List<int> cells, VoidCallback clearHistory);
 
 /// Pattern Lock Widget
 class PatternView extends StatefulWidget {
@@ -55,10 +55,10 @@ class PatternView extends StatefulWidget {
   final Function(Cell current, List<int> selected)? onUpdate;
 
   @override
-  State<PatternView> createState() => _PatternViewState();
+  State<PatternView> createState() => PatternViewState();
 }
 
-class _PatternViewState extends State<PatternView> {
+class PatternViewState extends State<PatternView> {
   double get aspectRatio => widget.matrixX / widget.matrixY;
   late List<List<Cell>> cells;
   final _queque = Queue<Cell>();
@@ -68,7 +68,7 @@ class _PatternViewState extends State<PatternView> {
   @override
   void initState() {
     super.initState();
-    initCells();
+    _initCells();
   }
 
   @override
@@ -78,7 +78,7 @@ class _PatternViewState extends State<PatternView> {
         oldWidget.matrixY != widget.matrixY) {
       clearHistory();
     }
-    initCells();
+    _initCells();
   }
 
   @override
@@ -90,18 +90,21 @@ class _PatternViewState extends State<PatternView> {
   /// setup cells
   ///
   /// its a x*y matrix
-  initCells() {
+  _initCells() {
     cells = Cell.cells(widget.matrixX, widget.matrixY);
   }
 
+  /// clear current cells
   clearHistory() {
     _queque.clear();
   }
 
   _update() {
-    setState(() {
-      // update widget
-    });
+    if (mounted) {
+      setState(() {
+        // update widget
+      });
+    }
   }
 
   List<int> get _result =>
@@ -131,7 +134,7 @@ class _PatternViewState extends State<PatternView> {
         _currentHand = null;
         _update();
         widget.onCell?.call(_queque);
-        widget.onComplete?.call(_result);
+        widget.onComplete?.call(_result, clearHistory);
       },
       child: AspectRatio(
         aspectRatio: aspectRatio,

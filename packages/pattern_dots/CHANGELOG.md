@@ -1,3 +1,8 @@
+## 0.3.0 - 2023-11-02
+### Changed
+- \[BREAKCHANGE\] onComplete add a clear caller
+- make PatternViewState public
+
 ## 0.2.1 - 2023-08-24
 ### Fixed
 - fix finger position when moving
