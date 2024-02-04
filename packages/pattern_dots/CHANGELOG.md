@@ -1,3 +1,7 @@
+## 1.0.0 - 2024-02-04
+### Changed
+- rewrite whole apis, simpplify api usage
+
 ## 0.3.0 - 2023-11-02
 ### Changed
 - \[BREAKCHANGE\] onComplete add a clear caller

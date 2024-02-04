@@ -1,46 +1,31 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:pattern_dots/src/configurations.dart';
 
-import 'painter/styles.dart';
-import 'utils/style_gen.dart';
-
-/// Builder for Cell
-typedef CellBuilder = void Function(CellConfiguration config);
-
-/// Builder for Line
-typedef LineBuilder = void Function(LineConfiguration config);
-typedef CurrentFingerBuilder = void Function(FingerConfiguration config);
-
-/// State of pattern lock
-enum PatternLockStyle {
-  /// failed state show the red dots
-  failed,
-
-  /// normal state.
+enum PatternState {
+  /// normal state, the dots is not selected
   normal,
 
-  /// success state.normally use grren dots
-  success;
+  /// selected state, the dots is selected
+  active,
+
+  /// success state, the pattern is complete
+  success,
+
+  /// error state, the pattern is wrong
+  error,
 }
 
-/// {@template PatternStyle}
-/// PatternStyle
-///
-/// ```dart
-/// PatternStyle(
-///   data: PatternStyleData(),
-///   child: PatternView(),
-/// )
-/// ```
-/// {@endtemplate}
+/// callback of draw dots
+typedef PatternPainterCallback = void Function(
+    PatternState state, Canvas canvas, Offset center);
+
+/// pattern style
 class PatternStyle extends InheritedWidget {
-  /// {@macro PatternStyle}
   const PatternStyle({
     super.key,
-    required super.child,
     required this.data,
+    required super.child,
   });
 
   /// the patternStyle configuration
@@ -52,163 +37,84 @@ class PatternStyle extends InheritedWidget {
   /// get PatternStyle configuration from [context]
   static PatternStyleData of(BuildContext context) {
     final style = context.dependOnInheritedWidgetOfExactType<PatternStyle>();
-    return style?.data ?? PatternStyleData();
+    return style?.data ?? PatternStyleData.newAndroid();
   }
 }
 
-/// {@template PatternStyleData}
-/// PatternStyle Configuration
-///
-/// ```dart
-/// PatternStyleData()
-/// ```
-/// {@endtemplate}
 class PatternStyleData with Diagnosticable {
   /// original usage of [PatternStyleData]
   PatternStyleData.raw({
     required this.tapRange,
-    this.cellBuilder = defaultCellBuilder,
-    this.lineBuilder = defaultLineBuilder,
-    required this.fingerBuilder,
-    required this.lockStyle,
-    required this.debugshowTapRange,
-    required this.brightness,
-  });
+    required this.linePaint,
+    required this.dotBuilder,
+    required this.dotPainter,
+  }) : assert(dotBuilder != null || dotPainter != null,
+            'must set a dotBuilder or dotPainter');
 
-  /// {@macro PatternStyleData}
+  /// a PatternStyleData
   factory PatternStyleData({
     double? tapRange,
-    CellBuilder? cellBuilder,
-    LineBuilder? lineBuilder,
-    CurrentFingerBuilder? fingerBuilder,
-    PatternLockStyle? lockStyle,
-    bool debugshowTapRange = false,
-    Brightness? brightness,
+    Paint Function(PatternState state)? linePaint,
+    Widget Function(PatternState state)? dotBuilder,
+    PatternPainterCallback? dotPainter,
   }) {
-    cellBuilder ??= defaultCellBuilder;
-    lineBuilder ??= defaultLineBuilder;
+    final defaultValue = PatternStyleData.newAndroid();
+    tapRange ??= defaultValue.tapRange;
+    linePaint ??= defaultValue.linePaint;
+    dotBuilder ??= defaultValue.dotBuilder;
+    dotPainter ??= defaultValue.dotPainter;
 
-    return PatternStyleData.raw(
-      tapRange: tapRange ?? 16,
-      cellBuilder: cellBuilder,
-      lineBuilder: lineBuilder,
-      fingerBuilder: fingerBuilder,
-      lockStyle: lockStyle ?? PatternLockStyle.normal,
-      debugshowTapRange: debugshowTapRange,
-      brightness: brightness ?? Brightness.light,
-    );
-  }
-
-  factory PatternStyleData.compose({
-    double tapRange = 16,
-    CurrentFingerBuilder? finger,
-    PatternLockStyle? lockStyle,
-    Brightness? brightness,
-    bool debugshowTapRange = false,
-    required List<RectStyleGen> selectCellStyles,
-    required List<RectStyleGen> unselectCellStyles,
-    required List<LineStyleGen> lineStyle,
-  }) {
     return PatternStyleData.raw(
       tapRange: tapRange,
-      fingerBuilder: finger,
-      lockStyle: lockStyle ?? PatternLockStyle.normal,
-      debugshowTapRange: debugshowTapRange,
-      brightness: brightness ?? Brightness.light,
-      cellBuilder: (config) {
-        if (config.isSelect) {
-          for (var style in selectCellStyles) {
-            style.paint(config.canvas, config.rect.center);
-          }
-        } else {
-          for (var style in unselectCellStyles) {
-            style.paint(config.canvas, config.rect.center);
-          }
-        }
-      },
-      lineBuilder: (config) {
-        for (var style in lineStyle) {
-          style.paint(config.canvas, config.start, config.end);
-        }
-      },
+      linePaint: linePaint,
+      dotBuilder: dotBuilder,
+      dotPainter: dotPainter,
     );
   }
 
+  /// a new android style pattern
   factory PatternStyleData.newAndroid() {
-    return PatternStyleData(
+    Color stateColor(PatternState state) => switch (state) {
+          PatternState.normal => const Color(0xFF9E9E9E),
+          PatternState.active => const Color(0xFF9E9E9E),
+          PatternState.success => const Color(0xFF4CAF50),
+          PatternState.error => const Color(0xFFF44336),
+        };
+
+    return PatternStyleData.raw(
       tapRange: 4,
-      cellBuilder: defaultCellBuilder,
+      linePaint: (state) => Paint()
+        ..strokeWidth = 4
+        ..color = stateColor(state).withOpacity(0.3),
+      dotBuilder: null,
+      dotPainter: (state, canvas, center) {
+        canvas.drawCircle(center, 2, Paint()..color = stateColor(state));
+      },
     );
   }
 
-  /// tap range
-  ///
-  /// 可点击的区域
+  /// the tap range of each dots
   final double tapRange;
 
-  /// when [cellBuilder] not null,
-  ///
-  /// [cellSize] will ignore
-  final CellBuilder cellBuilder;
+  /// the [Paint] to draw line
+  final Paint Function(PatternState state) linePaint;
 
-  /// render line
-  final LineBuilder lineBuilder;
+  /// the [Widget] to draw dot
+  final Widget Function(PatternState state)? dotBuilder;
 
-  /// render finger, default is [null]
-  final CurrentFingerBuilder? fingerBuilder;
-
-  /// show red dots & red line by defaults
-  final PatternLockStyle lockStyle;
-
-  /// show debug tap range
-  final bool debugshowTapRange;
-
-  /// brightness of widgets
-  final Brightness brightness;
-
-  /// copy properties
-  PatternStyleData copyWith({
-    double? width,
-    double? tapRange,
-    CellBuilder? cellBuilder,
-    LineBuilder? lineBuilder,
-    CurrentFingerBuilder? fingerBuilder,
-    PatternLockStyle? lockStyle,
-    bool? debugshowTapRange,
-    Brightness? brightness,
-  }) {
-    return PatternStyleData.raw(
-      tapRange: tapRange ?? this.tapRange,
-      cellBuilder: cellBuilder ?? this.cellBuilder,
-      lineBuilder: lineBuilder ?? this.lineBuilder,
-      fingerBuilder: fingerBuilder ?? this.fingerBuilder,
-      lockStyle: lockStyle ?? this.lockStyle,
-      debugshowTapRange: debugshowTapRange ?? this.debugshowTapRange,
-      brightness: brightness ?? this.brightness,
-    );
-  }
+  /// the [PatternPainterCallback] to draw dot
+  final PatternPainterCallback? dotPainter;
 
   @override
   bool operator ==(covariant PatternStyleData other) {
     if (identical(this, other)) return true;
 
     return other.tapRange == tapRange &&
-        other.cellBuilder == cellBuilder &&
-        other.lineBuilder == lineBuilder &&
-        other.fingerBuilder == fingerBuilder &&
-        other.lockStyle == lockStyle &&
-        other.debugshowTapRange == debugshowTapRange &&
-        other.brightness == brightness;
+        other.linePaint == linePaint &&
+        other.dotBuilder == dotBuilder &&
+        other.dotPainter == dotPainter;
   }
 
   @override
-  int get hashCode => Object.hashAll([
-        tapRange,
-        cellBuilder,
-        lineBuilder,
-        fingerBuilder,
-        lockStyle,
-        debugshowTapRange,
-        brightness,
-      ]);
+  int get hashCode => Object.hash(tapRange, linePaint, dotBuilder, dotPainter);
 }
