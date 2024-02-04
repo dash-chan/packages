@@ -24,9 +24,8 @@ class _MyAppState extends State<MyApp> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             await GmsPlaces.ensureInitialized();
-            final r = await GmsPlaces.autocomplete('query',
+            await GmsPlaces.autocomplete('query',
                 type: PlacesFilterType.address);
-            print(r);
           },
         ),
       ),

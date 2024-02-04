@@ -1,5 +1,4 @@
 import 'package:ua_parser/src/grammar.dart';
-import 'package:ua_parser/ua_parser.dart';
 
 void main() {
   final ua =

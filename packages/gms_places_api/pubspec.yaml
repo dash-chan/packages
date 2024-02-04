@@ -2,6 +2,7 @@ name: gms_places_api
 description: Google Maps Places Api SDK on Android and iOS.
 version: 0.0.3
 repository: https://github.com/dash-chan/packages/packages/gms_places_api
+publish_to: none
 
 environment:
   sdk: '>=3.1.3 <4.0.0'
