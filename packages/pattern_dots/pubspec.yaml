@@ -1,8 +1,8 @@
 name: pattern_dots
 description: A pattern lock UI using flutter, bring android pattern lock style and fully ability to customize.
-version: 1.0.0
+version: 1.0.0+1
 repository: https://github.com/dash-chan/packages/tree/main/packages/pattern_dots
-issue_tracker: https://github.com/dash-chan/packages/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3A+pattern_dots%22
+issue_tracker: https://github.com/dash-chan/packages/issues?q=is%3Aissue+is%3Aopen+label%3A%22p%3Apattern_dots%22
 
 environment:
   sdk: '>=3.0.0 <4.0.0'

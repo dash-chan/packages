@@ -2,8 +2,8 @@ PODS:
   - Flutter (1.0.0)
   - gms_places_api (0.0.1):
     - Flutter
-    - GooglePlaces (= 6.0.0)
-  - GooglePlaces (6.0.0)
+    - GooglePlaces (= 6.2.1)
+  - GooglePlaces (6.2.1)
   - integration_test (0.0.1):
     - Flutter
 
@@ -25,11 +25,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  gms_places_api: 713b6f20203a22cd50c6bf3217bc4d0bb65bf367
-  GooglePlaces: c97d96ae68594acb64035c9ca9f26fbfc1d23af1
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  gms_places_api: 1249b597bcbdc179a3094e27ef53b1222918c912
+  GooglePlaces: 94974aa119573d5acc2a35a699948dac838abd73
   integration_test: 13825b8a9334a850581300559b8839134b124670
 
 PODFILE CHECKSUM: 7be2f5f74864d463a8ad433546ed1de7e0f29aef
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.14.3
