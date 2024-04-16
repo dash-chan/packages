@@ -1,6 +1,6 @@
 name: webview_refresher
 description: "bring pull to refresh feature to official webview plugin"
-version: 0.0.1
+version: 0.0.1+1
 homepage: https://github.com/dash-chan/packages/tree/main/packages/webview_refresher
 
 environment:
