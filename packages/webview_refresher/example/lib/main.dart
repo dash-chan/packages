@@ -36,13 +36,15 @@ class _HomePageState extends State<HomePage> {
   final controller = WebViewController();
   Completer<void>? _completer;
 
-  Future onRefresh() {
+  Future onRefresh() async {
     _completer = Completer<void>();
-    return _completer!.future;
+    await controller.reload();
+    await _completer!.future;
   }
 
   finishRefresh() {
-    if (_completer?.isCompleted ?? false) {
+    if (_completer == null) return;
+    if (!_completer!.isCompleted) {
       _completer?.complete();
     }
   }
@@ -63,6 +65,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.small(
+        onPressed: () {
+          finishRefresh();
+        },
+      ),
       appBar: AppBar(
         title: const Text('demo'),
         actions: [
@@ -74,10 +81,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: WebviewRefresher(
-        controller: controller,
-        onRefresh: onRefresh,
-      ),
+      body: WebviewRefresher(controller: controller, onRefresh: onRefresh),
     );
   }
 }

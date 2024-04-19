@@ -14,12 +14,14 @@ class WebviewRefresher extends StatefulWidget {
     this.scrollController,
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.onRefresh,
+    this.platform,
   });
 
   final WebViewController? controller;
   final ScrollController? scrollController;
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
   final RefreshCallback? onRefresh;
+  final TargetPlatform? platform;
 
   @override
   State<WebviewRefresher> createState() => _WebviewRefresherState();
@@ -64,7 +66,7 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
 
   @override
   Widget build(BuildContext context) {
-    return switch (defaultTargetPlatform) {
+    return switch (widget.platform ?? defaultTargetPlatform) {
       TargetPlatform.android => _buildAndroid(),
       TargetPlatform.iOS => _buildIos(),
       _ => _buildDefault(),

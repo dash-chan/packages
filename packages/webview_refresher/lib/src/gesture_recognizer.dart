@@ -26,8 +26,11 @@ class WebviewGestureRecognizer extends VerticalDragGestureRecognizer {
 
   Drag? _drag;
 
+  bool _firstDirectionIsUp = false;
+
   @override
   GestureDragStartCallback? get onStart => (details) {
+        _firstDirectionIsUp = false;
         if (offset.value <= 0) {
           _drag = scrollController.position.drag(details, () {
             _drag = null;
@@ -39,17 +42,16 @@ class WebviewGestureRecognizer extends VerticalDragGestureRecognizer {
 
   @override
   GestureDragUpdateCallback? get onUpdate => (details) {
-        if (details.delta.dy > 0) {
-          _drag?.update(details);
-        } else {
+        if (details.delta.direction < 0 && !_firstDirectionIsUp) {
+          _firstDirectionIsUp = true;
           _drag?.end(DragEndDetails(primaryVelocity: 0));
-          _drag = null;
+          return;
         }
+        _drag?.update(details);
       };
 
   @override
   GestureDragEndCallback? get onEnd => (details) {
-        print(details);
         _drag?.end(details);
       };
 }
