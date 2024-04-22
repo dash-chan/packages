@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
@@ -45,7 +47,10 @@ class WebviewGestureRecognizer extends VerticalDragGestureRecognizer {
         if (details.delta.direction < 0 && !_firstDirectionIsUp) {
           _firstDirectionIsUp = true;
           _drag?.end(DragEndDetails(primaryVelocity: 0));
+          _drag = null;
           return;
+        } else {
+          _firstDirectionIsUp = true;
         }
         _drag?.update(details);
       };
@@ -53,5 +58,6 @@ class WebviewGestureRecognizer extends VerticalDragGestureRecognizer {
   @override
   GestureDragEndCallback? get onEnd => (details) {
         _drag?.end(details);
+        _drag = null;
       };
 }

@@ -1,3 +1,7 @@
+## 0.0.3 - 2024-04-22
+### Fixed
+- fix a scroll issue
+
 ## 0.0.2 - 2024-04-19
 ### Added
 - add platform prop
