@@ -1,3 +1,7 @@
+## 0.0.3+1 - 2024-04-22
+### Changed
+- remove unused import
+
 ## 0.0.3 - 2024-04-22
 ### Fixed
 - fix a scroll issue
