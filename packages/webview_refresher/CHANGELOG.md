@@ -1,3 +1,8 @@
+## 0.0.4 - 2024-04-26
+### Added
+- add api doc
+- add custom refresher builder api
+
 ## 0.0.3+1 - 2024-04-22
 ### Changed
 - remove unused import

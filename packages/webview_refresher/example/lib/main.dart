@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App',
+      title: 'Webview Refresher Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -38,7 +38,11 @@ class _HomePageState extends State<HomePage> {
 
   Future onRefresh() async {
     _completer = Completer<void>();
-    await controller.reload();
+    if (await controller.currentUrl() == null) {
+      await forward();
+    } else {
+      await controller.reload();
+    }
     await _completer!.future;
   }
 
@@ -62,21 +66,18 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
+  Future<void> forward() async {
+    await controller.loadRequest(Uri.parse('https://www.flutter.dev/'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.small(
-        onPressed: () {
-          finishRefresh();
-        },
-      ),
       appBar: AppBar(
-        title: const Text('demo'),
+        title: const Text('Webview Refresher Demo'),
         actions: [
           IconButton(
-            onPressed: () {
-              controller.loadRequest(Uri.parse('https://www.zhihu.com/'));
-            },
+            onPressed: forward,
             icon: const Icon(Icons.play_arrow_rounded),
           ),
         ],

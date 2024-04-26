@@ -7,6 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_refresher/src/gesture_recognizer.dart';
 
+/// A builder for the default refresh indicator.
+typedef DefaultRefreshBuilder = Widget Function(
+    RefreshCallback? onRefresh, Widget child);
+
+/// A builder for the ios platform refresh indicator.
+typedef IosRefreshBuilder = Widget Function(RefreshCallback? onRefresh);
+
 class WebviewRefresher extends StatefulWidget {
   const WebviewRefresher({
     super.key,
@@ -15,13 +22,61 @@ class WebviewRefresher extends StatefulWidget {
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.onRefresh,
     this.platform,
+    this.androidRefresherBuilder = _defaultAndroidBuilder,
+    this.iosRefreshBuilder = _defaultIosBuilder,
+    this.defaultRefresherBuilder = _defaultRefreshBuilder,
   });
 
+  /// a [WebviewController], same as [WebViewWidget]'s controller
   final WebViewController? controller;
+
+  /// a [ScrollController] that can be used to control the scrolling of the view
+  ///
+  /// note: not the webview scroller
   final ScrollController? scrollController;
+
+  /// same as [WebViewWidget]'s gestureRecognizers
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
+
+  /// The [onRefresh] argument will be called when pulled to trigger a refresh.
   final RefreshCallback? onRefresh;
+
+  /// The [platoform] argument will be used to determine the platform-specific
+  ///
+  /// defaults to use the [defaultTargetPlatform].
   final TargetPlatform? platform;
+
+  /// The [androidRefresherBuilder] argument will be used to build the android refresher.
+  final DefaultRefreshBuilder androidRefresherBuilder;
+
+  /// The [defaultRefresherBuilder] argument will be used to build other platform refresher.
+  ///
+  /// defaults not use refresher.
+  final DefaultRefreshBuilder defaultRefresherBuilder;
+
+  /// The [iosRefresherBuilder] argument will be used to build the ios refresher.
+  final IosRefreshBuilder iosRefreshBuilder;
+
+  static Widget _defaultAndroidBuilder(
+      RefreshCallback? onRefresh, Widget child) {
+    return RefreshIndicator(
+      onRefresh: () async => await onRefresh?.call(),
+      notificationPredicate: (notification) {
+        if (onRefresh == null) return false;
+        return notification.depth == 0;
+      },
+      child: child,
+    );
+  }
+
+  static Widget _defaultIosBuilder(RefreshCallback? onRefresh) {
+    return CupertinoSliverRefreshControl(onRefresh: onRefresh);
+  }
+
+  static Widget _defaultRefreshBuilder(
+      RefreshCallback? onRefresh, Widget child) {
+    return child;
+  }
 
   @override
   State<WebviewRefresher> createState() => _WebviewRefresherState();
@@ -66,72 +121,52 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
 
   @override
   Widget build(BuildContext context) {
-    return switch (widget.platform ?? defaultTargetPlatform) {
-      TargetPlatform.android => _buildAndroid(),
-      TargetPlatform.iOS => _buildIos(),
-      _ => _buildDefault(),
+    final platform = widget.platform ?? defaultTargetPlatform;
+    Widget webview = WebViewWidget(
+      controller: _controller,
+      gestureRecognizers: {
+        if (platform != TargetPlatform.android ||
+            platform != TargetPlatform.iOS)
+          Factory(() => WebviewGestureRecognizer(
+                scrollController: _scrollController,
+                context: context,
+                offset: _currentOffset,
+              )),
+        ...widget.gestureRecognizers,
+      },
+    );
+    return switch (platform) {
+      TargetPlatform.android => _buildAndroid(webview),
+      TargetPlatform.iOS => _buildIos(webview),
+      _ => _buildDefault(webview),
     };
   }
 
-  Widget _buildAndroid() {
+  Widget _buildAndroid(Widget webview) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return RefreshIndicator(
-          onRefresh: () async {
-            await widget.onRefresh?.call();
-          },
-          notificationPredicate: (notification) {
-            if (widget.onRefresh == null) return false;
-            return notification.depth == 0;
-          },
-          child: SingleChildScrollView(
+        return widget.androidRefresherBuilder(
+          widget.onRefresh,
+          SingleChildScrollView(
             controller: _scrollController,
-            child: SizedBox(
-              height: constraints.maxHeight,
-              child: WebViewWidget(
-                controller: _controller,
-                gestureRecognizers: {
-                  Factory(() => WebviewGestureRecognizer(
-                        scrollController: _scrollController,
-                        context: context,
-                        offset: _currentOffset,
-                      )),
-                  ...widget.gestureRecognizers,
-                },
-              ),
-            ),
+            child: SizedBox(height: constraints.maxHeight, child: webview),
           ),
         );
       },
     );
   }
 
-  Widget _buildIos() {
+  Widget _buildIos(Widget webview) {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        CupertinoSliverRefreshControl(onRefresh: widget.onRefresh),
-        SliverFillRemaining(
-          hasScrollBody: true,
-          child: WebViewWidget(
-            controller: _controller,
-            gestureRecognizers: {
-              Factory(() => WebviewGestureRecognizer(
-                    scrollController: _scrollController,
-                    context: context,
-                    offset: _currentOffset,
-                  )),
-              ...widget.gestureRecognizers,
-            },
-          ),
-        ),
+        widget.iosRefreshBuilder(widget.onRefresh),
+        SliverFillRemaining(hasScrollBody: true, child: webview),
       ],
     );
   }
 
-  Widget _buildDefault() {
-    return WebViewWidget(
-      controller: _controller,
-    );
+  Widget _buildDefault(Widget webview) {
+    return widget.defaultRefresherBuilder(widget.onRefresh, webview);
   }
 }
