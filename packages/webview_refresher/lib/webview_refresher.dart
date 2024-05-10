@@ -87,13 +87,18 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
   late ScrollController _scrollController =
       widget.scrollController ?? ScrollController();
   final _currentOffset = ValueNotifier<double>(0);
-
+  final _canRefresh = ValueNotifier<bool>(true);
   @override
   void initState() {
     super.initState();
+    _updateRefresherState();
     _controller.setOnScrollPositionChange((change) {
       _currentOffset.value = change.y;
     });
+  }
+
+  _updateRefresherState() {
+    _canRefresh.value = widget.onRefresh != null;
   }
 
   @override
@@ -107,6 +112,8 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
         oldScrollController != _scrollController) {
       _scrollController = oldScrollController;
     }
+    _updateRefresherState();
+
     super.didUpdateWidget(oldWidget);
   }
 
@@ -116,6 +123,7 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
       _scrollController.dispose();
     }
     _currentOffset.dispose();
+    _canRefresh.dispose();
     super.dispose();
   }
 
@@ -131,6 +139,7 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
                 scrollController: _scrollController,
                 context: context,
                 offset: _currentOffset,
+                refreshState: _canRefresh,
               )),
         ...widget.gestureRecognizers,
       },

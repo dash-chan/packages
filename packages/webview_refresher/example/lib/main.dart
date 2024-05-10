@@ -82,7 +82,10 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: WebviewRefresher(controller: controller, onRefresh: onRefresh),
+      body: WebviewRefresher(
+        controller: controller,
+        onRefresh: onRefresh,
+      ),
     );
   }
 }

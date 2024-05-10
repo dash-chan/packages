@@ -7,6 +7,7 @@ class WebviewGestureRecognizer extends VerticalDragGestureRecognizer {
     required this.offset,
     required this.scrollController,
     required this.context,
+    required this.refreshState,
     super.debugOwner,
     super.allowedButtonsFilter,
   }) : super(
@@ -19,10 +20,13 @@ class WebviewGestureRecognizer extends VerticalDragGestureRecognizer {
   final ScrollController scrollController;
   final BuildContext context;
   final ValueNotifier<double> offset;
+  final ValueNotifier<bool> refreshState;
 
   @override
   void rejectGesture(int pointer) {
-    acceptGesture(pointer);
+    if (refreshState.value) {
+      acceptGesture(pointer);
+    }
   }
 
   Drag? _drag;

@@ -1,3 +1,7 @@
+## 0.0.5 - 2024-05-10
+### Fixed
+- fix when onRefresh is null the view still can pull down
+
 ## 0.0.4 - 2024-04-26
 ### Added
 - add api doc
