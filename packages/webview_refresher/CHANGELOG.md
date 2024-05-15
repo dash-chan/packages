@@ -1,3 +1,7 @@
+## 0.0.6 - 2024-05-15
+### Fixed
+- fix webview controller reassign
+
 ## 0.0.5 - 2024-05-10
 ### Fixed
 - fix when onRefresh is null the view still can pull down

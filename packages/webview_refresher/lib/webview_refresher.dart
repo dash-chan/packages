@@ -104,13 +104,13 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
   @override
   void didUpdateWidget(covariant WebviewRefresher oldWidget) {
     final oldController = oldWidget.controller;
-    if (oldController != null && oldController != _controller) {
-      _controller = oldController;
+    if (widget.controller != null && oldController != _controller) {
+      _controller = widget.controller!;
     }
     final oldScrollController = oldWidget.scrollController;
-    if (oldScrollController != null &&
+    if (widget.scrollController != null &&
         oldScrollController != _scrollController) {
-      _scrollController = oldScrollController;
+      _scrollController = widget.scrollController!;
     }
     _updateRefresherState();
 
