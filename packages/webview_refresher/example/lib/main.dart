@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> forward() async {
-    await controller.loadRequest(Uri.parse('https://www.flutter.dev/'));
+    await controller.loadRequest(Uri.parse('https://www.flutter.cn/'));
   }
 
   @override
@@ -82,10 +82,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: WebviewRefresher(
-        controller: controller,
-        onRefresh: onRefresh,
-      ),
+      body: WebviewRefresher(controller: controller, onRefresh: onRefresh),
     );
   }
 }

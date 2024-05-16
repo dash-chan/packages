@@ -1,6 +1,5 @@
 library webview_refresher;
 
-import 'package:flutter/cupertino.dart' hide RefreshCallback;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +10,7 @@ import 'package:webview_refresher/src/gesture_recognizer.dart';
 typedef DefaultRefreshBuilder = Widget Function(
     RefreshCallback? onRefresh, Widget child);
 
-/// A builder for the ios platform refresh indicator.
-typedef IosRefreshBuilder = Widget Function(RefreshCallback? onRefresh);
-
+/// a wrapper of webview
 class WebviewRefresher extends StatefulWidget {
   const WebviewRefresher({
     super.key,
@@ -55,11 +52,11 @@ class WebviewRefresher extends StatefulWidget {
   final DefaultRefreshBuilder defaultRefresherBuilder;
 
   /// The [iosRefresherBuilder] argument will be used to build the ios refresher.
-  final IosRefreshBuilder iosRefreshBuilder;
+  final DefaultRefreshBuilder iosRefreshBuilder;
 
   static Widget _defaultAndroidBuilder(
       RefreshCallback? onRefresh, Widget child) {
-    return RefreshIndicator(
+    return RefreshIndicator.adaptive(
       onRefresh: () async => await onRefresh?.call(),
       notificationPredicate: (notification) {
         if (onRefresh == null) return false;
@@ -69,8 +66,15 @@ class WebviewRefresher extends StatefulWidget {
     );
   }
 
-  static Widget _defaultIosBuilder(RefreshCallback? onRefresh) {
-    return CupertinoSliverRefreshControl(onRefresh: onRefresh);
+  static Widget _defaultIosBuilder(RefreshCallback? onRefresh, Widget child) {
+    return RefreshIndicator(
+      onRefresh: () async => await onRefresh?.call(),
+      notificationPredicate: (notification) {
+        if (onRefresh == null) return false;
+        return notification.depth == 0;
+      },
+      child: child,
+    );
   }
 
   static Widget _defaultRefreshBuilder(
@@ -129,6 +133,10 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
 
   @override
   Widget build(BuildContext context) {
+    print({
+      'webview': _controller.hashCode,
+      'scroller': _scrollController.hashCode
+    });
     final platform = widget.platform ?? defaultTargetPlatform;
     Widget webview = WebViewWidget(
       controller: _controller,
@@ -166,12 +174,17 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
   }
 
   Widget _buildIos(Widget webview) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        widget.iosRefreshBuilder(widget.onRefresh),
-        SliverFillRemaining(hasScrollBody: true, child: webview),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return widget.iosRefreshBuilder(
+          widget.onRefresh,
+          SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            controller: _scrollController,
+            child: SizedBox(height: constraints.maxHeight, child: webview),
+          ),
+        );
+      },
     );
   }
 

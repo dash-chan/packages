@@ -1,3 +1,11 @@
+## 0.1.0 - 2024-05-16
+### Changed
+- \[BREAKCHANGE\] delete IosRefreshBuilder type
+- \[BREAKCHANGE\] change type of iosRefreshBuilder
+
+### Fixed
+- fix ios webview freeze
+
 ## 0.0.6 - 2024-05-15
 ### Fixed
 - fix webview controller reassign
