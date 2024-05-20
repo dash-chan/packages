@@ -133,10 +133,6 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
 
   @override
   Widget build(BuildContext context) {
-    print({
-      'webview': _controller.hashCode,
-      'scroller': _scrollController.hashCode
-    });
     final platform = widget.platform ?? defaultTargetPlatform;
     Widget webview = WebViewWidget(
       controller: _controller,
