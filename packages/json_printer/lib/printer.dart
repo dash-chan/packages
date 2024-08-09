@@ -19,15 +19,30 @@ class JsonPrinter {
   final int rootIndent;
   final int indent;
 
-  void convert(dynamic contents) {
+  final _buf = StringBuffer();
+
+  void directPrint(dynamic contents) {
+    final buf = convert(contents);
+    final lines = LineSplitter().convert(buf.toString());
+    for (var l in lines) {
+      stdout.writeln(l);
+    }
+  }
+
+  StringBuffer convert(dynamic contents) {
     switch (contents) {
       case Map():
         _printMap(contents, 0);
+      case List():
+        _printList(contents, 0);
       case String():
         convert(json.decode(contents));
       default:
+        throw UnimplementedError();
     }
     _enter();
+
+    return _buf;
   }
 
   void _printMap(Map map, int level) {
@@ -103,14 +118,14 @@ class JsonPrinter {
   }
 
   void _printMapKey(String value) {
-    _output('"', _gray);
-    _output(value, _blue);
-    _output('"', _gray);
+    _printString(value, _blue);
   }
 
-  void _printString(String value) {
+  void _printString(String value, [AnsiPen? pen]) {
+    pen ??= _green;
     _output('"', _gray);
-    _output(value, _green);
+    final encodedValue = json.encode(value);
+    _output(encodedValue.substring(1, encodedValue.length - 1), _green);
     _output('"', _gray);
   }
 
@@ -127,14 +142,14 @@ class JsonPrinter {
   }
 
   _space(int count) {
-    stdout.write(' ' * count);
+    _buf.write(' ' * count);
   }
 
   _enter() {
-    stdout.writeln();
+    _buf.writeln();
   }
 
   _output(String value, AnsiPen pen) {
-    stdout.write(pen(value));
+    _buf.write(pen(value));
   }
 }
