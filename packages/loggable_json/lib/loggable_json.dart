@@ -13,9 +13,9 @@ final _cyan = AnsiPen()..cyan();
 final _magenta = AnsiPen()..magenta();
 
 /// The Json printer tool
-class JsonPrinter {
+class LoggableJson {
   /// The Json printer tool
-  JsonPrinter({
+  LoggableJson({
     this.indent = 2,
     this.rootIndent = 0,
   });

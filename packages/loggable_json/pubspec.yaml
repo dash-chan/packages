@@ -1,4 +1,4 @@
-name: json_printer
+name: loggable_json
 description: print json with colorful output.
 version: 1.0.1
 repository: https://github.com/dash-chan/packages/tree/main/packages/json_printer
