@@ -1,3 +1,7 @@
+## 0.0.3 - 2024-08-13
+### Changed
+- set android compileSdk to 34
+
 ## 0.0.2+1 - 2024-08-13
 ### Changed
 - change repo & issue link
