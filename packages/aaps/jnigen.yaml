@@ -1,0 +1,29 @@
+android_sdk_config:
+  add_gradle_deps: true
+  android_example: "example/"
+summarizer:
+  backend: asm
+
+output:
+  dart:
+    path: lib/generated_android.g.dart
+    structure: single_file
+
+log_level: all
+
+classes:
+  - "android.content.pm.PackageInfo"
+  - "android.content.pm.PackageItemInfo"
+  - "android.content.pm.ApplicationInfo"
+  - "android.content.pm.PackageManager"
+  - "android.content.Context"
+# exclude:
+#   methods:
+#     - android.content.Context#get[A-OQ-Z].+
+#   fields:
+#     - android.content.pm.PackageManager#CERT_INPUT_[A-Z0-9_]+
+#     - android.content.pm.PackageManager#COMPONENT_ENABLED_STATE_[A-Z0-9_]+
+#     - android.content.pm.PackageManager#COMPONENT_ENABLED_STATE_[A-Z0-9_]+
+#     # context
+#     - android.content.Context#[A-Z_0-9]+_SERVICE
+#     - android.content.Context#BIND_[A-Z0-9_]+
