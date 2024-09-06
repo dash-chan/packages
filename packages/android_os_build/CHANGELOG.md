@@ -1,3 +1,7 @@
+## Unreleased
+### Changed
+- bump ffi &amp; ffigen version to 0.11.0
+
 ## 0.0.3 - 2024-08-13
 ### Changed
 - set android compileSdk to 34
