@@ -1,6 +1,6 @@
-## Unreleased
+## 0.0.3+1 - 2024-09-06
 ### Changed
-- bump ffi &amp; ffigen version to 0.11.0
+- bump ffi & ffigen version to 0.11.0
 
 ## 0.0.3 - 2024-08-13
 ### Changed
