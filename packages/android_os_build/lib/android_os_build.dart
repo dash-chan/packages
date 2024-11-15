@@ -1,44 +1,44 @@
 library android_os_build;
 
 import 'package:jni/jni.dart';
-import 'generated/android/os/_package.dart';
+import 'generated/android/os/_package.dart' as $p;
 
 /// Information about the current build, extracted from system properties.
-class AndroidBuild {
+class Build {
   /// Value used for when a build property is unknown.
   static const unknown = 'unknown';
 
   /// The name of the underlying board, like "goldfish".
-  static String get board => Build.BOARD._cvt;
+  static String get board => $p.Build.BOARD._cvt;
 
   /// The system bootloader version number.
-  static String get bootloader => Build.BOOTLOADER._cvt;
+  static String get bootloader => $p.Build.BOOTLOADER._cvt;
 
   /// The consumer-visible brand with which the product/hardware will
   /// be associated, if any.
-  static String get brand => Build.BRAND._cvt;
+  static String get brand => $p.Build.BRAND._cvt;
 
   /// The name of the industrial design.
-  static String get device => Build.DEVICE._cvt;
+  static String get device => $p.Build.DEVICE._cvt;
 
   /// A build ID string meant for displaying to the user
-  static String get display => Build.DISPLAY._cvt;
+  static String get display => $p.Build.DISPLAY._cvt;
 
   /// A string that uniquely identifies this build.
-  static String get fingerprint => Build.FINGERPRINT._cvt;
+  static String get fingerprint => $p.Build.FINGERPRINT._cvt;
 
   /// The name of the hardware (from the kernel command line or /proc).
-  static String get hardware => Build.HARDWARE._cvt;
-  static String get host => Build.HOST._cvt;
+  static String get hardware => $p.Build.HARDWARE._cvt;
+  static String get host => $p.Build.HOST._cvt;
 
   /// Either a changelist number, or a label like "M4-rc20".
-  static String get id => Build.ID._cvt;
+  static String get id => $p.Build.ID._cvt;
 
   /// The manufacturer of the product/hardware.
-  static String get manufacturer => Build.MANUFACTURER._cvt;
+  static String get manufacturer => $p.Build.MANUFACTURER._cvt;
 
   /// The end-user-visible name for the end product.
-  static String get model => Build.MODEL._cvt;
+  static String get model => $p.Build.MODEL._cvt;
 
   /// The SKU of the device as set by the original design manufacturer (ODM).
   ///
@@ -54,11 +54,11 @@ class AndroidBuild {
       return unknown;
     }
 
-    return Build.ODM_SKU._cvt;
+    return $p.Build.ODM_SKU._cvt;
   }
 
   /// The name of the overall product.
-  static String get product => Build.PRODUCT._cvt;
+  static String get product => $p.Build.PRODUCT._cvt;
 
   /// The SKU of the hardware (from the kernel command line).
   static String get sku {
@@ -66,7 +66,7 @@ class AndroidBuild {
       return unknown;
     }
 
-    return Build.SKU._cvt;
+    return $p.Build.SKU._cvt;
   }
 
   /// The manufacturer of the device's primary system-on-chip.
@@ -75,7 +75,7 @@ class AndroidBuild {
       return unknown;
     }
 
-    return Build.SOC_MANUFACTURER._cvt;
+    return $p.Build.SOC_MANUFACTURER._cvt;
   }
 
   /// The model name of the device's primary system-on-chip.
@@ -84,44 +84,45 @@ class AndroidBuild {
       return unknown;
     }
 
-    return Build.SOC_MODEL._cvt;
+    return $p.Build.SOC_MODEL._cvt;
   }
 
   /// An ordered list of **32 bit** ABIs supported by this device.
   /// The most preferred ABI is the first element in the list.
   /// See [supportedAbis] and [supported64BitAbis].
   static List<String> get supported32BitAbis =>
-      Build.SUPPORTED_32_BIT_ABIS._cvt;
+      $p.Build.SUPPORTED_32_BIT_ABIS._cvt;
 
   /// An ordered list of **64 bit** ABIs supported by this device.
   /// The most preferred ABI is the first element in the list.
   /// See [supportedAbis] and [supported32BitAbis].
   static List<String> get supported64BitAbis =>
-      Build.SUPPORTED_64_BIT_ABIS._cvt;
+      $p.Build.SUPPORTED_64_BIT_ABIS._cvt;
 
   /// An ordered list of ABIs supported by this device.
   /// The most preferred ABI is the first element in the list.
   /// See [supported32BitAbis] and [supported64BitAbis].
-  static List<String> get supportedAbis => Build.SUPPORTED_ABIS._cvt;
+  static List<String> get supportedAbis => $p.Build.SUPPORTED_ABIS._cvt;
 
   /// Comma-separated tags describing the build, like "unsigned,debug".
-  static String get tags => Build.TAGS._cvt;
+  static String get tags => $p.Build.TAGS._cvt;
 
   /// The time at which the build was produced, given in milliseconds
   /// since the UNIX epoch.
-  static DateTime get time => DateTime.fromMillisecondsSinceEpoch(Build.TIME);
+  static DateTime get time =>
+      DateTime.fromMillisecondsSinceEpoch($p.Build.TIME);
 
   /// The type of build, like "user" or "eng".
-  static String get type => Build.TYPE._cvt;
+  static String get type => $p.Build.TYPE._cvt;
 
-  static String get user => Build.USER._cvt;
+  static String get user => $p.Build.USER._cvt;
 
   /// Various version strings.
   static const version = AndroidBuildVersion._();
 
   /// Returns the version string for the radio firmware.
   /// May return null (if, for instance, the radio is not currently on).
-  static String getRadioVersion() => Build.getRadioVersion()._cvt;
+  static String getRadioVersion() => $p.Build.getRadioVersion()._cvt;
 
   /// Gets the hardware serial number, if available.
   ///
@@ -157,7 +158,7 @@ class AndroidBuild {
     }
 
     try {
-      return Build.getSerial()._cvt;
+      return $p.Build.getSerial()._cvt;
     } catch (e) {
       return unknown;
     }
@@ -165,7 +166,7 @@ class AndroidBuild {
 
   static part() {
     if (version.sdkInt < BuildVersionCodes.oMr1.versionCode) {}
-    Build.getFingerprintedPartitions().first.getName();
+    $p.Build.getFingerprintedPartitions().first.getName();
   }
 }
 
@@ -174,13 +175,13 @@ class AndroidBuildVersion {
   const AndroidBuildVersion._();
 
   /// The base OS build the product is based on.
-  String get baseOs => Build_VERSION.BASE_OS._cvt;
+  String get baseOs => $p.Build_VERSION.BASE_OS._cvt;
 
   /// The current development codename, or the string "REL" if this is a release build.
-  String get codename => Build_VERSION.CODENAME._cvt;
+  String get codename => $p.Build_VERSION.CODENAME._cvt;
 
   /// The internal value used by the underlying source control to represent this build.
-  String get incremental => Build_VERSION.INCREMENTAL._cvt;
+  String get incremental => $p.Build_VERSION.INCREMENTAL._cvt;
 
   /// The media performance class of the device or 0 if none.
   ///
@@ -191,7 +192,7 @@ class AndroidBuildVersion {
   ///
   /// Possible non-zero values are defined in [BuildVersionCodes] starting
   /// with [BuildVersionCodes.r].
-  int get mediaPerformanceClass => Build_VERSION.MEDIA_PERFORMANCE_CLASS;
+  int get mediaPerformanceClass => $p.Build_VERSION.MEDIA_PERFORMANCE_CLASS;
 
   /// The developer preview revision of a prerelease SDK.
   ///
@@ -208,33 +209,35 @@ class AndroidBuildVersion {
   /// revision other than the specific one they expect should fall back to
   /// using APIs from the previously published API level only to avoid
   /// unwanted runtime exceptions.
-  int get previewSdkInt => Build_VERSION.PREVIEW_SDK_INT;
+  int get previewSdkInt => $p.Build_VERSION.PREVIEW_SDK_INT;
 
   /// The user-visible version string. E.g., "1.0" or "3.4b5" or "bananas".
   /// This field is an opaque string. Do not assume that its value has any
   /// particular structure or that values of RELEASE from different
   /// releases can be somehow ordered.
-  String get release => Build_VERSION.RELEASE._cvt;
+  String get release => $p.Build_VERSION.RELEASE._cvt;
 
   /// The version string. May be [release] or [codename] if not a final
   /// release build
   String? get releaseOrCodename =>
-      Build_VERSION.RELEASE_OR_CODENAME._cvtNullable;
+      $p.Build_VERSION.RELEASE_OR_CODENAME._cvtNullable;
 
   /// The version string we show to the user; may be [release] or a
   /// descriptive string if not a final release build.
   String? get releaseOrPreviewDisplay =>
-      Build_VERSION.RELEASE_OR_PREVIEW_DISPLAY._cvtNullable;
+      $p.Build_VERSION.RELEASE_OR_PREVIEW_DISPLAY._cvtNullable;
 
   /// The SDK version of the software currently running on this hardware device.
   /// This value never changes while a device is booted, but it may increase
   /// when the hardware manufacturer provides an OTA update.
   ///
   /// Possible values are defined in [BuildVersionCodes].
-  int get sdkInt => Build_VERSION.SDK_INT;
+  int get sdkInt => $p.Build_VERSION.SDK_INT;
+
+  String get sdk => $p.Build_VERSION.SDK._cvt;
 
   /// The user-visible security patch level.
-  String get securityPatch => Build_VERSION.SECURITY_PATCH._cvt;
+  String get securityPatch => $p.Build_VERSION.SECURITY_PATCH._cvt;
 }
 
 /// Enumeration of the currently known SDK version codes. These are the values
@@ -244,17 +247,17 @@ enum BuildVersionCodes {
   /// The original, first, version of Android.  Yay!
   ///
   /// Released publicly as Android 1.0 in September 2008.
-  base(Build_VERSION_CODES.BASE),
+  base($p.Build_VERSION_CODES.BASE),
 
   /// First Android update.
   ///
   /// Released publicly as Android 1.1 in February 2009.
-  base_1_1(Build_VERSION_CODES.BASE_1_1),
+  base_1_1($p.Build_VERSION_CODES.BASE_1_1),
 
   /// C.
   ///
   /// Released publicly as Android 1.5 in April 2009.
-  cupcake(Build_VERSION_CODES.CUPCAKE),
+  cupcake($p.Build_VERSION_CODES.CUPCAKE),
 
   /// D.
   ///
@@ -278,7 +281,7 @@ enum BuildVersionCodes {
   /// * {android.widget.TabHost} will use the new dark tab
   /// background design.
   ///
-  donut(Build_VERSION_CODES.DONUT),
+  donut($p.Build_VERSION_CODES.DONUT),
 
   /// E.
   ///
@@ -297,22 +300,22 @@ enum BuildVersionCodes {
   /// for tabs. In the new scheme, the foreground tab has a medium gray background
   /// the background tabs have a dark gray background.
   ///
-  eclair(Build_VERSION_CODES.ECLAIR),
+  eclair($p.Build_VERSION_CODES.ECLAIR),
 
   /// E incremental update.
   ///
   /// Released publicly as Android 2.0.1 in December 2009.
-  eclair01(Build_VERSION_CODES.ECLAIR_0_1),
+  eclair01($p.Build_VERSION_CODES.ECLAIR_0_1),
 
   /// E MR1.
   ///
   /// Released publicly as Android 2.1 in January 2010.
-  eclairMr1(Build_VERSION_CODES.ECLAIR_MR1),
+  eclairMr1($p.Build_VERSION_CODES.ECLAIR_MR1),
 
   /// F.
   ///
   /// Released publicly as Android 2.2 in May 2010.
-  froyo(Build_VERSION_CODES.FROYO),
+  froyo($p.Build_VERSION_CODES.FROYO),
 
   /// G.
   ///
@@ -323,12 +326,12 @@ enum BuildVersionCodes {
   /// * The application's notification icons will be shown on the new
   /// dark status bar background, so must be visible in this situation.
   ///
-  gingerbread(Build_VERSION_CODES.GINGERBREAD),
+  gingerbread($p.Build_VERSION_CODES.GINGERBREAD),
 
   /// G MR1.
   ///
   /// Released publicly as Android 2.3.3 in February 2011.
-  gingerbreadMr1(Build_VERSION_CODES.GINGERBREAD_MR1),
+  gingerbreadMr1($p.Build_VERSION_CODES.GINGERBREAD_MR1),
 
   /// H.
   ///
@@ -367,12 +370,12 @@ enum BuildVersionCodes {
   /// * {android.widget.Scroller} will be constructed with
   /// "flywheel" behavior enabled by default.
   ///
-  honeycomb(Build_VERSION_CODES.HONEYCOMB),
+  honeycomb($p.Build_VERSION_CODES.HONEYCOMB),
 
   /// H MR1.
   ///
   /// Released publicly as Android 3.1 in May 2011.
-  honeycombMr1(Build_VERSION_CODES.HONEYCOMB_MR1),
+  honeycombMr1($p.Build_VERSION_CODES.HONEYCOMB_MR1),
 
   /// H MR2.
   ///
@@ -419,7 +422,7 @@ enum BuildVersionCodes {
   /// some developers have done absolute comparisons against this value
   /// instead of correctly masking the bits they are interested in.
   ///
-  honeycombMr2(Build_VERSION_CODES.HONEYCOMB_MR2),
+  honeycombMr2($p.Build_VERSION_CODES.HONEYCOMB_MR2),
 
   /// I.
   ///
@@ -464,12 +467,12 @@ enum BuildVersionCodes {
   /// * {android.app.ActionBar#setHomeButtonEnabled
   /// ActionBar.setHomeButtonEnabled()} is false by default.
   ///
-  iceCreamSandwich(Build_VERSION_CODES.ICE_CREAM_SANDWICH),
+  iceCreamSandwich($p.Build_VERSION_CODES.ICE_CREAM_SANDWICH),
 
   /// I MR1.
   ///
   /// Released publicly as Android 4.03 in December 2011.
-  iceCreamSandwichMr1(Build_VERSION_CODES.ICE_CREAM_SANDWICH_MR1),
+  iceCreamSandwichMr1($p.Build_VERSION_CODES.ICE_CREAM_SANDWICH_MR1),
 
   /// J.
   ///
@@ -508,7 +511,7 @@ enum BuildVersionCodes {
   /// AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS} must be set
   /// for unimportant views to be included in queries.
   ///
-  jellyBean(Build_VERSION_CODES.JELLY_BEAN),
+  jellyBean($p.Build_VERSION_CODES.JELLY_BEAN),
 
   /// J MR1.
   ///
@@ -527,12 +530,12 @@ enum BuildVersionCodes {
   /// WebView.addJavascriptInterface} requires explicit annotations on methods
   /// for them to be accessible from Javascript.
   ///
-  jellyBeanMr1(Build_VERSION_CODES.JELLY_BEAN_MR1),
+  jellyBeanMr1($p.Build_VERSION_CODES.JELLY_BEAN_MR1),
 
   /// J MR2.
   ///
   /// Released publicly as Android 4.3 in July 2013.
-  jellyBeanMr2(Build_VERSION_CODES.JELLY_BEAN_MR2),
+  jellyBeanMr2($p.Build_VERSION_CODES.JELLY_BEAN_MR2),
 
   /// K.
   ///
@@ -564,7 +567,7 @@ enum BuildVersionCodes {
   /// {android.Manifest.permission#WRITE_EXTERNAL_STORAGE}
   /// permissions.
   ///
-  kitkat(Build_VERSION_CODES.KITKAT),
+  kitkat($p.Build_VERSION_CODES.KITKAT),
 
   /// K for watches.
   ///
@@ -575,7 +578,7 @@ enum BuildVersionCodes {
   /// *{android.app.AlertDialog} might not have a default background if the theme does
   /// not specify one.
   ///
-  kitkatWatch(Build_VERSION_CODES.KITKAT_WATCH),
+  kitkatWatch($p.Build_VERSION_CODES.KITKAT_WATCH),
 
   /// L.
   ///
@@ -606,14 +609,14 @@ enum BuildVersionCodes {
   /// * A {android.service.dreams.DreamService} must require the
   /// {android.Manifest.permission#BIND_DREAM_SERVICE} permission to be usable.
   ///
-  lollipop(Build_VERSION_CODES.LOLLIPOP),
+  lollipop($p.Build_VERSION_CODES.LOLLIPOP),
 
   /// L MR1.
   ///
   /// Released publicly as Android 5.1 in March 2015.
   /// For more information about this release, see the
   /// <a href="/about/versions/android-5.1">Android 5.1 APIs</a>.
-  lollipopMr1(Build_VERSION_CODES.LOLLIPOP_MR1),
+  lollipopMr1($p.Build_VERSION_CODES.LOLLIPOP_MR1),
 
   /// M.
   ///
@@ -644,7 +647,7 @@ enum BuildVersionCodes {
   /// * {android.widget.ScrollView} now respects the layout param margins
   /// when measuring.
   ///
-  m(Build_VERSION_CODES.M),
+  m($p.Build_VERSION_CODES.M),
 
   /// N.
   ///
@@ -697,7 +700,7 @@ enum BuildVersionCodes {
   /// descendant view, even if the descendant view returns <code>false</code> from its handler
   /// for these events.
   ///
-  n(Build_VERSION_CODES.N),
+  n($p.Build_VERSION_CODES.N),
 
   /// N MR1.
   ///
@@ -705,7 +708,7 @@ enum BuildVersionCodes {
   /// For more information about this release, see
   /// <a href="/about/versions/nougat/android-7.1">Android 7.1 for
   /// Developers</a>.
-  nMr1(Build_VERSION_CODES.N_MR1),
+  nMr1($p.Build_VERSION_CODES.N_MR1),
 
   /// O.
   ///
@@ -794,7 +797,7 @@ enum BuildVersionCodes {
   /// which don't provide a focus-state drawable themselves. This can be disabled by setting
   /// {android.R.attr#defaultFocusHighlightEnabled} to false.
   ///
-  o(Build_VERSION_CODES.O),
+  o($p.Build_VERSION_CODES.O),
 
   /// O MR1.
   ///
@@ -810,7 +813,7 @@ enum BuildVersionCodes {
   /// orientation if the associated activity is not fullscreen and opaque.
   ///
   ///
-  oMr1(Build_VERSION_CODES.O_MR1),
+  oMr1($p.Build_VERSION_CODES.O_MR1),
 
   /// P.
   ///
@@ -826,7 +829,7 @@ enum BuildVersionCodes {
   /// even if there is no excess space.
   ///
   ///
-  p(Build_VERSION_CODES.P),
+  p($p.Build_VERSION_CODES.P),
 
   /// Q.
   ///
@@ -840,7 +843,7 @@ enum BuildVersionCodes {
   /// 29+</a>
   ///
   ///
-  q(Build_VERSION_CODES.Q),
+  q($p.Build_VERSION_CODES.Q),
 
   /// R.
   ///
@@ -856,24 +859,24 @@ enum BuildVersionCodes {
   /// in Android 11</a>
   ///
   ///
-  r(Build_VERSION_CODES.R),
+  r($p.Build_VERSION_CODES.R),
 
   /// S.
-  s(Build_VERSION_CODES.S),
+  s($p.Build_VERSION_CODES.S),
 
   /// S V2.
   ///
   /// Once more unto the breach, dear friends, once more.
-  sV2(Build_VERSION_CODES.S_V2),
+  sV2($p.Build_VERSION_CODES.S_V2),
 
   /// Tiramisu.
-  tiramisu(Build_VERSION_CODES.TIRAMISU),
+  tiramisu($p.Build_VERSION_CODES.TIRAMISU),
 
   /// Upside Down Cake.
-  upsideDownCake(Build_VERSION_CODES.UPSIDE_DOWN_CAKE),
+  upsideDownCake($p.Build_VERSION_CODES.UPSIDE_DOWN_CAKE),
 
   /// Vanilla Ice Cream
-  vanillaIceCream(Build_VERSION_CODES.VANILLA_ICE_CREAM),
+  vanillaIceCream($p.Build_VERSION_CODES.VANILLA_ICE_CREAM),
   ;
 
   const BuildVersionCodes(this.versionCode);
@@ -891,10 +894,10 @@ extension on JString {
 
 extension on JArray<JString> {
   List<String> get _cvt {
-    final result = <String>[];
-    for (var i = 0; i < length; i++) {
-      result.add(this[i]._cvt);
-    }
+    final result = <String>[
+      for (int i = 0; i < length; i++) this[i]._cvt,
+    ];
+
     release();
     return result;
   }

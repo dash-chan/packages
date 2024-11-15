@@ -9,8 +9,6 @@ output:
     path: lib/generated/
     structure: package_structure
 
-log_level: all
-
 classes:
   - 'android.os.Build'
 exclude:

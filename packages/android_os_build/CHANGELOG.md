@@ -1,3 +1,10 @@
+## 0.1.0 - 2024-11-15
+### Added
+- add Build.version.sdk property
+
+### Changed
+- \[BREAKCHANGE\] rename AndroidBuild to Build
+
 ## 0.0.4 - 2024-11-15
 ### Changed
 - bump jni version to 0.12.0

@@ -1,7 +1,8 @@
-Information about the current build, extracted from system properties.
+Easily retrieve information about the current Android build synchronously.
 
 > [!IMPORTANT]
 > This package is currently **experimental** and may change in non-breaking ways in the future.
+> version 0.X.X still in development and may not ready for production use.
 
 ## Example
 
@@ -15,6 +16,8 @@ flutter install --release
 ```
 
 ## Usage
+
+[API Documentation](https://pub.dev/documentation/android_os_build/latest/)
 
 ### Add package
 
@@ -38,8 +41,8 @@ dependencies:
 ```dart
 import 'package:android_os_build/android_os_build.dart';
 
-final model = AndroidBuild.model;
-final sdkInt = AndroidBuild.version.sdkInt;
+final model = Build.model;
+final sdkInt = Build.version.sdkInt;
 ```
 
 > `AndroidBuild.getSerial()` require `android.permission.READ_PRIVILEGED_PHONE_STATE` permission, so if you want to get serial number, you need to add this permission to your `AndroidManifest.xml` file.
@@ -50,7 +53,7 @@ final sdkInt = AndroidBuild.version.sdkInt;
 > </manifest>
 > ```
 
-### Direct use generated code
+### Direct use generated ffi code
 
 ```dart
 import 'package:android_os_build/android_os_build_jni.dart';
@@ -71,3 +74,9 @@ flutter build apk
 cd ..
 flutter pub run jnigen --config jnigen.yaml
 ```
+
+## License
+
+* package is under [MIT](LICENSE) license
+  
+> The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the [Creative Commons](https://creativecommons.org/licenses/by/3.0/) 3.0 Attribution License.

@@ -1,9 +1,12 @@
 name: android_os_build
-description: "android information about the current build, extracted from system properties.built with dart's experimental jnigen"
-version: 0.0.4
+description: "Easily retrieve information about the current Android build synchronously. Built with dart's experimental jni"
+version: 0.1.0
 repository: https://github.com/dash-chan/packages/tree/main/packages/android_os_build
 issue_tracker: https://github.com/dash-chan/packages/labels/p%3Aandroid_os_build
 documentation: https://pub.dev/documentation/android_os_build/latest/
+screenshots:
+  - description: 'Android Build'
+    path: screenshots/android-head_3D.png
 topics:
   - android
   - ffi
