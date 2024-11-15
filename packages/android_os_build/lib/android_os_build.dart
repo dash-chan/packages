@@ -4,7 +4,9 @@ import 'package:jni/jni.dart';
 import 'generated/android/os/_package.dart' as $p;
 
 /// Information about the current build, extracted from system properties.
-class Build {
+/// 
+/// https://developer.android.com/reference/android/os/Build
+abstract final class Build {
   /// Value used for when a build property is unknown.
   static const unknown = 'unknown';
 
@@ -118,7 +120,7 @@ class Build {
   static String get user => $p.Build.USER._cvt;
 
   /// Various version strings.
-  static const version = AndroidBuildVersion._();
+  static const version = BuildVersion._();
 
   /// Returns the version string for the radio firmware.
   /// May return null (if, for instance, the radio is not currently on).
@@ -171,8 +173,10 @@ class Build {
 }
 
 /// Various version strings.
-class AndroidBuildVersion {
-  const AndroidBuildVersion._();
+/// 
+/// https://developer.android.com/reference/android/os/Build.VERSION
+class BuildVersion {
+  const BuildVersion._();
 
   /// The base OS build the product is based on.
   String get baseOs => $p.Build_VERSION.BASE_OS._cvt;
@@ -234,15 +238,15 @@ class AndroidBuildVersion {
   /// Possible values are defined in [BuildVersionCodes].
   int get sdkInt => $p.Build_VERSION.SDK_INT;
 
-  String get sdk => $p.Build_VERSION.SDK._cvt;
-
   /// The user-visible security patch level.
   String get securityPatch => $p.Build_VERSION.SECURITY_PATCH._cvt;
 }
 
 /// Enumeration of the currently known SDK version codes. These are the values
-/// that can be found in [AndroidBuildVersion.sdkInt]. Version numbers increment monotonically
+/// that can be found in [BuildVersion.sdkInt]. Version numbers increment monotonically
 /// with each official platform release.
+///
+/// https://developer.android.com/reference/android/os/Build.VERSION_CODES
 enum BuildVersionCodes {
   /// The original, first, version of Android.  Yay!
   ///

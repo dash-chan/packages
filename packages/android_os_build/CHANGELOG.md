@@ -1,3 +1,11 @@
+## 0.2.0 - 2024-11-15
+### Changed
+- \[BREAKCHANGE\] rename AndroidBuildVersion to BuildVersion
+- add android document to some dart classes
+
+### Removed
+- remove Build.version.sdk due to android deprecated
+
 ## 0.1.0 - 2024-11-15
 ### Added
 - add Build.version.sdk property
