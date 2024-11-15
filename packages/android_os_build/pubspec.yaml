@@ -1,6 +1,6 @@
 name: android_os_build
 description: "android information about the current build, extracted from system properties.built with dart's experimental jnigen"
-version: 0.0.3+1
+version: 0.0.4
 repository: https://github.com/dash-chan/packages/tree/main/packages/android_os_build
 issue_tracker: https://github.com/dash-chan/packages/labels/p%3Aandroid_os_build
 documentation: https://pub.dev/documentation/android_os_build/latest/
@@ -16,14 +16,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  jni: ^0.11.0
+  jni: ^0.12.0
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
-  jnigen: ^0.11.0
+  jnigen: ^0.12.1
 
 flutter:
   plugin:

@@ -1,3 +1,8 @@
+## 0.0.4 - 2024-11-15
+### Changed
+- bump jni version to 0.12.0
+- generate codes
+
 ## 0.0.3+1 - 2024-09-06
 ### Changed
 - bump ffi & ffigen version to 0.11.0
