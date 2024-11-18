@@ -1,12 +1,15 @@
 library android_os_build;
 
 import 'package:jni/jni.dart';
-import 'generated/android/os/_package.dart' as $p;
+import 'generated/android_os_build.g.dart' as $p;
 
 /// Information about the current build, extracted from system properties.
-/// 
+///
 /// https://developer.android.com/reference/android/os/Build
 abstract final class Build {
+  /// Build tag for logging
+  static const tag = 'Build';
+
   /// Value used for when a build property is unknown.
   static const unknown = 'unknown';
 
@@ -173,7 +176,7 @@ abstract final class Build {
 }
 
 /// Various version strings.
-/// 
+///
 /// https://developer.android.com/reference/android/os/Build.VERSION
 class BuildVersion {
   const BuildVersion._();

@@ -6,8 +6,8 @@ summarizer:
 
 output:
   dart:
-    path: lib/generated/
-    structure: package_structure
+    path: lib/generated/android_os_build.g.dart
+    structure: single_file
 
 classes:
   - 'android.os.Build'
@@ -17,4 +17,4 @@ exclude:
     - android.os.Build#CPU_ABI2
     - android.os.Build#RADIO
     - android.os.Build#SERIAL
-    - android.os.Build.VERSION#SDK
+    - android.os.Build\$VERSION#SDK
