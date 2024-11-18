@@ -1,3 +1,14 @@
+## 0.2.1 - 2024-11-18
+### Added
+- add Build.getFingerprintedPartitions api
+
+### Changed
+- update documents
+- update example app
+
+### Removed
+- remove unused Build.part api
+
 ## 0.2.0 - 2024-11-15
 ### Changed
 - \[BREAKCHANGE\] rename AndroidBuildVersion to BuildVersion

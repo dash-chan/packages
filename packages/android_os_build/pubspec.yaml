@@ -1,6 +1,6 @@
 name: android_os_build
 description: "Easily retrieve information about the current Android build synchronously. Built with dart's experimental jni"
-version: 0.2.0
+version: 0.2.1
 repository: https://github.com/dash-chan/packages/tree/main/packages/android_os_build
 issue_tracker: https://github.com/dash-chan/packages/labels/p%3Aandroid_os_build
 documentation: https://pub.dev/documentation/android_os_build/latest/

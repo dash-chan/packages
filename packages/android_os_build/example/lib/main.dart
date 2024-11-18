@@ -1,5 +1,6 @@
 import 'package:android_os_build/android_os_build.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -45,20 +46,36 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView.separated(
-        separatorBuilder: (context, index) => const Divider(height: 1),
-        itemBuilder: (context, index) {
-          final key = buildMapping.keys.elementAt(index);
-          final value = buildMapping[key]!();
-          return Row(
-            children: [
-              SizedBox(width: 128, child: Center(child: Text(key))),
-              const SizedBox(height: 8, child: VerticalDivider()),
-              Expanded(child: Text(value)),
-            ],
-          );
-        },
-        itemCount: buildMapping.length,
+      body: ListTileTheme(
+        data: ListTileThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: BorderSide(
+              color: Theme.of(context).colorScheme.outlineVariant,
+            ),
+          ),
+        ),
+        child: ListView.separated(
+          padding: const EdgeInsets.all(16),
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
+          itemBuilder: (context, index) {
+            final key = buildMapping.keys.elementAt(index);
+            final value = buildMapping[key]!();
+            return ListTile(
+              title: Text(key),
+              subtitle: Text(value),
+              onTap: () async {
+                await Clipboard.setData(ClipboardData(text: value));
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Copied!')),
+                );
+              },
+            );
+          },
+          itemCount: buildMapping.length,
+        ),
       ),
     );
   }
@@ -89,6 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
     'user': () => Build.user,
     'getRadioVersion': () => Build.getRadioVersion(),
     'getSerial': () => Build.getSerial(),
+    'getFingerprintedPartition': () =>
+        Build.getFingerprintedPartitions().map((e) => e.fingerprint).join(','),
     'baseOs': () => Build.version.baseOs,
     'codename': () => Build.version.codename,
     'incremental': () => Build.version.incremental,

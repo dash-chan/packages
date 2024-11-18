@@ -48,7 +48,7 @@ abstract final class Build {
   /// The SKU of the device as set by the original design manufacturer (ODM).
   ///
   /// This is a runtime-initialized property set during startup to configure
-  /// device services. If no value is set, this is reported as [AndroidBuild.unknown].
+  /// device services. If no value is set, this is reported as [Build.unknown].
   ///
   /// The ODM SKU may have multiple variants for the same system SKU in case
   /// a manufacturer produces variants of the same design. For example,
@@ -151,7 +151,7 @@ abstract final class Build {
   /// method will behave as follows:
   ///
   /// * If the calling app's target SDK is API level 28 or lower and the app
-  /// has the READ_PHONE_STATE permission then [AndroidBuild.unknown] is returned.
+  /// has the READ_PHONE_STATE permission then [Build.unknown] is returned.
   /// * If the calling app's target SDK is API level 28 or lower and the app
   /// does not have the READ_PHONE_STATE permission, or if the calling app is
   /// targeting API level 29 or higher, then a SecurityException is thrown.
@@ -169,9 +169,28 @@ abstract final class Build {
     }
   }
 
-  static part() {
-    if (version.sdkInt < BuildVersionCodes.oMr1.versionCode) {}
-    $p.Build.getFingerprintedPartitions().first.getName();
+  /// Get build information about partitions that have a separate fingerprint
+  ///  defined. The list includes partitions that are suitable candidates for
+  /// over-the-air updates. This is not an exhaustive list of partitions on
+  /// the device.
+  static List<Partition> getFingerprintedPartitions() {
+    if (version.sdkInt < BuildVersionCodes.oMr1.versionCode) {
+      return [];
+    } else {
+      final partitions = $p.Build.getFingerprintedPartitions();
+      try {
+        return [
+          for (final p in partitions)
+            Partition._(
+              buildTimeMillis: p.getBuildTimeMillis(),
+              fingerprint: p.getFingerprint()._cvt,
+              name: p.getName()._cvt,
+            )
+        ];
+      } finally {
+        partitions.release();
+      }
+    }
   }
 }
 
@@ -889,6 +908,27 @@ enum BuildVersionCodes {
   const BuildVersionCodes(this.versionCode);
 
   final int versionCode;
+}
+
+/// Build information for a particular device partition.
+class Partition {
+  Partition._({
+    required this.buildTimeMillis,
+    required this.fingerprint,
+    required this.name,
+  });
+
+  /// The time (ms since epoch), at which this partition was built, see [Build.time].
+  final int buildTimeMillis;
+
+  /// The build fingerprint of this partition, see [Build.fingerprint].
+  final String fingerprint;
+
+  /// The name of this partition, e.g. "system", or "vendor"
+  final String name;
+
+  /// The name identifying the system partition.
+  static const partitionNameSystem = 'system';
 }
 
 extension on JString {
