@@ -16,7 +16,27 @@ PackageManager get packageManager {
 }
 
 JList<PackageInfo> getAppList(int a) {
-  return packageManager.getInstalledPackages(0);
+  final result = packageManager.getInstalledPackages(0);
+  int index = 0;
+  for (var i in result) {
+    i.packageName.toDartString(releaseOriginal: true);
+    i.firstInstallTime;
+    i.lastUpdateTime;
+    i.versionName.toDartString(releaseOriginal: true);
+    final app = i.applicationInfo;
+    app.flags;
+    // app.loadLabel(packageManager).toString();
+    // app.release();
+    final name = packageManager.getApplicationLabel(app).toString();
+    // if (name.isEmpty || name == 'null') {
+    print(
+        (packageManager.getApplicationLabel(app).toString(), app.packageName));
+    // }
+
+    index++;
+  }
+
+  return result;
 }
 
 Future<JList<PackageInfo>> getAppListAsync() async {
