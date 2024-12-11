@@ -34,6 +34,7 @@ abstract final class Build {
 
   /// The name of the hardware (from the kernel command line or /proc).
   static String get hardware => $p.Build.HARDWARE._cvt;
+
   static String get host => $p.Build.HOST._cvt;
 
   /// Either a changelist number, or a label like "M4-rc20".
@@ -54,6 +55,8 @@ abstract final class Build {
   /// a manufacturer produces variants of the same design. For example,
   /// the same build may be released with variations in physical keyboard
   /// and/or display hardware, each with a different ODM SKU.
+  ///
+  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   static String get odmSku {
     if (version.sdkInt < BuildVersionCodes.s.versionCode) {
       return unknown;
@@ -66,6 +69,12 @@ abstract final class Build {
   static String get product => $p.Build.PRODUCT._cvt;
 
   /// The SKU of the hardware (from the kernel command line).
+  ///
+  /// The SKU is reported by the bootloader to configure
+  /// system software features. If no value is supplied by the bootloader,
+  /// this is reported as [unknown].
+  ///
+  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   static String get sku {
     if (version.sdkInt < BuildVersionCodes.s.versionCode) {
       return unknown;
@@ -75,6 +84,8 @@ abstract final class Build {
   }
 
   /// The manufacturer of the device's primary system-on-chip.
+  ///
+  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   static String get socManufacturer {
     if (version.sdkInt < BuildVersionCodes.s.versionCode) {
       return unknown;
@@ -84,6 +95,8 @@ abstract final class Build {
   }
 
   /// The model name of the device's primary system-on-chip.
+  ///
+  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   static String get socModel {
     if (version.sdkInt < BuildVersionCodes.s.versionCode) {
       return unknown;
@@ -123,7 +136,7 @@ abstract final class Build {
   static String get user => $p.Build.USER._cvt;
 
   /// Various version strings.
-  static const version = BuildVersion._();
+  static const version = BuildVersion();
 
   /// Returns the version string for the radio firmware.
   /// May return null (if, for instance, the radio is not currently on).
@@ -140,23 +153,26 @@ abstract final class Build {
   /// permission; this is a privileged permission that can only be granted to
   /// apps preloaded on the device.
   /// * If the calling app has carrier privileges
-  /// (see TelephonyManager.hasCarrierPrivileges()) on any active subscription.
+  /// (see [`TelephonyManager.hasCarrierPrivileges()`](https://developer.android.com/reference/android/telephony/TelephonyManager#hasCarrierPrivileges()))
+  /// on any active subscription.
   /// * If the calling app is the default SMS role holder
-  /// (see RoleManager.isRoleHeld(String)).
+  /// (see [`RoleManager.isRoleHeld(String)`](https://developer.android.com/reference/android/app/role/RoleManager#isRoleHeld(java.lang.String))).
   /// * If the calling app is the device owner of a fully-managed device,
   /// a profile owner of an organization-owned device, or their delegates
-  /// (see DevicePolicyManager.getEnrollmentSpecificId()).
+  /// (see [`DevicePolicyManager.getEnrollmentSpecificId()`](https://developer.android.com/reference/android/app/admin/DevicePolicyManager#getEnrollmentSpecificId())).
   ///
   /// If the calling app does not meet one of these requirements then this
   /// method will behave as follows:
   ///
   /// * If the calling app's target SDK is API level 28 or lower and the app
-  /// has the READ_PHONE_STATE permission then [Build.unknown] is returned.
+  /// has the READ_PHONE_STATE permission then [unknown] is returned.
   /// * If the calling app's target SDK is API level 28 or lower and the app
   /// does not have the READ_PHONE_STATE permission, or if the calling app is
   /// targeting API level 29 or higher, then a SecurityException is thrown.
   ///
   /// Requires android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
+  ///
+  /// Added in [API level 26](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   static String getSerial() {
     if (version.sdkInt < BuildVersionCodes.oMr1.versionCode) {
       return unknown;
@@ -173,6 +189,8 @@ abstract final class Build {
   ///  defined. The list includes partitions that are suitable candidates for
   /// over-the-air updates. This is not an exhaustive list of partitions on
   /// the device.
+  ///
+  /// Added in [API level 29](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   static List<Partition> getFingerprintedPartitions() {
     if (version.sdkInt < BuildVersionCodes.oMr1.versionCode) {
       return [];
@@ -198,9 +216,11 @@ abstract final class Build {
 ///
 /// https://developer.android.com/reference/android/os/Build.VERSION
 class BuildVersion {
-  const BuildVersion._();
+  const BuildVersion();
 
   /// The base OS build the product is based on.
+  ///
+  /// Added in [API level 23](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   String get baseOs => $p.Build_VERSION.BASE_OS._cvt;
 
   /// The current development codename, or the string "REL" if this is a release build.
@@ -218,6 +238,8 @@ class BuildVersion {
   ///
   /// Possible non-zero values are defined in [BuildVersionCodes] starting
   /// with [BuildVersionCodes.r].
+  ///
+  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   int get mediaPerformanceClass => $p.Build_VERSION.MEDIA_PERFORMANCE_CLASS;
 
   /// The developer preview revision of a prerelease SDK.
@@ -235,6 +257,8 @@ class BuildVersion {
   /// revision other than the specific one they expect should fall back to
   /// using APIs from the previously published API level only to avoid
   /// unwanted runtime exceptions.
+  ///
+  /// Added in [API level 23](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   int get previewSdkInt => $p.Build_VERSION.PREVIEW_SDK_INT;
 
   /// The user-visible version string. E.g., "1.0" or "3.4b5" or "bananas".
@@ -245,11 +269,15 @@ class BuildVersion {
 
   /// The version string. May be [release] or [codename] if not a final
   /// release build
+  ///
+  /// Added in [API level 30](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   String? get releaseOrCodename =>
       $p.Build_VERSION.RELEASE_OR_CODENAME._cvtNullable;
 
   /// The version string we show to the user; may be [release] or a
   /// descriptive string if not a final release build.
+  ///
+  /// Added in [API level 33](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   String? get releaseOrPreviewDisplay =>
       $p.Build_VERSION.RELEASE_OR_PREVIEW_DISPLAY._cvtNullable;
 
@@ -261,6 +289,8 @@ class BuildVersion {
   int get sdkInt => $p.Build_VERSION.SDK_INT;
 
   /// The user-visible security patch level.
+  ///
+  /// Added in [API level 23](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
   String get securityPatch => $p.Build_VERSION.SECURITY_PATCH._cvt;
 }
 
@@ -304,7 +334,7 @@ enum BuildVersionCodes {
   /// medium density normal size screens unless otherwise indicated).
   /// They can still explicitly specify screen support either way with the
   /// supports-screens manifest tag.
-  /// * {android.widget.TabHost} will use the new dark tab
+  /// * [android.widget.TabHost](https://developer.android.com/reference/android/widget/TabHost) will use the new dark tab
   /// background design.
   ///
   donut($p.Build_VERSION_CODES.DONUT),
@@ -315,14 +345,14 @@ enum BuildVersionCodes {
   /// Applications targeting this or a later release will get these
   /// new changes in behavior:
   ///
-  /// * The {android.app.Service#onStartCommand
-  /// Service.onStartCommand} function will return the new
-  /// {android.app.Service#START_STICKY} behavior instead of the
-  /// old compatibility {android.app.Service#START_STICKY_COMPATIBILITY}.
-  /// * The {android.app.Activity} class will now execute back
+  /// * The [Service.onStartCommand](https://developer.android.com/reference/android/app/Service#onStartCommand(android.content.Intent,%20int,%20int)) 
+  /// function will return the new
+  /// [Service.START_STICKY](https://developer.android.com/reference/android/app/Service#START_STICKY) 
+  /// behavior instead of the old compatibility [Service.START_STICKY_COMPATIBILITY](https://developer.android.com/reference/android/app/Service#START_STICKY_COMPATIBILITY).
+  /// * The [Activity](https://developer.android.com/reference/android/app/Activity) class will now execute back
   /// key presses on the key up instead of key down, to be able to detect
   /// canceled presses from virtual keys.
-  /// * The {android.widget.TabWidget} class will use a new color scheme
+  /// * The [TabWidget](https://developer.android.com/reference/android/widget/TabWidget) class will use a new color scheme
   /// for tabs. In the new scheme, the foreground tab has a medium gray background
   /// the background tabs have a dark gray background.
   ///
@@ -366,34 +396,32 @@ enum BuildVersionCodes {
   /// new changes in behavior:
   ///
   /// * The default theme for applications is now dark holographic:
-  ///      {android.R.style#Theme_Holo}.
+  /// [R.style.Theme_Holo](https://developer.android.com/reference/android/R.style#Theme_Holo).
   /// * On large screen devices that do not have a physical menu
   /// button, the soft (compatibility) menu is disabled.
   /// * The activity lifecycle has changed slightly as per
-  /// {android.app.Activity}.
+  /// [Activity](https://developer.android.com/reference/android/app/Activity).
   /// * An application will crash if it does not call through
   /// to the super implementation of its
-  /// {android.app.Activity#onPause Activity.onPause()} method.
+  /// [Activity.onPause()](https://developer.android.com/reference/android/app/Activity#onPause()) method.
   /// * When an application requires a permission to access one of
   /// its components (activity, receiver, service, provider), this
   /// permission is no longer enforced when the application wants to
   /// access its own component.  This means it can require a permission
   /// on a component that it does not itself hold and still access that
   /// component.
-  /// * {android.content.Context#getSharedPreferences
-  /// Context.getSharedPreferences()} will not automatically reload
+  /// * [Context.getSharedPreferences](https://developer.android.com/reference/android/content/Context#getSharedPreferences(java.lang.String,%20int)) will not automatically reload
   /// the preferences if they have changed on storage, unless
-  /// {android.content.Context#MODE_MULTI_PROCESS} is used.
-  /// * {android.view.ViewGroup#setMotionEventSplittingEnabled}
+  /// [Context.MODE_MULTI_PROCESS](https://developer.android.com/reference/android/content/Context#MODE_MULTI_PROCESS) is used.
+  /// * [ViewGroup.setMotionEventSplittingEnabled](https://developer.android.com/reference/android/view/ViewGroup#setMotionEventSplittingEnabled(boolean))
   /// will default to true.
-  /// * {android.view.WindowManager.LayoutParams#FLAG_SPLIT_TOUCH}
+  /// * [LayoutParams.FLAG_SPLIT_TOUCH](https://developer.android.com/reference/android/view/WindowManager.LayoutParams#FLAG_SPLIT_TOUCH)
   /// is enabled by default on windows.
-  /// * {android.widget.PopupWindow#isSplitTouchEnabled()
-  /// PopupWindow.isSplitTouchEnabled()} will return true by default.
-  /// * {android.widget.GridView} and {android.widget.ListView}
-  /// will use {android.view.View#setActivated View.setActivated}
-  /// for selected items if they do not implement {android.widget.Checkable}.
-  /// * {android.widget.Scroller} will be constructed with
+  /// * [PopupWindow.isSplitTouchEnabled()](https://developer.android.com/reference/android/widget/PopupWindow#isSplitTouchEnabled()) will return true by default.
+  /// * [GridView](https://developer.android.com/reference/android/widget/GridView) and [ListView](https://developer.android.com/reference/android/widget/ListView)
+  /// will use [View.setActivated](https://developer.android.com/reference/android/view/View#setActivated(boolean))
+  /// for selected items if they do not implement [Checkable](https://developer.android.com/reference/android/widget/Checkable).
+  /// * [Scroller](https://developer.android.com/reference/android/widget/Scroller) will be constructed with
   /// "flywheel" behavior enabled by default.
   ///
   honeycomb($p.Build_VERSION_CODES.HONEYCOMB),
@@ -411,39 +439,38 @@ enum BuildVersionCodes {
   ///
   /// As of this version, applications that don't say whether they
   /// support XLARGE screens will be assumed to do so only if they target
-  /// {#HONEYCOMB} or later; it had been {#GINGERBREAD} or
+  /// [honeycomb] or later; it had been [gingerbread] or
   /// later.  Applications that don't support a screen size at least as
   /// large as the current screen will provide the user with a UI to
   /// switch them in to screen size compatibility mode.
   ///
   /// This version introduces new screen size resource qualifiers
   /// based on the screen size in dp: see
-  /// {android.content.res.Configuration#screenWidthDp},
-  /// {android.content.res.Configuration#screenHeightDp}, and
-  /// {android.content.res.Configuration#smallestScreenWidthDp}.
+  /// [Configuration.screenWidthDp](https://developer.android.com/reference/android/content/res/Configuration#screenWidthDp),
+  /// [Configuration.screenHeightDp](https://developer.android.com/reference/android/content/res/Configuration#screenHeightDp), and
+  /// [Configuration.smallestScreenWidthDp](https://developer.android.com/reference/android/content/res/Configuration#smallestScreenWidthDp).
   /// Supplying these in &lt;supports-screens&gt; as per
-  /// {android.content.pm.ApplicationInfo#requiresSmallestWidthDp},
-  /// {android.content.pm.ApplicationInfo#compatibleWidthLimitDp}, and
-  /// {android.content.pm.ApplicationInfo#largestWidthLimitDp} is
+  /// [ApplicationInfo.requiresSmallestWidthDp](https://developer.android.com/reference/android/content/pm/ApplicationInfo#requiresSmallestWidthDp),
+  /// [ApplicationInfo.compatibleWidthLimitDp](https://developer.android.com/reference/android/content/pm/ApplicationInfo#compatibleWidthLimitDp), and
+  /// [ApplicationInfo.largestWidthLimitDp](https://developer.android.com/reference/android/content/pm/ApplicationInfo#largestWidthLimitDp) is
   /// preferred over the older screen size buckets and for older devices
   /// the appropriate buckets will be inferred from them.
   ///
   /// Applications targeting this or a later release will get these
   /// new changes in behavior:
   ///
-  /// *New {android.content.pm.PackageManager#FEATURE_SCREEN_PORTRAIT}
-  /// and {android.content.pm.PackageManager#FEATURE_SCREEN_LANDSCAPE}
+  /// *New [PackageManager.FEATURE_SCREEN_PORTRAIT](https://developer.android.com/reference/android/content/pm/PackageManager#FEATURE_SCREEN_PORTRAIT)
+  /// and [PackageManager.FEATURE_SCREEN_LANDSCAPE](https://developer.android.com/reference/android/content/pm/PackageManager#FEATURE_SCREEN_LANDSCAPE)
   /// features were introduced in this release.  Applications that target
   /// previous platform versions are assumed to require both portrait and
   /// landscape support in the device; when targeting Honeycomb MR1 or
   /// greater the application is responsible for specifying any specific
   /// orientation it requires.
-  /// *{android.os.AsyncTask} will use the serial executor
-  /// by default when calling {android.os.AsyncTask#execute}.
-  /// *{android.content.pm.ActivityInfo#configChanges
-  /// ActivityInfo.configChanges} will have the
-  /// {android.content.pm.ActivityInfo#CONFIG_SCREEN_SIZE} and
-  /// {android.content.pm.ActivityInfo#CONFIG_SMALLEST_SCREEN_SIZE}
+  /// *[AsyncTask](https://developer.android.com/reference/android/os/AsyncTask) will use the serial executor
+  /// by default when calling [AsyncTask.execute(Params)](https://developer.android.com/reference/android/os/AsyncTask#execute(Params[])).
+  /// *[ActivityInfo.configChanges](https://developer.android.com/reference/android/content/pm/ActivityInfo#configChanges) will have the
+  /// [ActivityInfo.CONFIG_SCREEN_SIZE](https://developer.android.com/reference/android/content/pm/ActivityInfo#CONFIG_SCREEN_SIZE) and
+  /// [ActivityInfo.CONFIG_SMALLEST_SCREEN_SIZE](https://developer.android.com/reference/android/content/pm/ActivityInfo#CONFIG_SMALLEST_SCREEN_SIZE)
   /// bits set; these need to be cleared for older applications because
   /// some developers have done absolute comparisons against this value
   /// instead of correctly masking the bits they are interested in.
@@ -948,4 +975,7 @@ extension on JArray<JString> {
     release();
     return result;
   }
+}
+
+test() {
 }

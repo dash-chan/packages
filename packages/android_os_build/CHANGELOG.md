@@ -1,3 +1,10 @@
+## Unreleased
+### Added
+- expose BuildVersion constructor
+
+### Removed
+- remove unused plugin\_platform\_interface
+
 ## 0.2.1 - 2024-11-18
 ### Added
 - add Build.getFingerprintedPartitions api

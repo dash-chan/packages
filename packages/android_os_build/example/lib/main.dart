@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:android_os_build/android_os_build.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,6 +47,24 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final result = JsonEncoder.withIndent(' ' * 4).convert(
+                  buildMapping.map<String, String>((k, v) => MapEntry(k, v())));
+              await Clipboard.setData(ClipboardData(text: result));
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Copied!'),
+                  action: SnackBarAction(label: 'ok', onPressed: () {}),
+                ),
+              );
+            },
+            icon: const Icon(Icons.copy_all_rounded),
+          ),
+        ],
       ),
       body: ListTileTheme(
         data: ListTileThemeData(
@@ -64,14 +84,20 @@ class _MyHomePageState extends State<MyHomePage> {
             return ListTile(
               title: Text(key),
               subtitle: Text(value),
-              onTap: () async {
-                await Clipboard.setData(ClipboardData(text: value));
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).clearSnackBars();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Copied!')),
-                );
-              },
+              trailing: IconButton(
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(text: value));
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('Copied!'),
+                      action: SnackBarAction(label: 'ok', onPressed: () {}),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.copy_rounded),
+              ),
             );
           },
           itemCount: buildMapping.length,
