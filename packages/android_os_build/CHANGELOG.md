@@ -1,6 +1,11 @@
-## Unreleased
+## 0.3.0 - 2025-01-17
 ### Added
 - expose BuildVersion constructor
+
+### Changed
+- BREAKCHANGE Partition.name nullable
+- BREAKCHANGE Partition.fingerprint nullable
+- BREAKCHANGE when BUILD value nullable, set to default \['unknown'\]
 
 ### Removed
 - remove unused plugin\_platform\_interface

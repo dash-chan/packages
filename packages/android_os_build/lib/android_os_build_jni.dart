@@ -1,3 +1,3 @@
-library android_os_build_jni;
+library;
 
 export 'generated/android_os_build.g.dart';

@@ -74,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Theme.of(context).colorScheme.outlineVariant,
             ),
           ),
+          contentPadding: const EdgeInsets.only(left: 16),
         ),
         child: ListView.separated(
           padding: const EdgeInsets.all(16),
