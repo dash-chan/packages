@@ -1,3 +1,7 @@
+## 0.3.0+1 - 2025-04-18
+### Changed
+- bump jni & jnigen version
+
 ## 0.3.0 - 2025-01-17
 ### Added
 - expose BuildVersion constructor
