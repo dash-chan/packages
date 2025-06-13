@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "plugin.dash.build.example"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

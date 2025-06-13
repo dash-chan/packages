@@ -1,3 +1,20 @@
+## Unreleased
+### Changed
+- change topic: ffi -&gt; jni
+
+## 0.4.0 - 2025-06-13
+### Added
+- add android 36 support
+- add function: `getMajorSdkVersion`
+- add function: `getMinorSdkVersion`
+- add field: `sdkIntFull`
+
+### Changed
+- bump jni version
+
+### Fixed
+- fix a typo: eclair\_0\_1
+
 ## 0.3.0+1 - 2025-04-18
 ### Changed
 - bump jni & jnigen version
