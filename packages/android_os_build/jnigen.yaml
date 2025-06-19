@@ -11,10 +11,3 @@ output:
 
 classes:
   - 'android.os.Build'
-exclude:
-  fields:
-    - android.os.Build#CPU_ABI
-    - android.os.Build#CPU_ABI2
-    - android.os.Build#RADIO
-    - android.os.Build#SERIAL
-    - android.os.Build\$VERSION#SDK

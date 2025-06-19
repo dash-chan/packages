@@ -1,6 +1,7 @@
-## Unreleased
+## 0.4.0+1 - 2025-06-19
 ### Changed
-- change topic: ffi -&gt; jni
+- remove exlude from jnigen.yaml due to jnigen next version change
+- update build doc
 
 ## 0.4.0 - 2025-06-13
 ### Added
@@ -11,6 +12,7 @@
 
 ### Changed
 - bump jni version
+- change topic: ffi -> jni
 
 ### Fixed
 - fix a typo: eclair\_0\_1

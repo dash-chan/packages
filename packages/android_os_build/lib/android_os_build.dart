@@ -12,6 +12,8 @@ abstract final class Build {
   static const tag = 'Build';
 
   /// Value used for when a build property is unknown.
+  ///
+  /// same as [android.os.Build#UNKNOWN](https://developer.android.com/reference/android/os/Build#UNKNOWN)
   static const unknown = 'unknown';
 
   /// The name of the underlying board, like "goldfish".
@@ -399,7 +401,7 @@ enum BuildVersionCodes {
   /// Released publicly as Android 2.0.1 in December 2009.
   @Deprecated('use eclair_0_1')
   eclair01($p.Build$VERSION_CODES.ECLAIR_0_1),
-  
+
   /// E incremental update.
   ///
   /// Released publicly as Android 2.0.1 in December 2009.
