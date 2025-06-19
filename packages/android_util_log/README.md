@@ -1,92 +1,52 @@
 # android_util_log
 
-A new Flutter FFI plugin project.
+A utility library for Android log. Built with dart's experimental jni
 
-## Getting Started
+> [!IMPORTANT]
+> This package is currently **experimental** and may change in non-breaking ways in the future.
+> version 0.X.X still in development and may not ready for production use.
 
-This project is a starting point for a Flutter
-[FFI plugin](https://flutter.dev/to/ffi-package),
-a specialized package that includes native code directly invoked with Dart FFI.
+## Usage
 
-## Project structure
+[API Documentation](https://pub.dev/documentation/android_util_log/latest/)
 
-This template uses the following structure:
+### Add package
 
-* `src`: Contains the native source code, and a CmakeFile.txt file for building
-  that source code into a dynamic library.
+* run in command line
 
-* `lib`: Contains the Dart code that defines the API of the plugin, and which
-  calls into the native code using `dart:ffi`.
-
-* platform folders (`android`, `ios`, `windows`, etc.): Contains the build files
-  for building and bundling the native code library with the platform application.
-
-## Building and bundling native code
-
-The `pubspec.yaml` specifies FFI plugins as follows:
-
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        ffiPlugin: true
+```shell
+flutter pub add android_util_log
 ```
 
-This configuration invokes the native build for the various target platforms
-and bundles the binaries in Flutter applications using these FFI plugins.
-
-This can be combined with dartPluginClass, such as when FFI is used for the
-implementation of one platform in a federated plugin:
+* or add to `pubspec.yaml`
 
 ```yaml
-  plugin:
-    implements: some_other_plugin
-    platforms:
-      some_platform:
-        dartPluginClass: SomeClass
-        ffiPlugin: true
+...
+dependencies:
+  android_util_log: any
+...
 ```
 
-A plugin can have both FFI and method channels:
+### Start log
 
-```yaml
-  plugin:
-    platforms:
-      some_platform:
-        pluginClass: SomeName
-        ffiPlugin: true
+```dart
+import 'package:android_util_log/android_util_log.dart';
+
+Log.i("TAG", "I'M A MESSAGE");
+Log.e("TAG", "I'M A MESSAGE");
+Log.w("TAG", "I'M A MESSAGE");
 ```
 
-The native build systems that are invoked by FFI (and method channel) plugins are:
+## Development
 
-* For Android: Gradle, which invokes the Android NDK for native builds.
-  * See the documentation in android/build.gradle.
-* For iOS and MacOS: Xcode, via CocoaPods.
-  * See the documentation in ios/android_util_log.podspec.
-  * See the documentation in macos/android_util_log.podspec.
-* For Linux and Windows: CMake.
-  * See the documentation in linux/CMakeLists.txt.
-  * See the documentation in windows/CMakeLists.txt.
+you should build apk first then run jnigen
+```shell
+cd example
+flutter build apk
+cd ..
+flutter pub run jnigen --config jnigen.yaml
+```
 
-## Binding to native code
+## License
 
-To use the native code, bindings in Dart are needed.
-To avoid writing these by hand, they are generated from the header file
-(`src/android_util_log.h`) by `package:ffigen`.
-Regenerate the bindings by running `dart run ffigen --config ffigen.yaml`.
-
-## Invoking native code
-
-Very short-running native functions can be directly invoked from any isolate.
-For example, see `sum` in `lib/android_util_log.dart`.
-
-Longer-running functions should be invoked on a helper isolate to avoid
-dropping frames in Flutter applications.
-For example, see `sumAsync` in `lib/android_util_log.dart`.
-
-## Flutter help
-
-For help getting started with Flutter, view our
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+* package is under [MIT](LICENSE) license
