@@ -1,3 +1,10 @@
+## 0.5.0+1 - 2025-10-14
+### Added
+- add doc to \[BuildVersionCodesFull\].
+
+### Changed
+- seperated code files
+
 ## 0.5.0 - 2025-10-14
 ### Added
 - add Android 16 QPR2 version code full
