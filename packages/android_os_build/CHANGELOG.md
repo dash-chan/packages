@@ -1,3 +1,8 @@
+## Unreleased
+### Changed
+- bump example gradle version to 8.13
+- bump compile sdk to 36
+
 ## 0.4.0+1 - 2025-06-19
 ### Changed
 - remove exlude from jnigen.yaml due to jnigen next version change

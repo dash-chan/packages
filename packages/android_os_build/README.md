@@ -4,7 +4,7 @@ Easily retrieve information about the current Android build synchronously.
 > This package is currently **experimental** and may change in non-breaking ways in the future.
 > version 0.X.X still in development and may not ready for production use.
 
-## Example
+## Getting Started
 
 install example app
 
