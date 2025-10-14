@@ -201,6 +201,24 @@ abstract final class Build {
     }
   }
 
+  /// The status of the backported fix for a known issue on this device.
+  ///
+  /// [id] The id of the known issue to check.
+  ///
+  /// Added in [API level 36.1](https://developer.android.com/topic/libraries/support-library/revisions)
+  static BackportedFixStatus getBackportedFixStatus(int id) {
+    final fullSdk = Build.version.sdkIntFull;
+    if (fullSdk == null) return BackportedFixStatus.unknown;
+
+    return switch ($p.Build.getBackportedFixStatus(id)) {
+      $p.Build.BACKPORTED_FIX_STATUS_NOT_APPLICABLE =>
+        BackportedFixStatus.applicable,
+      $p.Build.BACKPORTED_FIX_STATUS_NOT_FIXED => BackportedFixStatus.notFix,
+      $p.Build.BACKPORTED_FIX_STATUS_UNKNOWN => BackportedFixStatus.unknown,
+      _ => BackportedFixStatus.unknown,
+    };
+  }
+
   /// Get build information about partitions that have a separate fingerprint
   ///  defined. The list includes partitions that are suitable candidates for
   /// over-the-air updates. This is not an exhaustive list of partitions on
@@ -1092,9 +1110,34 @@ enum BuildVersionCodesFull {
 
   /// Android 36.0.
   baklava($p.Build$VERSION_CODES_FULL.BAKLAVA),
+
+  /// Android 36.1.
+  baklava1($p.Build$VERSION_CODES_FULL.BAKLAVA_1),
   ;
 
   const BuildVersionCodesFull(this.rawValue);
+  final int rawValue;
+}
+
+enum BackportedFixStatus {
+  /// The known issue is fixed on this device.
+  fixed($p.Build.BACKPORTED_FIX_STATUS_FIXED),
+
+  /// The known issue is not applicable to this device.
+  ///
+  /// For example if the issue only affects a specific brand,
+  ///  devices from other brands would report not applicable.
+  applicable($p.Build.BACKPORTED_FIX_STATUS_NOT_APPLICABLE),
+
+  /// The known issue is not fixed on this device.
+  notFix($p.Build.BACKPORTED_FIX_STATUS_NOT_FIXED),
+
+  /// The status of the known issue on this device is not known.
+  unknown($p.Build.BACKPORTED_FIX_STATUS_UNKNOWN),
+  ;
+
+  const BackportedFixStatus(this.rawValue);
+
   final int rawValue;
 }
 

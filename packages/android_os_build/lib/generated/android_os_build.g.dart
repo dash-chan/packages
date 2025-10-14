@@ -745,6 +745,9 @@ class Build$VERSION_CODES_FULL extends jni$_.JObject {
   /// from: `static public final int BAKLAVA`
   static const BAKLAVA = 3600000;
 
+  /// from: `static public final int BAKLAVA_1`
+  static const BAKLAVA_1 = 3600001;
+
   /// from: `static public final int BASE`
   static const BASE = 100000;
 
@@ -945,6 +948,18 @@ class Build extends jni$_.JObject {
   /// The type which includes information such as the signature of this class.
   static const nullableType = $Build$NullableType();
   static const type = $Build$Type();
+
+  /// from: `static public final int BACKPORTED_FIX_STATUS_FIXED`
+  static const BACKPORTED_FIX_STATUS_FIXED = 1;
+
+  /// from: `static public final int BACKPORTED_FIX_STATUS_NOT_APPLICABLE`
+  static const BACKPORTED_FIX_STATUS_NOT_APPLICABLE = 2;
+
+  /// from: `static public final int BACKPORTED_FIX_STATUS_NOT_FIXED`
+  static const BACKPORTED_FIX_STATUS_NOT_FIXED = 3;
+
+  /// from: `static public final int BACKPORTED_FIX_STATUS_UNKNOWN`
+  static const BACKPORTED_FIX_STATUS_UNKNOWN = 0;
   static final _id_BOARD = _class.staticFieldId(
     r'BOARD',
     r'Ljava/lang/String;',
@@ -1254,6 +1269,29 @@ class Build extends jni$_.JObject {
     return Build.fromReference(
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
             .reference);
+  }
+
+  static final _id_getBackportedFixStatus = _class.staticMethodId(
+    r'getBackportedFixStatus',
+    r'(J)I',
+  );
+
+  static final _getBackportedFixStatus = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int getBackportedFixStatus(long j)`
+  static int getBackportedFixStatus(
+    int j,
+  ) {
+    return _getBackportedFixStatus(_class.reference.pointer,
+            _id_getBackportedFixStatus as jni$_.JMethodIDPtr, j)
+        .integer;
   }
 
   static final _id_getFingerprintedPartitions = _class.staticMethodId(

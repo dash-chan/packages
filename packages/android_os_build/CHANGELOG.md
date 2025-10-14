@@ -1,4 +1,9 @@
-## Unreleased
+## 0.5.0 - 2025-10-14
+### Added
+- add Android 16 QPR2 version code full
+- add getBackportedFixStatus api in Android 16 QPR2
+
+## 0.4.1 - 2025-10-14
 ### Changed
 - bump example gradle version to 8.13
 - bump compile sdk to 36
