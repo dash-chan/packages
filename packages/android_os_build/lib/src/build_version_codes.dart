@@ -1,4 +1,3 @@
-
 import 'package:android_os_build/generated/android_os_build.g.dart' as $p;
 
 /// Enumeration of the currently known SDK version codes. These are the values
