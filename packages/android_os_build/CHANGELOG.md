@@ -1,3 +1,7 @@
+## Unreleased
+### Changed
+- format build\_version\_codes\_full.dart
+
 ## 0.6.0 - 2025-11-19
 ### Changed
 - bump jni version to 0.15.2

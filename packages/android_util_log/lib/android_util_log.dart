@@ -3,36 +3,37 @@ library;
 import 'package:jni/jni.dart';
 
 import 'generated/android_util_log.g.dart' as $p;
+
 /// API for sending log output.
-/// 
+///
 /// Generally, you should use the [Log.v], [Log.d], [Log.i], [Log.w],
 ///  and [Log.e] methods to write logs. You can then view the logs in logcat.
-/// 
-/// The order in terms of verbosity, from least to most is 
+///
+/// The order in terms of verbosity, from least to most is
 /// [Log.error], [Log.warn], [Log.info], [Log.debug], [Log.verbose].
-/// 
+///
 /// Tip: A good convention is to declare a TAG constant in your class:
 /// ```dart
 /// private static const TAG = "MyClass";
 /// ```
 /// and use that in subsequent calls to the log methods.
-/// 
+///
 /// Tip: Don't forget that when you make a call like
 /// ```dart
 /// Log.i(TAG, "My message");
 /// ```
-/// 
-/// that when you're building the string to pass into Log.d, 
-/// the compiler uses a StringBuilder and at least three allocations occur: 
-/// the StringBuilder itself, the buffer, and the String object. 
-/// Realistically, there is also another buffer allocation and copy, 
-/// and even more pressure on the gc. That means that if your log message 
-/// is filtered out, you might be doing significant work and 
+///
+/// that when you're building the string to pass into Log.d,
+/// the compiler uses a StringBuilder and at least three allocations occur:
+/// the StringBuilder itself, the buffer, and the String object.
+/// Realistically, there is also another buffer allocation and copy,
+/// and even more pressure on the gc. That means that if your log message
+/// is filtered out, you might be doing significant work and
 /// incurring significant overhead.
-/// 
-/// Note: The return value from the logging functions in this class may 
-/// vary between Android releases due to changes in the logging implementation. 
-/// For the methods that return an integer, 
+///
+/// Note: The return value from the logging functions in this class may
+/// vary between Android releases due to changes in the logging implementation.
+/// For the methods that return an integer,
 /// a positive value may be considered as a successful invocation.
 abstract class Log {
   /// Priority constant for the println method.
