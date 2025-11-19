@@ -1,9 +1,9 @@
 import 'package:android_os_build/generated/android_os_build.g.dart' as $p;
 
-/// Enumeration of the currently known SDK major and minor version codes. 
-/// The numbers increase for every release, and are guaranteed to be 
-/// ordered by the release date of each release. The actual values should 
-/// be considered an implementation detail, and the current encoding 
+/// Enumeration of the currently known SDK major and minor version codes.
+/// The numbers increase for every release, and are guaranteed to be
+/// ordered by the release date of each release. The actual values should
+/// be considered an implementation detail, and the current encoding
 /// scheme may change in the future.
 enum BuildVersionCodesFull {
   /// Android 1.0.
