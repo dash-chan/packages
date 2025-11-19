@@ -1,3 +1,8 @@
+## 0.6.0 - 2025-11-19
+### Changed
+- bump jni version to 0.15.2
+- bump jnigen version to 0.15.0
+
 ## 0.5.0+1 - 2025-10-14
 ### Added
 - add doc to \[BuildVersionCodesFull\].
