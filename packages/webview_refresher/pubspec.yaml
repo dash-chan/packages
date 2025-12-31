@@ -4,17 +4,15 @@ version: 0.1.0+1
 homepage: https://github.com/dash-chan/packages/tree/main/packages/webview_refresher
 
 environment:
-  sdk: '>=3.3.3 <4.0.0'
-  flutter: ">=3.19.0"
+  sdk: '>=3.10.0 <4.0.0'
+  flutter: ">=3.38.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  webview_flutter: ^4.7.0
+  webview_flutter: ^4.13.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
-
-flutter:
+  flutter_lints: ^6.0.0

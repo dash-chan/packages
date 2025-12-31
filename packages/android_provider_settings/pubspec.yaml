@@ -1,0 +1,30 @@
+name: android_provider_settings
+description: "A new Flutter FFI plugin project."
+version: 0.0.1
+repository: https://github.com/dash-chan/packages/tree/main/packages/android_provider_settings
+
+topics:
+  - android
+  - jni
+  - utils
+environment:
+  sdk: ^3.10.0
+  flutter: '>=3.3.0'
+
+dependencies:
+  android_os_build: ^0.6.0
+  flutter:
+    sdk: flutter
+  jni: ^0.15.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  jnigen: ^0.15.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        ffiPlugin: true
