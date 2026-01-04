@@ -11,11 +11,11 @@ class WebviewGestureRecognizer extends VerticalDragGestureRecognizer {
     super.debugOwner,
     super.allowedButtonsFilter,
   }) : super(
-          supportedDevices: {
-            PointerDeviceKind.touch,
-            PointerDeviceKind.trackpad,
-          },
-        );
+         supportedDevices: {
+           PointerDeviceKind.touch,
+           PointerDeviceKind.trackpad,
+         },
+       );
 
   final ScrollController scrollController;
   final BuildContext context;
@@ -35,32 +35,32 @@ class WebviewGestureRecognizer extends VerticalDragGestureRecognizer {
 
   @override
   GestureDragStartCallback? get onStart => (details) {
-        _firstDirectionIsUp = false;
-        if (offset.value <= 0) {
-          _drag = scrollController.position.drag(details, () {
-            _drag = null;
-          });
-        } else {
-          _drag = null;
-        }
-      };
+    _firstDirectionIsUp = false;
+    if (offset.value <= 0) {
+      _drag = scrollController.position.drag(details, () {
+        _drag = null;
+      });
+    } else {
+      _drag = null;
+    }
+  };
 
   @override
   GestureDragUpdateCallback? get onUpdate => (details) {
-        if (details.delta.direction < 0 && !_firstDirectionIsUp) {
-          _firstDirectionIsUp = true;
-          _drag?.end(DragEndDetails(primaryVelocity: 0));
-          _drag = null;
-          return;
-        } else {
-          _firstDirectionIsUp = true;
-        }
-        _drag?.update(details);
-      };
+    if (details.delta.direction < 0 && !_firstDirectionIsUp) {
+      _firstDirectionIsUp = true;
+      _drag?.end(DragEndDetails(primaryVelocity: 0));
+      _drag = null;
+      return;
+    } else {
+      _firstDirectionIsUp = true;
+    }
+    _drag?.update(details);
+  };
 
   @override
   GestureDragEndCallback? get onEnd => (details) {
-        _drag?.end(details);
-        _drag = null;
-      };
+    _drag?.end(details);
+    _drag = null;
+  };
 }
