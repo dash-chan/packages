@@ -14,14 +14,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Webview Refresher Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const HomePage(),
-    );
+    return MaterialApp(title: 'Webview Refresher Demo', home: const HomePage());
   }
 }
 
@@ -46,7 +39,7 @@ class _HomePageState extends State<HomePage> {
     await _completer!.future;
   }
 
-  finishRefresh() {
+  void finishRefresh() {
     if (_completer == null) return;
     if (!_completer!.isCompleted) {
       _completer?.complete();
@@ -56,14 +49,21 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    controller.setNavigationDelegate(NavigationDelegate(
-      onPageFinished: (url) {
-        finishRefresh();
-      },
-      onWebResourceError: (error) {
-        finishRefresh();
-      },
-    ));
+    controller.setNavigationDelegate(
+      NavigationDelegate(
+        onProgress: (progress) {
+          if (progress == 100) {
+            finishRefresh();
+          }
+        },
+        onPageFinished: (url) {
+          finishRefresh();
+        },
+        onWebResourceError: (error) {
+          finishRefresh();
+        },
+      ),
+    );
   }
 
   Future<void> forward() async {

@@ -1,4 +1,4 @@
-library webview_refresher;
+library;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -7,8 +7,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_refresher/src/gesture_recognizer.dart';
 
 /// A builder for the default refresh indicator.
-typedef DefaultRefreshBuilder = Widget Function(
-    RefreshCallback? onRefresh, Widget child);
+typedef DefaultRefreshBuilder =
+    Widget Function(RefreshCallback? onRefresh, Widget child);
 
 /// a wrapper of webview
 class WebviewRefresher extends StatefulWidget {
@@ -22,6 +22,7 @@ class WebviewRefresher extends StatefulWidget {
     this.androidRefresherBuilder = _defaultAndroidBuilder,
     this.iosRefreshBuilder = _defaultIosBuilder,
     this.defaultRefresherBuilder = _defaultRefreshBuilder,
+    this.customBuilder,
   });
 
   /// a [WebviewController], same as [WebViewWidget]'s controller
@@ -54,8 +55,17 @@ class WebviewRefresher extends StatefulWidget {
   /// The [iosRefresherBuilder] argument will be used to build the ios refresher.
   final DefaultRefreshBuilder iosRefreshBuilder;
 
+  final Widget Function(
+    RefreshCallback? onRefresh,
+    Widget child,
+    ScrollController controller,
+  )?
+  customBuilder;
+
   static Widget _defaultAndroidBuilder(
-      RefreshCallback? onRefresh, Widget child) {
+    RefreshCallback? onRefresh,
+    Widget child,
+  ) {
     return RefreshIndicator.adaptive(
       onRefresh: () async => await onRefresh?.call(),
       notificationPredicate: (notification) {
@@ -78,8 +88,34 @@ class WebviewRefresher extends StatefulWidget {
   }
 
   static Widget _defaultRefreshBuilder(
-      RefreshCallback? onRefresh, Widget child) {
+    RefreshCallback? onRefresh,
+    Widget child,
+  ) {
     return child;
+  }
+
+  /// pre-build adaptive refresher
+  static Widget prebuildAdaptiveRefresher(
+    RefreshCallback? onRefresh,
+    Widget child,
+    ScrollController controller,
+  ) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return RefreshIndicator.adaptive(
+          onRefresh: () async => await onRefresh?.call(),
+          notificationPredicate: (notification) {
+            if (onRefresh == null) return false;
+            return notification.depth == 0;
+          },
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            controller: controller,
+            child: SizedBox(height: constraints.maxHeight, child: child),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -139,15 +175,25 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
       gestureRecognizers: {
         if (platform != TargetPlatform.android ||
             platform != TargetPlatform.iOS)
-          Factory(() => WebviewGestureRecognizer(
-                scrollController: _scrollController,
-                context: context,
-                offset: _currentOffset,
-                refreshState: _canRefresh,
-              )),
+          Factory(
+            () => WebviewGestureRecognizer(
+              scrollController: _scrollController,
+              context: context,
+              offset: _currentOffset,
+              refreshState: _canRefresh,
+            ),
+          ),
         ...widget.gestureRecognizers,
       },
     );
+
+    if (widget.customBuilder != null) {
+      return widget.customBuilder!(
+        widget.onRefresh,
+        webview,
+        _scrollController,
+      );
+    }
     return switch (platform) {
       TargetPlatform.android => _buildAndroid(webview),
       TargetPlatform.iOS => _buildIos(webview),
