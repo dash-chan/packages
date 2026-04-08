@@ -14,8 +14,7 @@ typedef DefaultRefreshBuilder =
 class WebviewRefresher extends StatefulWidget {
   const WebviewRefresher({
     super.key,
-    this.controller,
-    this.scrollController,
+    required this.controller,
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.onRefresh,
     this.platform,
@@ -26,12 +25,7 @@ class WebviewRefresher extends StatefulWidget {
   });
 
   /// a [WebviewController], same as [WebViewWidget]'s controller
-  final WebViewController? controller;
-
-  /// a [ScrollController] that can be used to control the scrolling of the view
-  ///
-  /// note: not the webview scroller
-  final ScrollController? scrollController;
+  final WebViewController controller;
 
   /// same as [WebViewWidget]'s gestureRecognizers
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
@@ -123,9 +117,8 @@ class WebviewRefresher extends StatefulWidget {
 }
 
 class _WebviewRefresherState extends State<WebviewRefresher> {
-  late WebViewController _controller = widget.controller ?? WebViewController();
-  late ScrollController _scrollController =
-      widget.scrollController ?? ScrollController();
+  late final WebViewController _controller = widget.controller;
+  final _scrollController = ScrollController();
   final _currentOffset = ValueNotifier<double>(0);
   final _canRefresh = ValueNotifier<bool>(true);
   @override
@@ -137,31 +130,12 @@ class _WebviewRefresherState extends State<WebviewRefresher> {
     });
   }
 
-  _updateRefresherState() {
+  void _updateRefresherState() {
     _canRefresh.value = widget.onRefresh != null;
   }
 
   @override
-  void didUpdateWidget(covariant WebviewRefresher oldWidget) {
-    final oldController = oldWidget.controller;
-    if (widget.controller != null && oldController != _controller) {
-      _controller = widget.controller!;
-    }
-    final oldScrollController = oldWidget.scrollController;
-    if (widget.scrollController != null &&
-        oldScrollController != _scrollController) {
-      _scrollController = widget.scrollController!;
-    }
-    _updateRefresherState();
-
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
   void dispose() {
-    if (widget.scrollController == null) {
-      _scrollController.dispose();
-    }
     _currentOffset.dispose();
     _canRefresh.dispose();
     super.dispose();

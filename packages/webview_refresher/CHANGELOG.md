@@ -1,3 +1,8 @@
+## 0.2.0 - 2026-01-09
+### Changed
+- controller is required params
+- remove scrollController
+
 ## 0.1.1 - 2026-01-04
 ### Added
 - add custom builder
