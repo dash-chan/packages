@@ -113,10 +113,13 @@ abstract final class Build {
   /// The most preferred ABI is the first element in the list.
   /// See [supportedAbis] and [supported64BitAbis].
   static List<String> get supported32BitAbis =>
-      $p.Build.SUPPORTED_32_BIT_ABIS?.use((i) => i
-          .map((e) => e?.toDartString(releaseOriginal: true))
-          .nonNulls
-          .toList()) ??
+      $p.Build.SUPPORTED_32_BIT_ABIS?.use((i) {
+        return i
+            .asDart()
+            .map((e) => e?.toDartString(releaseOriginal: true))
+            .nonNulls
+            .toList();
+      }) ??
       [];
 
   /// An ordered list of **64 bit** ABIs supported by this device.
@@ -124,6 +127,7 @@ abstract final class Build {
   /// See [supportedAbis] and [supported32BitAbis].
   static List<String> get supported64BitAbis =>
       $p.Build.SUPPORTED_64_BIT_ABIS?.use((i) => i
+          .asDart()
           .map((e) => e?.toDartString(releaseOriginal: true))
           .nonNulls
           .toList()) ??
@@ -134,6 +138,7 @@ abstract final class Build {
   /// See [supported32BitAbis] and [supported64BitAbis].
   static List<String> get supportedAbis =>
       $p.Build.SUPPORTED_ABIS?.use((i) => i
+          .asDart()
           .map((e) => e?.toDartString(releaseOriginal: true))
           .nonNulls
           .toList()) ??
@@ -157,7 +162,7 @@ abstract final class Build {
 
   /// Returns the version string for the radio firmware.
   /// May return null (if, for instance, the radio is not currently on).
-  static String getRadioVersion() => $p.Build.getRadioVersion().toBuildString();
+  static String getRadioVersion() => $p.Build.radioVersion.toBuildString();
 
   /// Gets the hardware serial number, if available.
   ///
@@ -196,7 +201,7 @@ abstract final class Build {
     }
 
     try {
-      return $p.Build.getSerial().toBuildString();
+      return $p.Build.serial.toBuildString();
     } catch (e) {
       return unknown;
     }
@@ -230,14 +235,14 @@ abstract final class Build {
     if (version.sdkInt < BuildVersionCodes.oMr1.versionCode) {
       return [];
     } else {
-      return $p.Build.getFingerprintedPartitions()?.use((partitions) {
+      return $p.Build.fingerprintedPartitions?.use((partitions) {
             return [
-              for (final p in partitions.nonNulls)
+              for (final p in partitions.asDart().nonNulls)
                 Partition._(
-                  buildTimeMillis: p.getBuildTimeMillis(),
+                  buildTimeMillis: p.buildTimeMillis,
                   fingerprint:
-                      p.getFingerprint()?.toDartString(releaseOriginal: true),
-                  name: p.getName()?.toDartString(releaseOriginal: true),
+                      p.fingerprint?.toDartString(releaseOriginal: true),
+                  name: p.name?.toDartString(releaseOriginal: true),
                 )
             ];
           }) ??
