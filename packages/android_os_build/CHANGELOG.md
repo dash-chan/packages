@@ -1,5 +1,8 @@
-## Unreleased
+## 0.7.0 - 2025-04-17
 ### Changed
+- upgrade jni to 1.0.0
+- upgrade jnigen to 0.16.0
+- regenerate JNI bindings with JNIGEN 0.16.0 (extension types, new getter API)
 - format build\_version\_codes\_full.dart
 
 ## 0.6.0 - 2025-11-19
