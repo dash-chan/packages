@@ -13,8 +13,8 @@ topics:
   - utils
 
 environment:
-  sdk: ^3.5.0
-  flutter: ">=3.3.0"
+  sdk: ^3.8.0
+  flutter: ">=3.32.0"
 
 dependencies:
   flutter:

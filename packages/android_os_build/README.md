@@ -72,7 +72,7 @@ you should build apk first then run jnigen
 cd example
 flutter build apk
 cd ..
-flutter pub run jnigen --config jnigen.yaml
+dart run tool/jnigen.dart
 ```
 
 ## License

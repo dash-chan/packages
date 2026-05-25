@@ -63,49 +63,59 @@ extension Build$Partition$$Methods on Build$Partition {
     r'(Ljava/lang/Object;)Z',
   );
 
-  static final _equals = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean equals(java.lang.Object object)`
-  core$_.bool equals(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_get$buildTimeMillis =
-      Build$Partition._class.instanceMethodId(
-    r'getBuildTimeMillis',
-    r'()J',
-  );
-
-  static final _get$buildTimeMillis = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _equals =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallLongMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(jni$_.JObject? object) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(
+      reference.pointer,
+      _id_equals.pointer,
+      _$object.pointer,
+    ).boolean;
+  }
+
+  static final _id_get$buildTimeMillis = Build$Partition._class
+      .instanceMethodId(r'getBuildTimeMillis', r'()J');
+
+  static final _get$buildTimeMillis =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )
+            >
+          >('globalEnv_CallLongMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public long getBuildTimeMillis()`
   core$_.int get buildTimeMillis {
     return _get$buildTimeMillis(
-            reference.pointer, _id_get$buildTimeMillis.pointer)
-        .long;
+      reference.pointer,
+      _id_get$buildTimeMillis.pointer,
+    ).long;
   }
 
   static final _id_get$fingerprint = Build$Partition._class.instanceMethodId(
@@ -113,23 +123,29 @@ extension Build$Partition$$Methods on Build$Partition {
     r'()Ljava/lang/String;',
   );
 
-  static final _get$fingerprint = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$fingerprint =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getFingerprint()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get fingerprint {
-    return _get$fingerprint(reference.pointer, _id_get$fingerprint.pointer)
-        .object<jni$_.JString?>();
+    return _get$fingerprint(
+      reference.pointer,
+      _id_get$fingerprint.pointer,
+    ).object<jni$_.JString?>();
   }
 
   static final _id_get$name = Build$Partition._class.instanceMethodId(
@@ -137,23 +153,29 @@ extension Build$Partition$$Methods on Build$Partition {
     r'()Ljava/lang/String;',
   );
 
-  static final _get$name = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$name =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get name {
-    return _get$name(reference.pointer, _id_get$name.pointer)
-        .object<jni$_.JString?>();
+    return _get$name(
+      reference.pointer,
+      _id_get$name.pointer,
+    ).object<jni$_.JString?>();
   }
 
   static final _id_hashCode$1 = Build$Partition._class.instanceMethodId(
@@ -161,17 +183,21 @@ extension Build$Partition$$Methods on Build$Partition {
     r'()I',
   );
 
-  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _hashCode$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public int hashCode()`
   core$_.int hashCode$1() {
@@ -275,29 +301,20 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
       _id_RELEASE_OR_PREVIEW_DISPLAY.getNullable(_class, jni$_.JString.type)
           as jni$_.JString?;
 
-  static final _id_SDK = _class.staticFieldId(
-    r'SDK',
-    r'Ljava/lang/String;',
-  );
+  static final _id_SDK = _class.staticFieldId(r'SDK', r'Ljava/lang/String;');
 
   /// from: `static public final java.lang.String SDK`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SDK =>
       _id_SDK.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
-  static final _id_SDK_INT = _class.staticFieldId(
-    r'SDK_INT',
-    r'I',
-  );
+  static final _id_SDK_INT = _class.staticFieldId(r'SDK_INT', r'I');
 
   /// from: `static public final int SDK_INT`
   static core$_.int get SDK_INT =>
       _id_SDK_INT.getNullable(_class, jni$_.jint.type) as core$_.int;
 
-  static final _id_SDK_INT_FULL = _class.staticFieldId(
-    r'SDK_INT_FULL',
-    r'I',
-  );
+  static final _id_SDK_INT_FULL = _class.staticFieldId(r'SDK_INT_FULL', r'I');
 
   /// from: `static public final int SDK_INT_FULL`
   static core$_.int get SDK_INT_FULL =>
@@ -314,27 +331,31 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
       _id_SECURITY_PATCH.getNullable(_class, jni$_.JString.type)
           as jni$_.JString?;
 
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build$VERSION() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<Build$VERSION>();
+    return _new$(
+      _class.reference.pointer,
+      _id_new$.pointer,
+    ).object<Build$VERSION>();
   }
 }
 
@@ -466,27 +487,31 @@ extension type Build$VERSION_CODES._(jni$_.JObject _$this)
 
   /// from: `static public final int VANILLA_ICE_CREAM`
   static const VANILLA_ICE_CREAM = 35;
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build$VERSION_CODES() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<Build$VERSION_CODES>();
+    return _new$(
+      _class.reference.pointer,
+      _id_new$.pointer,
+    ).object<Build$VERSION_CODES>();
   }
 }
 
@@ -503,8 +528,9 @@ final class $Build$VERSION_CODES$Type$
 /// from: `android.os.Build$VERSION_CODES_FULL`
 extension type Build$VERSION_CODES_FULL._(jni$_.JObject _$this)
     implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'android/os/Build$VERSION_CODES_FULL');
+  static final _class = jni$_.JClass.forName(
+    r'android/os/Build$VERSION_CODES_FULL',
+  );
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Build$VERSION_CODES_FULL> type =
@@ -740,20 +766,14 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JString? get HARDWARE =>
       _id_HARDWARE.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
-  static final _id_HOST = _class.staticFieldId(
-    r'HOST',
-    r'Ljava/lang/String;',
-  );
+  static final _id_HOST = _class.staticFieldId(r'HOST', r'Ljava/lang/String;');
 
   /// from: `static public final java.lang.String HOST`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get HOST =>
       _id_HOST.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
-  static final _id_ID = _class.staticFieldId(
-    r'ID',
-    r'Ljava/lang/String;',
-  );
+  static final _id_ID = _class.staticFieldId(r'ID', r'Ljava/lang/String;');
 
   /// from: `static public final java.lang.String ID`
   /// The returned object must be released after use, by calling the [release] method.
@@ -821,10 +841,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JString? get SERIAL =>
       _id_SERIAL.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
-  static final _id_SKU = _class.staticFieldId(
-    r'SKU',
-    r'Ljava/lang/String;',
-  );
+  static final _id_SKU = _class.staticFieldId(r'SKU', r'Ljava/lang/String;');
 
   /// from: `static public final java.lang.String SKU`
   /// The returned object must be released after use, by calling the [release] method.
@@ -861,7 +878,9 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString?>? get SUPPORTED_32_BIT_ABIS =>
       _id_SUPPORTED_32_BIT_ABIS.getNullable(
-              _class, jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type))
+            _class,
+            jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type),
+          )
           as jni$_.JArray<jni$_.JString?>?;
 
   static final _id_SUPPORTED_64_BIT_ABIS = _class.staticFieldId(
@@ -873,7 +892,9 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString?>? get SUPPORTED_64_BIT_ABIS =>
       _id_SUPPORTED_64_BIT_ABIS.getNullable(
-              _class, jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type))
+            _class,
+            jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type),
+          )
           as jni$_.JArray<jni$_.JString?>?;
 
   static final _id_SUPPORTED_ABIS = _class.staticFieldId(
@@ -885,32 +906,25 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString?>? get SUPPORTED_ABIS =>
       _id_SUPPORTED_ABIS.getNullable(
-              _class, jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type))
+            _class,
+            jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type),
+          )
           as jni$_.JArray<jni$_.JString?>?;
 
-  static final _id_TAGS = _class.staticFieldId(
-    r'TAGS',
-    r'Ljava/lang/String;',
-  );
+  static final _id_TAGS = _class.staticFieldId(r'TAGS', r'Ljava/lang/String;');
 
   /// from: `static public final java.lang.String TAGS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get TAGS =>
       _id_TAGS.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
-  static final _id_TIME = _class.staticFieldId(
-    r'TIME',
-    r'J',
-  );
+  static final _id_TIME = _class.staticFieldId(r'TIME', r'J');
 
   /// from: `static public final long TIME`
   static core$_.int get TIME =>
       _id_TIME.getNullable(_class, jni$_.jlong.type) as core$_.int;
 
-  static final _id_TYPE = _class.staticFieldId(
-    r'TYPE',
-    r'Ljava/lang/String;',
-  );
+  static final _id_TYPE = _class.staticFieldId(r'TYPE', r'Ljava/lang/String;');
 
   /// from: `static public final java.lang.String TYPE`
   /// The returned object must be released after use, by calling the [release] method.
@@ -927,31 +941,30 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JString? get UNKNOWN =>
       _id_UNKNOWN.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
-  static final _id_USER = _class.staticFieldId(
-    r'USER',
-    r'Ljava/lang/String;',
-  );
+  static final _id_USER = _class.staticFieldId(r'USER', r'Ljava/lang/String;');
 
   /// from: `static public final java.lang.String USER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get USER =>
       _id_USER.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -964,22 +977,31 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
     r'(J)I',
   );
 
-  static final _getBackportedFixStatus = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
-          'globalEnv_CallStaticIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
+  static final _getBackportedFixStatus =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int64,)>,
+              )
+            >
+          >('globalEnv_CallStaticIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+            )
+          >();
 
   /// from: `static public int getBackportedFixStatus(long j)`
-  static core$_.int getBackportedFixStatus(
-    core$_.int j,
-  ) {
+  static core$_.int getBackportedFixStatus(core$_.int j) {
     return _getBackportedFixStatus(
-            _class.reference.pointer, _id_getBackportedFixStatus.pointer, j)
-        .integer;
+      _class.reference.pointer,
+      _id_getBackportedFixStatus.pointer,
+      j,
+    ).integer;
   }
 
   static final _id_get$fingerprintedPartitions = _class.staticMethodId(
@@ -989,23 +1011,27 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
 
   static final _get$fingerprintedPartitions =
       jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallStaticObjectMethod')
-          .asFunction<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `static public java.util.List<android.os.Build$Partition> getFingerprintedPartitions()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JList<Build$Partition?>? get fingerprintedPartitions {
     return _get$fingerprintedPartitions(
-            _class.reference.pointer, _id_get$fingerprintedPartitions.pointer)
-        .object<jni$_.JList<Build$Partition?>?>();
+      _class.reference.pointer,
+      _id_get$fingerprintedPartitions.pointer,
+    ).object<jni$_.JList<Build$Partition?>?>();
   }
 
   static final _id_getMajorSdkVersion = _class.staticMethodId(
@@ -1013,22 +1039,31 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
     r'(I)I',
   );
 
-  static final _getMajorSdkVersion = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
-          'globalEnv_CallStaticIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
+  static final _getMajorSdkVersion =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallStaticIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+            )
+          >();
 
   /// from: `static public int getMajorSdkVersion(int i)`
-  static core$_.int getMajorSdkVersion(
-    core$_.int i,
-  ) {
+  static core$_.int getMajorSdkVersion(core$_.int i) {
     return _getMajorSdkVersion(
-            _class.reference.pointer, _id_getMajorSdkVersion.pointer, i)
-        .integer;
+      _class.reference.pointer,
+      _id_getMajorSdkVersion.pointer,
+      i,
+    ).integer;
   }
 
   static final _id_getMinorSdkVersion = _class.staticMethodId(
@@ -1036,22 +1071,31 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
     r'(I)I',
   );
 
-  static final _getMinorSdkVersion = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
-          'globalEnv_CallStaticIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
+  static final _getMinorSdkVersion =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallStaticIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+            )
+          >();
 
   /// from: `static public int getMinorSdkVersion(int i)`
-  static core$_.int getMinorSdkVersion(
-    core$_.int i,
-  ) {
+  static core$_.int getMinorSdkVersion(core$_.int i) {
     return _getMinorSdkVersion(
-            _class.reference.pointer, _id_getMinorSdkVersion.pointer, i)
-        .integer;
+      _class.reference.pointer,
+      _id_getMinorSdkVersion.pointer,
+      i,
+    ).integer;
   }
 
   static final _id_get$radioVersion = _class.staticMethodId(
@@ -1059,24 +1103,29 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _get$radioVersion = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$radioVersion =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `static public java.lang.String getRadioVersion()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get radioVersion {
     return _get$radioVersion(
-            _class.reference.pointer, _id_get$radioVersion.pointer)
-        .object<jni$_.JString?>();
+      _class.reference.pointer,
+      _id_get$radioVersion.pointer,
+    ).object<jni$_.JString?>();
   }
 
   static final _id_get$serial = _class.staticMethodId(
@@ -1084,23 +1133,29 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _get$serial = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$serial =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `static public java.lang.String getSerial()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get serial {
-    return _get$serial(_class.reference.pointer, _id_get$serial.pointer)
-        .object<jni$_.JString?>();
+    return _get$serial(
+      _class.reference.pointer,
+      _id_get$serial.pointer,
+    ).object<jni$_.JString?>();
   }
 }
 
