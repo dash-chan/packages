@@ -1,4 +1,4 @@
-## 0.8.0 - 2026-05-25
+## 0.8.0+dev.0 - 2026-05-25
 ### Changed
 - replace jnigen.yaml with Dart-based build script (tool/jnigen.dart)
 - bump minimum SDK to Dart ^3.8.0 and Flutter >=3.32.0
