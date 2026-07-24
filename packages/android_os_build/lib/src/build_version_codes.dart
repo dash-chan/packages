@@ -1,4 +1,5 @@
 import 'package:android_os_build/generated/android_os_build.g.dart' as $p;
+
 /// The currently known Android SDK version codes.
 ///
 /// These are the values reported by [BuildVersion.sdkInt]. Version numbers
