@@ -9,12 +9,15 @@ import 'util.dart';
 ///
 /// https://developer.android.com/reference/android/os/Build
 abstract final class Build {
-  /// Build tag for logging
+  /// The tag used when logging build information.
   static const tag = 'Build';
 
   /// Value used for when a build property is unknown.
   ///
-  /// same as [android.os.Build#UNKNOWN](https://developer.android.com/reference/android/os/Build#UNKNOWN)
+  /// Equivalent to [`Build.UNKNOWN`][android-build-unknown].
+  ///
+  /// [android-build-unknown]:
+  /// https://developer.android.com/reference/android/os/Build#UNKNOWN
   static const unknown = 'unknown';
 
   /// The name of the underlying board, like "goldfish".
@@ -23,22 +26,24 @@ abstract final class Build {
   /// The system bootloader version number.
   static String get bootloader => $p.Build.BOOTLOADER.toBuildString();
 
-  /// The consumer-visible brand with which the product/hardware will
-  /// be associated, if any.
+  /// The consumer-visible brand associated with the product or hardware.
   static String get brand => $p.Build.BRAND.toBuildString();
 
   /// The name of the industrial design.
   static String get device => $p.Build.DEVICE.toBuildString();
 
-  /// A build ID string meant for displaying to the user
+  /// A build ID string meant for displaying to the user.
   static String get display => $p.Build.DISPLAY.toBuildString();
 
   /// A string that uniquely identifies this build.
+  ///
+  /// Do not attempt to parse this value.
   static String get fingerprint => $p.Build.FINGERPRINT.toBuildString();
 
   /// The name of the hardware (from the kernel command line or /proc).
   static String get hardware => $p.Build.HARDWARE.toBuildString();
 
+  /// The host on which the build was produced.
   static String get host => $p.Build.HOST.toBuildString();
 
   /// Either a changelist number, or a label like "M4-rc20".
@@ -60,7 +65,8 @@ abstract final class Build {
   /// the same build may be released with variations in physical keyboard
   /// and/or display hardware, each with a different ODM SKU.
   ///
-  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
+  /// Available from
+  /// [API level 31](https://developer.android.com/about/versions).
   static String get odmSku {
     if (version.sdkInt < BuildVersionCodes.s.versionCode) {
       return unknown;
@@ -78,7 +84,8 @@ abstract final class Build {
   /// system software features. If no value is supplied by the bootloader,
   /// this is reported as [unknown].
   ///
-  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
+  /// Available from
+  /// [API level 31](https://developer.android.com/about/versions).
   static String get sku {
     if (version.sdkInt < BuildVersionCodes.s.versionCode) {
       return unknown;
@@ -89,7 +96,8 @@ abstract final class Build {
 
   /// The manufacturer of the device's primary system-on-chip.
   ///
-  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
+  /// Available from
+  /// [API level 31](https://developer.android.com/about/versions).
   static String get socManufacturer {
     if (version.sdkInt < BuildVersionCodes.s.versionCode) {
       return unknown;
@@ -100,13 +108,42 @@ abstract final class Build {
 
   /// The model name of the device's primary system-on-chip.
   ///
-  /// Added in [API level 31](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
+  /// Available from
+  /// [API level 31](https://developer.android.com/about/versions).
   static String get socModel {
     if (version.sdkInt < BuildVersionCodes.s.versionCode) {
       return unknown;
     }
 
     return $p.Build.SOC_MODEL.toBuildString();
+  }
+
+  /// The manufacturer of the device's StrongBox chip.
+  ///
+  /// Returns `unsupported` if the device does not use StrongBox.
+  ///
+  /// Available from
+  /// [API level 37](https://developer.android.com/about/versions).
+  static String get strongboxManufacturer {
+    if (version.sdkInt < BuildVersionCodes.cinnamonBun.versionCode) {
+      return 'unsupported';
+    }
+
+    return $p.Build.STRONGBOX_MANUFACTURER.toBuildString();
+  }
+
+  /// The model of the device's StrongBox chip.
+  ///
+  /// Returns `unsupported` if the device does not use StrongBox.
+  ///
+  /// Available from
+  /// [API level 37](https://developer.android.com/about/versions).
+  static String get strongboxModel {
+    if (version.sdkInt < BuildVersionCodes.cinnamonBun.versionCode) {
+      return 'unsupported';
+    }
+
+    return $p.Build.STRONGBOX_MODEL.toBuildString();
   }
 
   /// An ordered list of **32 bit** ABIs supported by this device.
@@ -126,22 +163,26 @@ abstract final class Build {
   /// The most preferred ABI is the first element in the list.
   /// See [supportedAbis] and [supported32BitAbis].
   static List<String> get supported64BitAbis =>
-      $p.Build.SUPPORTED_64_BIT_ABIS?.use((i) => i
-          .asDart()
-          .map((e) => e?.toDartString(releaseOriginal: true))
-          .nonNulls
-          .toList()) ??
+      $p.Build.SUPPORTED_64_BIT_ABIS?.use(
+        (i) => i
+            .asDart()
+            .map((e) => e?.toDartString(releaseOriginal: true))
+            .nonNulls
+            .toList(),
+      ) ??
       [];
 
   /// An ordered list of ABIs supported by this device.
   /// The most preferred ABI is the first element in the list.
   /// See [supported32BitAbis] and [supported64BitAbis].
   static List<String> get supportedAbis =>
-      $p.Build.SUPPORTED_ABIS?.use((i) => i
-          .asDart()
-          .map((e) => e?.toDartString(releaseOriginal: true))
-          .nonNulls
-          .toList()) ??
+      $p.Build.SUPPORTED_ABIS?.use(
+        (i) => i
+            .asDart()
+            .map((e) => e?.toDartString(releaseOriginal: true))
+            .nonNulls
+            .toList(),
+      ) ??
       [];
 
   /// Comma-separated tags describing the build, like "unsigned,debug".
@@ -155,46 +196,54 @@ abstract final class Build {
   /// The type of build, like "user" or "eng".
   static String get type => $p.Build.TYPE.toBuildString();
 
+  /// The user who produced the build.
   static String get user => $p.Build.USER.toBuildString();
 
-  /// Various version strings.
+  /// Information about the Android version running on this device.
   static const version = BuildVersion();
 
   /// Returns the version string for the radio firmware.
-  /// May return null (if, for instance, the radio is not currently on).
+  ///
+  /// Returns [unknown] when the firmware version is unavailable, for example
+  /// when the radio is not currently on.
   static String getRadioVersion() => $p.Build.radioVersion.toBuildString();
 
   /// Gets the hardware serial number, if available.
   ///
   /// Starting with API level 29, persistent device identifiers are guarded
-  /// behind additional restrictions, and apps are recommended to use
-  /// resettable identifiers (see [Best practices for unique identifiers](https://developer.android.com/training/articles/user-data-ids)).
+  /// behind additional restrictions. Apps should use
+  /// [resettable identifiers][resettable-identifiers] where possible.
+  ///
   /// This method can be invoked if one of the following requirements is met:
   ///
-  /// * If the calling app has been granted the READ_PRIVILEGED_PHONE_STATE
-  /// permission; this is a privileged permission that can only be granted to
-  /// apps preloaded on the device.
-  /// * If the calling app has carrier privileges
-  /// (see [`TelephonyManager.hasCarrierPrivileges()`](https://developer.android.com/reference/android/telephony/TelephonyManager#hasCarrierPrivileges()))
-  /// on any active subscription.
-  /// * If the calling app is the default SMS role holder
-  /// (see [`RoleManager.isRoleHeld(String)`](https://developer.android.com/reference/android/app/role/RoleManager#isRoleHeld(java.lang.String))).
-  /// * If the calling app is the device owner of a fully-managed device,
-  /// a profile owner of an organization-owned device, or their delegates
-  /// (see [`DevicePolicyManager.getEnrollmentSpecificId()`](https://developer.android.com/reference/android/app/admin/DevicePolicyManager#getEnrollmentSpecificId())).
+  /// * The calling app has the
+  ///   [`READ_PRIVILEGED_PHONE_STATE`][privileged-phone-state] permission.
+  ///   This privileged permission can only be granted to apps preloaded on the
+  ///   device.
+  /// * The calling app has carrier privileges on any active subscription, as
+  ///   reported by
+  ///   [`TelephonyManager.hasCarrierPrivileges()`][carrier-privileges].
+  /// * The calling app is the default SMS role holder, as reported by
+  ///   [`RoleManager.isRoleHeld(String)`][sms-role].
+  /// * The calling app is the device owner of a fully managed device, a
+  ///   profile owner of an organization-owned device, or their delegate. See
+  ///   [`DevicePolicyManager.getEnrollmentSpecificId()`][device-policy].
   ///
-  /// If the calling app does not meet one of these requirements then this
-  /// method will behave as follows:
+  /// Returns [unknown] when the serial number is unavailable or cannot be read.
   ///
-  /// * If the calling app's target SDK is API level 28 or lower and the app
-  /// has the READ_PHONE_STATE permission then [unknown] is returned.
-  /// * If the calling app's target SDK is API level 28 or lower and the app
-  /// does not have the READ_PHONE_STATE permission, or if the calling app is
-  /// targeting API level 29 or higher, then a SecurityException is thrown.
+  /// Available from
+  /// [API level 26](https://developer.android.com/about/versions).
   ///
-  /// Requires android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE
-  ///
-  /// Added in [API level 26](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
+  /// [resettable-identifiers]:
+  /// https://developer.android.com/training/articles/user-data-ids
+  /// [privileged-phone-state]:
+  /// https://developer.android.com/reference/android/Manifest.permission
+  /// [carrier-privileges]:
+  /// https://developer.android.com/reference/android/telephony/TelephonyManager
+  /// [sms-role]:
+  /// https://developer.android.com/reference/android/app/role/RoleManager
+  /// [device-policy]:
+  /// //developer.android.com/reference/android/app/admin/DevicePolicyManager
   static String getSerial() {
     if (version.sdkInt < BuildVersionCodes.oMr1.versionCode) {
       return unknown;
@@ -209,9 +258,15 @@ abstract final class Build {
 
   /// The status of the backported fix for a known issue on this device.
   ///
-  /// [id] The id of the known issue to check.
+  /// The [id] identifies the known issue to check.
   ///
-  /// Added in [API level 36.1](https://developer.android.com/topic/libraries/support-library/revisions)
+  /// Returns [BackportedFixStatus.unknown] when no status is reported.
+  ///
+  /// Available from
+  /// [Android 16 minor release 1][androidx-releases].
+  ///
+  /// [androidx-releases]:
+  /// https://developer.android.com/topic/libraries/support-library/revisions
   static BackportedFixStatus getBackportedFixStatus(int id) {
     final fullSdk = Build.version.sdkIntFull;
     if (fullSdk == null) return BackportedFixStatus.unknown;
@@ -225,12 +280,14 @@ abstract final class Build {
     };
   }
 
-  /// Get build information about partitions that have a separate fingerprint
-  ///  defined. The list includes partitions that are suitable candidates for
-  /// over-the-air updates. This is not an exhaustive list of partitions on
-  /// the device.
+  /// Gets build information for partitions with a separate fingerprint.
   ///
-  /// Added in [API level 29](https://developer.android.com/guide/topics/manifest/uses-sdk-element#ApiLevels)
+  /// The list includes partitions that are suitable candidates for
+  /// over-the-air updates. It is not an exhaustive list of partitions on the
+  /// device.
+  ///
+  /// Available from
+  /// [API level 29](https://developer.android.com/about/versions).
   static List<Partition> getFingerprintedPartitions() {
     if (version.sdkInt < BuildVersionCodes.oMr1.versionCode) {
       return [];
@@ -240,17 +297,20 @@ abstract final class Build {
               for (final p in partitions.asDart().nonNulls)
                 Partition._(
                   buildTimeMillis: p.buildTimeMillis,
-                  fingerprint:
-                      p.fingerprint?.toDartString(releaseOriginal: true),
+                  fingerprint: p.fingerprint?.toDartString(
+                    releaseOriginal: true,
+                  ),
                   name: p.name?.toDartString(releaseOriginal: true),
-                )
+                ),
             ];
           }) ??
           [];
     }
   }
 
-  /// Obtain the major version encoded in a VERSION_CODES_FULL value. This value is guaranteed to be non-negative.
+  /// Returns the major version encoded in [sdkIntFull].
+  ///
+  /// The returned value is guaranteed to be non-negative.
   int? getMajorSdkVersion(int sdkIntFull) {
     if (version.sdkInt >= BuildVersionCodes.baklava.versionCode) {
       return null;
@@ -258,7 +318,9 @@ abstract final class Build {
     return $p.Build.getMajorSdkVersion(sdkIntFull);
   }
 
-  /// Obtain the minor version encoded in a VERSION_CODES_FULL value. This value is guaranteed to be non-negative.
+  /// Returns the minor version encoded in [sdkIntFull].
+  ///
+  /// The returned value is guaranteed to be non-negative.
   int? getMinorSdkVersion(int sdkIntFull) {
     if (version.sdkInt >= BuildVersionCodes.baklava.versionCode) {
       return null;
@@ -275,37 +337,43 @@ class Partition {
     required this.name,
   });
 
-  /// The time (ms since epoch), at which this partition was built, see [Build.time].
+  /// The time at which this partition was built, in milliseconds since epoch.
+  ///
+  /// See [Build.time].
   final int buildTimeMillis;
 
-  /// The build fingerprint of this partition, see [Build.fingerprint].
+  /// The build fingerprint of this partition.
+  ///
+  /// See [Build.fingerprint].
   final String? fingerprint;
 
-  /// The name of this partition, e.g. "system", or "vendor"
+  /// The name of this partition, such as `system` or `vendor`.
   final String? name;
 
   /// The name identifying the system partition.
   static const partitionNameSystem = 'system';
 }
 
+/// The status of a backported fix for a known issue on this device.
 enum BackportedFixStatus {
   /// The known issue is fixed on this device.
   fixed($p.Build.BACKPORTED_FIX_STATUS_FIXED),
 
   /// The known issue is not applicable to this device.
   ///
-  /// For example if the issue only affects a specific brand,
-  ///  devices from other brands would report not applicable.
+  /// For example, if the issue only affects a specific brand, devices from
+  /// other brands report that it is not applicable.
   applicable($p.Build.BACKPORTED_FIX_STATUS_NOT_APPLICABLE),
 
   /// The known issue is not fixed on this device.
   notFix($p.Build.BACKPORTED_FIX_STATUS_NOT_FIXED),
 
   /// The status of the known issue on this device is not known.
-  unknown($p.Build.BACKPORTED_FIX_STATUS_UNKNOWN),
-  ;
+  unknown($p.Build.BACKPORTED_FIX_STATUS_UNKNOWN);
 
+  /// Creates a status with the platform's encoded [rawValue].
   const BackportedFixStatus(this.rawValue);
 
+  /// The status value encoded by the Android platform.
   final int rawValue;
 }

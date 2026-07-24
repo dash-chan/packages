@@ -8,9 +8,7 @@ plugins {
 android {
     namespace = "plugin.dash.build.example"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
     ndkVersion = flutter.ndkVersion
 
@@ -26,7 +24,7 @@ android {
     defaultConfig {
         applicationId = "plugin.dash.build.example"
         minSdk = flutter.minSdkVersion
-        targetSdk = 36
+        targetSdk = 37
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

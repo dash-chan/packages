@@ -386,6 +386,9 @@ extension type Build$VERSION_CODES._(jni$_.JObject _$this)
   /// from: `static public final int BASE_1_1`
   static const BASE_1_1 = 2;
 
+  /// from: `static public final int CINNAMON_BUN`
+  static const CINNAMON_BUN = 37;
+
   /// from: `static public final int CUPCAKE`
   static const CUPCAKE = 3;
 
@@ -547,6 +550,9 @@ extension type Build$VERSION_CODES_FULL._(jni$_.JObject _$this)
 
   /// from: `static public final int BASE_1_1`
   static const BASE_1_1 = 200000;
+
+  /// from: `static public final int CINNAMON_BUN`
+  static const CINNAMON_BUN = 3700000;
 
   /// from: `static public final int CUPCAKE`
   static const CUPCAKE = 300000;
@@ -868,6 +874,28 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SOC_MODEL =>
       _id_SOC_MODEL.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
+
+  static final _id_STRONGBOX_MANUFACTURER = _class.staticFieldId(
+    r'STRONGBOX_MANUFACTURER',
+    r'Ljava/lang/String;',
+  );
+
+  /// from: `static public final java.lang.String STRONGBOX_MANUFACTURER`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JString? get STRONGBOX_MANUFACTURER =>
+      _id_STRONGBOX_MANUFACTURER.getNullable(_class, jni$_.JString.type)
+          as jni$_.JString?;
+
+  static final _id_STRONGBOX_MODEL = _class.staticFieldId(
+    r'STRONGBOX_MODEL',
+    r'Ljava/lang/String;',
+  );
+
+  /// from: `static public final java.lang.String STRONGBOX_MODEL`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JString? get STRONGBOX_MODEL =>
+      _id_STRONGBOX_MODEL.getNullable(_class, jni$_.JString.type)
+          as jni$_.JString?;
 
   static final _id_SUPPORTED_32_BIT_ABIS = _class.staticFieldId(
     r'SUPPORTED_32_BIT_ABIS',
