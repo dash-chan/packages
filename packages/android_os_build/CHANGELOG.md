@@ -1,3 +1,8 @@
+## 0.8.0-dev.1 - 2026-07-24
+### Changed
+- Add android 17 support
+- Update api docs
+
 ## 0.8.0+dev.0 - 2026-05-25
 ### Changed
 - replace jnigen.yaml with Dart-based build script (tool/jnigen.dart)
